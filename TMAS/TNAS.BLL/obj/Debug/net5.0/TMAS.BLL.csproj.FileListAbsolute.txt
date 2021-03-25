@@ -1,0 +1,17 @@
+D:\TMAS\backend\TMAS\TNAS.BLL\bin\Debug\net5.0\TMAS.BLL.deps.json
+D:\TMAS\backend\TMAS\TNAS.BLL\bin\Debug\net5.0\TMAS.BLL.dll
+D:\TMAS\backend\TMAS\TNAS.BLL\bin\Debug\net5.0\ref\TMAS.BLL.dll
+D:\TMAS\backend\TMAS\TNAS.BLL\bin\Debug\net5.0\TMAS.BLL.pdb
+D:\TMAS\backend\TMAS\TNAS.BLL\obj\Debug\net5.0\TMAS.BLL.GeneratedMSBuildEditorConfig.editorconfig
+D:\TMAS\backend\TMAS\TNAS.BLL\obj\Debug\net5.0\TMAS.BLL.AssemblyInfoInputs.cache
+D:\TMAS\backend\TMAS\TNAS.BLL\obj\Debug\net5.0\TMAS.BLL.AssemblyInfo.cs
+D:\TMAS\backend\TMAS\TNAS.BLL\obj\Debug\net5.0\TMAS.BLL.csproj.CoreCompileInputs.cache
+D:\TMAS\backend\TMAS\TNAS.BLL\obj\Debug\net5.0\TMAS.BLL.dll
+D:\TMAS\backend\TMAS\TNAS.BLL\obj\Debug\net5.0\ref\TMAS.BLL.dll
+D:\TMAS\backend\TMAS\TNAS.BLL\obj\Debug\net5.0\TMAS.BLL.pdb
+D:\TMAS\backend\TMAS\TNAS.BLL\bin\Debug\net5.0\TMAS.DAL.dll
+D:\TMAS\backend\TMAS\TNAS.BLL\bin\Debug\net5.0\TMAS.DB.dll
+D:\TMAS\backend\TMAS\TNAS.BLL\bin\Debug\net5.0\TMAS.DAL.pdb
+D:\TMAS\backend\TMAS\TNAS.BLL\bin\Debug\net5.0\TMAS.DB.pdb
+D:\TMAS\backend\TMAS\TNAS.BLL\obj\Debug\net5.0\TMAS.BLL.csprojAssemblyReference.cache
+D:\TMAS\backend\TMAS\TNAS.BLL\obj\Debug\net5.0\TMAS.BLL.csproj.CopyComplete

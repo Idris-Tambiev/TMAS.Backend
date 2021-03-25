@@ -1,0 +1,11 @@
+D:\TMAS\backend\TMAS\TMAS.DB\bin\Debug\net5.0\TMAS.DB.deps.json
+D:\TMAS\backend\TMAS\TMAS.DB\bin\Debug\net5.0\TMAS.DB.dll
+D:\TMAS\backend\TMAS\TMAS.DB\bin\Debug\net5.0\ref\TMAS.DB.dll
+D:\TMAS\backend\TMAS\TMAS.DB\bin\Debug\net5.0\TMAS.DB.pdb
+D:\TMAS\backend\TMAS\TMAS.DB\obj\Debug\net5.0\TMAS.DB.GeneratedMSBuildEditorConfig.editorconfig
+D:\TMAS\backend\TMAS\TMAS.DB\obj\Debug\net5.0\TMAS.DB.AssemblyInfoInputs.cache
+D:\TMAS\backend\TMAS\TMAS.DB\obj\Debug\net5.0\TMAS.DB.AssemblyInfo.cs
+D:\TMAS\backend\TMAS\TMAS.DB\obj\Debug\net5.0\TMAS.DB.csproj.CoreCompileInputs.cache
+D:\TMAS\backend\TMAS\TMAS.DB\obj\Debug\net5.0\TMAS.DB.dll
+D:\TMAS\backend\TMAS\TMAS.DB\obj\Debug\net5.0\ref\TMAS.DB.dll
+D:\TMAS\backend\TMAS\TMAS.DB\obj\Debug\net5.0\TMAS.DB.pdb

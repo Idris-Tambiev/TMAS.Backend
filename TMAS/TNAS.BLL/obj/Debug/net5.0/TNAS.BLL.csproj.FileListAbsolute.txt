@@ -1,0 +1,11 @@
+D:\TMAS\backend\TMAS\TNAS.BLL\bin\Debug\net5.0\TNAS.BLL.deps.json
+D:\TMAS\backend\TMAS\TNAS.BLL\bin\Debug\net5.0\TNAS.BLL.dll
+D:\TMAS\backend\TMAS\TNAS.BLL\bin\Debug\net5.0\ref\TNAS.BLL.dll
+D:\TMAS\backend\TMAS\TNAS.BLL\bin\Debug\net5.0\TNAS.BLL.pdb
+D:\TMAS\backend\TMAS\TNAS.BLL\obj\Debug\net5.0\TNAS.BLL.GeneratedMSBuildEditorConfig.editorconfig
+D:\TMAS\backend\TMAS\TNAS.BLL\obj\Debug\net5.0\TNAS.BLL.AssemblyInfoInputs.cache
+D:\TMAS\backend\TMAS\TNAS.BLL\obj\Debug\net5.0\TNAS.BLL.AssemblyInfo.cs
+D:\TMAS\backend\TMAS\TNAS.BLL\obj\Debug\net5.0\TNAS.BLL.csproj.CoreCompileInputs.cache
+D:\TMAS\backend\TMAS\TNAS.BLL\obj\Debug\net5.0\TNAS.BLL.dll
+D:\TMAS\backend\TMAS\TNAS.BLL\obj\Debug\net5.0\ref\TNAS.BLL.dll
+D:\TMAS\backend\TMAS\TNAS.BLL\obj\Debug\net5.0\TNAS.BLL.pdb
