@@ -11,7 +11,7 @@ namespace TMAS.BLL.Services
 {
     public class ColumnService: IColumnService
     {
-        ColumnRepository column;
+        private readonly ColumnRepository column;
         public ColumnService(ColumnRepository repository)
         {
             column = repository;

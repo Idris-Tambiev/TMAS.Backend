@@ -11,7 +11,7 @@ namespace TMAS.BLL.Services
 {
     public class CardService:ICardService
     {
-        CardRepository card;
+        private readonly CardRepository card;
         public CardService(CardRepository repository)
         {
             card = repository;

@@ -6,20 +6,37 @@ using System.Threading.Tasks;
 using TMAS.DAL.Repositories;
 using TMAS.BLL.Interfaces;
 using TMAS.DB.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace TMAS.BLL.Services
 {
    public class UserService
     {
-        UserRepository user;
-        public UserService(UserRepository repository)
+        private readonly UserRepository _user;
+        private readonly UserManager<User> _userManager;
+        public UserService(UserRepository repository, UserManager<User> userManager)
         {
-            user = repository;
+            _user = repository;
+             _userManager = userManager;
         }
 
-        public User Create(User createdUser)
+        public User GetOne(User user)
         {
-            return createdUser;
+            return default;
+        }
+
+        public async Task<User> GetOneByEmail(User user)
+        {
+            
+           var a= await _userManager.FindByEmailAsync(user.Email);
+           return a;
+        }
+
+        public async Task<IdentityResult> Create(User createdUser)
+        {
+
+            var result = await _userManager.CreateAsync(createdUser,createdUser.Password);
+            return result;
         }
 
         public void Update(User updatedUser)

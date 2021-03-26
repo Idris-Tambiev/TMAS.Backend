@@ -12,7 +12,7 @@ namespace TMAS.Controllers
     [ApiController]
     public class BoardsController : ControllerBase
     {
-        BoardService board;
+       private readonly BoardService board;
         public BoardsController(BoardService service)
         {
             board = service;

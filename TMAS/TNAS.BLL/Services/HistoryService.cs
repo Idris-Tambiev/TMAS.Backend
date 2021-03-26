@@ -11,7 +11,7 @@ namespace TMAS.BLL.Services
 {
     public class HistoryService:IHistoryService
     {
-        HistoryRepository history;
+        private readonly HistoryRepository history;
         public HistoryService(HistoryRepository repository)
         {
             history = repository;

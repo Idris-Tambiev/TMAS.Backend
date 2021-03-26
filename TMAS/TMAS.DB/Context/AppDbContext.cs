@@ -21,7 +21,7 @@ namespace TMAS.DB.Context
             : base(options)
         {
             //Database.EnsureDeleted();
-            //Database.EnsureCreated();
+            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -44,6 +44,10 @@ namespace TMAS.DB.Context
             modelBuilder.Entity<User>()
                .Property(u => u.Name)
                .HasColumnType("varchar(30)");
+
+            modelBuilder.Entity<User>()
+               .Property(u => u.Password)
+               .HasColumnType("varchar(50)");
 
             modelBuilder.Entity<User>()
                .Property(u => u.Lastname)

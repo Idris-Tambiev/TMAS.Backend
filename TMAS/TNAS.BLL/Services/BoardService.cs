@@ -10,7 +10,7 @@ namespace TMAS.BLL.Services
 {
     public class BoardService:IBoardService
     {
-        BoardRepository board;
+      private readonly  BoardRepository board;
         public BoardService(BoardRepository repository)
         {
             board = repository;
