@@ -26,6 +26,7 @@ namespace TMAS.Configuration
                  //RequireClientSecret = false
 
                     ClientId = "angular_spa",
+                    ClientName = "Angular SPA",
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowAccessTokensViaBrowser = true,
                     RequireClientSecret = false,

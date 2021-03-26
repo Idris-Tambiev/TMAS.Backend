@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TMAS.DB.Context;
 
-namespace TMAS.Migrations
+namespace TMAS.DB.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210326110851_NewMigration")]
-    partial class NewMigration
+    [Migration("20210326134708_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -19,8 +19,6 @@ D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.O
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.Internal.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
-D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
-D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Microsoft.Data.SqlClient.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -38,7 +36,6 @@ D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.Ope
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Microsoft.OpenApi.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Newtonsoft.Json.dll
-D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
