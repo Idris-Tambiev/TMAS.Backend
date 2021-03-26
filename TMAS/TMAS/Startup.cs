@@ -25,15 +25,11 @@ namespace TMAS
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
-           
 
 
-            //services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
-
-            services.AddIdentityCore<User>(options =>
-            {
-
-            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+            services.AddIdentity<User, IdentityRole>()
+        .AddEntityFrameworkStores<AppDbContext>()
+        .AddDefaultTokenProviders();
 
             services.AddIdentityServer()
                  .AddDeveloperSigningCredential()
@@ -41,9 +37,10 @@ namespace TMAS
                 .AddInMemoryIdentityResources(Resources.GetIdentityResources())
                 .AddInMemoryApiResources(Resources.GetApiResources())
                 .AddInMemoryApiScopes(Resources.GetApiScopes())
-                .AddAspNetIdentity<IdentityUser>()
+                .AddAspNetIdentity<User>()
                 ;
-               
+            //services.AddIdentityCore<User>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
 
             var mappingConfig = new MapperConfiguration(mc =>
             {
