@@ -23,7 +23,6 @@ namespace TMAS.Controllers
 
         [HttpPost("/login/user")]
         public async Task<ActionResult<User>> Login (User model)
-
         {
             return Ok(await _user.GetOneByEmail(model));
         }
@@ -39,6 +38,8 @@ namespace TMAS.Controllers
         [Authorize]
         public async Task<string> Test()
         {
+            var a = HttpContext.User;
+            
             return "test successfull";
         }
     }
