@@ -35,10 +35,11 @@ namespace TMAS.BLL.Services
             return _boardRepository.FindBoard(name);
         }
 
-        public async Task<CreatedBoardDto> Create(NewBoardDto board)
+        public async Task<CreatedBoardDto> Create(string title,Guid id)
         {
             //var array = _mapper.Map<Question, QuestionDto>(question);
-            var createdBoard = _mapper.Map<NewBoardDto, Board>(board);
+
+            //var createdBoard = _mapper.Map<NewBoardDto, Board>();
 
             return await Task.FromResult(default(CreatedBoardDto));
             //return await _boardRepository.Create(createdBoard);

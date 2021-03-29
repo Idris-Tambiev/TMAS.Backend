@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace TMAS
 {
@@ -29,19 +30,21 @@ namespace TMAS
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddIdentity<User, Role>()
+            services.AddIdentity<User, Role>(
+                options=>
+                {
+                    options.ClaimsIdentity.UserIdClaimType = JwtRegisteredClaimNames.Sub;
+                })
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
               
-
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
                 .AddInMemoryClients(Clients.Get())
                 .AddInMemoryIdentityResources(Resources.GetIdentityResources())
                 .AddInMemoryApiResources(Resources.GetApiResources())
                 .AddInMemoryApiScopes(Resources.GetApiScopes())
-                .AddAspNetIdentity<User>()
-                ;
+                .AddAspNetIdentity<User>();
 
             services.AddAuthentication(options =>
             {
@@ -58,7 +61,6 @@ namespace TMAS
                };
            });
 
-
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Test", policy =>
@@ -67,14 +69,6 @@ namespace TMAS
                     policy.RequireClaim("email", "openid", "profile", "api.read");
                 });
             });
-
-
-            //services.AddAuthorization();
-
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("ApiReader", policy => policy.RequireClaim("email", "openid", "profile", "api.read"));
-            //});
 
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -94,7 +88,7 @@ namespace TMAS
             services.AddScoped<CardRepository>();
             services.AddScoped<ColumnRepository>();
             services.AddScoped<HistoryRepository>();
-
+            services.AddScoped<Controllers.Base.UserParams>();
 
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("TMAS.DB")));

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TMAS.BLL.Services;
 using TMAS.DB.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace TMAS.Controllers
 {
@@ -16,9 +17,13 @@ namespace TMAS.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserService _user;
-        public UsersController(UserService service)
+        private readonly Base.UserParams _params;
+        private readonly UserManager<User> _userManager;
+        public UsersController(UserService service, Base.UserParams param,UserManager<User> userManager)
         {
             _user = service;
+            _params = param;
+            _userManager = userManager;
         }
 
         [HttpPost("/login/user")]
@@ -36,11 +41,14 @@ namespace TMAS.Controllers
 
         [HttpGet("test")]
         [Authorize]
-        public async Task<string> Test()
+        public async Task<Guid> Test()
         {
-            var a = HttpContext.User;
+
+            var id = _params.GetId(HttpContext);
             
-            return "test successfull";
+
+            //var user = HttpContext.User?.Identity?.Name;
+            return id;
         }
     }
 }

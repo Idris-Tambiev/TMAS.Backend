@@ -15,10 +15,11 @@ namespace TMAS.Controllers
     public class BoardsController : ControllerBase
     {
        private readonly BoardService _board;
-
-        public BoardsController(BoardService service)
+        private readonly Base.UserParams _params;
+        public BoardsController(BoardService service,Base.UserParams userParams)
         {
             _board = service;
+            _params = userParams;
         }
 
         //[HttpPost("/get/board")]
@@ -29,10 +30,10 @@ namespace TMAS.Controllers
         //}
 
         [HttpPost("/create/board")]
-        public async Task<ActionResult<CreatedBoardDto>> Registrate(NewBoardDto model)
+        public async Task<ActionResult<CreatedBoardDto>> Registrate(string title)
         {
-
-            return Ok(await _board.Create(model));
+            var id = _params.GetId(HttpContext);
+            return Ok(await _board.Create(title,id));
         }
     }
 }
