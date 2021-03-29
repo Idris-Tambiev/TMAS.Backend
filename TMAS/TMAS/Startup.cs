@@ -12,6 +12,9 @@ using TMAS.DAL.Repositories;
 using AutoMapper;
 using TMAS.DB.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace TMAS
 {
@@ -29,6 +32,7 @@ namespace TMAS
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
+              
 
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
@@ -36,8 +40,42 @@ namespace TMAS
                 .AddInMemoryIdentityResources(Resources.GetIdentityResources())
                 .AddInMemoryApiResources(Resources.GetApiResources())
                 .AddInMemoryApiScopes(Resources.GetApiScopes())
-                .AddAspNetIdentity<User>();
-            
+                .AddAspNetIdentity<User>()
+                ;
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+           {
+               options.Authority = "https://localhost:44324";
+
+               options.TokenValidationParameters = new TokenValidationParameters
+               {
+                   ValidateAudience = false
+               };
+           });
+
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Test", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("email", "openid", "profile", "api.read");
+                });
+            });
+
+
+            //services.AddAuthorization();
+
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("ApiReader", policy => policy.RequireClaim("email", "openid", "profile", "api.read"));
+            //});
+
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
@@ -59,8 +97,7 @@ namespace TMAS
 
 
             services.AddDbContext<AppDbContext>(options =>
-           options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("TMAS.DB")));
-
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("TMAS.DB")));
 
             services.AddSwaggerGen();
             services.AddControllers();
@@ -79,7 +116,9 @@ namespace TMAS
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
+ 
 
             app.UseIdentityServer();
 
@@ -91,7 +130,7 @@ namespace TMAS
             });
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllers(); 
             });
         }
     }

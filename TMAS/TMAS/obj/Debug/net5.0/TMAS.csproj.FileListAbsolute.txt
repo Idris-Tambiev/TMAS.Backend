@@ -15,6 +15,7 @@ D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\IdentityServer4.AspNetIdentity.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\IdentityServer4.EntityFramework.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\IdentityServer4.EntityFramework.Storage.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\IdentityServer4.Storage.dll
+D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.Internal.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll

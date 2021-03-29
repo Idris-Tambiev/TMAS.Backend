@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using TMAS.BLL.Services;
 using TMAS.DB.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TMAS.Controllers
 {
@@ -21,15 +22,24 @@ namespace TMAS.Controllers
         }
 
         [HttpPost("/login/user")]
-        public async Task<IActionResult> Login ([FromBody]User model)
+        public async Task<ActionResult<User>> Login (User model)
+
         {
             return Ok(await _user.GetOneByEmail(model));
         }
 
         [HttpPost("/create/user")]
-        public async Task<IActionResult> Registrate( User model)
+        public async Task<ActionResult<User>> Registrate( User model)
         {
+
             return Ok(await _user.Create(model));
+        }
+
+        [HttpGet("test")]
+        [Authorize]
+        public async Task<string> Test()
+        {
+            return "test successfull";
         }
     }
 }

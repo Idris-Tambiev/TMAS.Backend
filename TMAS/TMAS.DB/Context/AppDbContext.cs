@@ -28,7 +28,6 @@ namespace TMAS.DB.Context
         {
             base.OnModelCreating(modelBuilder);
 
-
             modelBuilder.Entity<History>()
                 .Property(e => e.ActionType)
                 .HasConversion<string>();
