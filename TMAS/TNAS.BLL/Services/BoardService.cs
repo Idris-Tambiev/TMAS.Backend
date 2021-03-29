@@ -21,7 +21,7 @@ namespace TMAS.BLL.Services
             _mapper = null /*mapper*/;
         }
 
-        public IEnumerable<Board> GetAll(int userId)
+        public IEnumerable<Board> GetAll(Guid userId)
         {
             return _boardRepository.GetAll(userId);
         }
@@ -35,14 +35,21 @@ namespace TMAS.BLL.Services
             return _boardRepository.FindBoard(name);
         }
 
-        public async Task<CreatedBoardDto> Create(string title,Guid id)
+        public async Task<Board> Create(string title, Guid id)
         {
             //var array = _mapper.Map<Question, QuestionDto>(question);
 
             //var createdBoard = _mapper.Map<NewBoardDto, Board>();
+            Board createdBoard = new Board
+            {
+                Title = title,
+                BoardUserId = id,
+                CreatedDate = DateTime.Now
+            };
 
-            return await Task.FromResult(default(CreatedBoardDto));
+            //return await Task.FromResult(default(CreatedBoardDto));
             //return await _boardRepository.Create(createdBoard);
+            return await _boardRepository.Create(createdBoard);
         }
 
         public void Update(Board board)

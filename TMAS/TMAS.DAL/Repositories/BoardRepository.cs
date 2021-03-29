@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using TMAS.DB.Context;
 using TMAS.DB.Models;
 using TMAS.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace TMAS.DAL.Repositories
 {
-    public class BoardRepository : IBoardRepository
+    public class BoardRepository //: //IBoardRepository
     {
         AppDbContext db;
 
@@ -17,10 +18,9 @@ namespace TMAS.DAL.Repositories
         {
             db = context;
         }
-        public IEnumerable<Board> GetAll(int userId)
+        public IEnumerable<Board> GetAll(Guid userId)
         {
-            
-            return db.Boards;
+            return db.Boards.Where(x=>x.BoardUserId==userId);
         }
         public Board GetOne(int id)
         {
@@ -32,9 +32,11 @@ namespace TMAS.DAL.Repositories
             return db.Boards.Find(name);
         }
 
-        public void Create(Board board)
+        public async Task<Board> Create(Board board)
         {
-            db.Boards.Add(board);
+           db.Boards.Add(board);
+           await db.SaveChangesAsync();
+           return board;
         }
 
         public void Update(Board board)

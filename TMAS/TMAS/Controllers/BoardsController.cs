@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TMAS.BLL.Services;
 using TMAS.DB.Models;
 using TMAS.DB.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TMAS.Controllers
 {
@@ -15,22 +16,24 @@ namespace TMAS.Controllers
     public class BoardsController : ControllerBase
     {
        private readonly BoardService _board;
-        private readonly Base.UserParams _params;
+       private readonly Base.UserParams _params;
         public BoardsController(BoardService service,Base.UserParams userParams)
         {
             _board = service;
             _params = userParams;
         }
 
-        //[HttpPost("/get/board")]
-        //public async Task<IActionResult> GetBoard([FromBody] NewBoardDto model)
-
-        //{
-        //    return Ok(await _board.GetOne());
-        //}
+        [HttpGet("/get/boards")]
+        [Authorize]
+        public async Task<IActionResult> GetBoard()
+        {
+            var id = _params.GetId(HttpContext);
+            return Ok(_board.GetAll(id));
+        }
 
         [HttpPost("/create/board")]
-        public async Task<ActionResult<CreatedBoardDto>> Registrate(string title)
+        [Authorize]
+        public async Task<ActionResult<Board>> CreateNewBoard(string title)
         {
             var id = _params.GetId(HttpContext);
             return Ok(await _board.Create(title,id));
