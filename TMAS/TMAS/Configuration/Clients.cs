@@ -14,17 +14,6 @@ namespace TMAS.Configuration
             return new[]
     {
                 new Client {
-                 //ClientId = "angular_spa",
-                 //ClientName = "Angular SPA",
-                 //AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                 //AllowedScopes = { "openid", "profile", "email", "api.read" },
-                 //RedirectUris = {"http://localhost:4200/auth-callback"},
-                 //PostLogoutRedirectUris = {"http://localhost:4200/"},
-                 //AllowedCorsOrigins = {"http://localhost:4200"},
-                 //AllowAccessTokensViaBrowser = true,
-                 //AccessTokenLifetime = 3600,
-                 //RequireClientSecret = false
-
                     ClientId = "angular_spa",
                     ClientName = "Angular SPA",
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,

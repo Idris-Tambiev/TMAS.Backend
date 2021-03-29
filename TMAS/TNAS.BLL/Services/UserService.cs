@@ -34,7 +34,7 @@ namespace TMAS.BLL.Services
 
         public async Task<IdentityResult> Create(User createdUser)
         {
-
+            
             var result = await _userManager.CreateAsync(createdUser,createdUser.Password);
             return result;
         }

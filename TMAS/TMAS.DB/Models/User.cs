@@ -18,9 +18,7 @@ namespace TMAS.DB.Models
         public string Lastname { get; set; }
         [Required]
         public string Password { get; set; }
-        [JsonIgnore]
         public List<Board> Boards { get; set; }
-        [JsonIgnore]
         public List<History> Histories { get; set; }
     }
 }

@@ -10,7 +10,7 @@ using TMAS.DB.Models;
 
 namespace TMAS.DB.Context
 {
-   public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
+   public class AppDbContext : IdentityDbContext<User, Role, Guid>
     {
         public DbSet<Board> Boards { get; set; }
         public DbSet<Card> Cards { get; set; }

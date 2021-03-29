@@ -26,26 +26,23 @@ namespace TMAS
         public void ConfigureServices(IServiceCollection services)
         {
 
-
-            services.AddIdentity<User, IdentityRole>()
-        .AddEntityFrameworkStores<AppDbContext>()
-        .AddDefaultTokenProviders();
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddIdentityServer()
-                 .AddDeveloperSigningCredential()
+                .AddDeveloperSigningCredential()
                 .AddInMemoryClients(Clients.Get())
                 .AddInMemoryIdentityResources(Resources.GetIdentityResources())
                 .AddInMemoryApiResources(Resources.GetApiResources())
                 .AddInMemoryApiScopes(Resources.GetApiScopes())
-                .AddAspNetIdentity<User>()
-                ;
-            //services.AddIdentityCore<User>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
-
-
+                .AddAspNetIdentity<User>();
+            
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
             });
+
             IMapper mapper = mappingConfig.CreateMapper();
 
             services.AddScoped<UserService>();
