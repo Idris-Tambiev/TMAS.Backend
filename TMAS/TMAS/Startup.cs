@@ -76,7 +76,7 @@ namespace TMAS
             });
 
             IMapper mapper = mappingConfig.CreateMapper();
-
+            services.AddSingleton(mapper);
             services.AddScoped<UserService>();
             services.AddScoped<BoardService>();
             services.AddScoped<CardService>();

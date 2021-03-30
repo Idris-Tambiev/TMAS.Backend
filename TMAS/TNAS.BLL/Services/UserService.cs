@@ -7,6 +7,8 @@ using TMAS.DAL.Repositories;
 using TMAS.BLL.Interfaces;
 using TMAS.DB.Models;
 using Microsoft.AspNetCore.Identity;
+using TMAS.DB.DTO;
+using AutoMapper;
 
 namespace TMAS.BLL.Services
 {
@@ -14,10 +16,12 @@ namespace TMAS.BLL.Services
     {
         private readonly UserRepository _user;
         private readonly UserManager<User> _userManager;
-        public UserService(UserRepository repository, UserManager<User> userManager)
+        private readonly IMapper _mapper;
+        public UserService(UserRepository repository, UserManager<User> userManager,IMapper mapper)
         {
             _user = repository;
              _userManager = userManager;
+            _mapper = mapper;
         }
 
         public User GetOne(User user)
@@ -28,15 +32,20 @@ namespace TMAS.BLL.Services
         public async Task<User> GetOneByEmail(User user)
         {
             
-           var a= await _userManager.FindByEmailAsync(user.Email);
-           return a;
+           var findedUser= await _userManager.FindByEmailAsync(user.Email);
+           return findedUser;
         }
 
-        public async Task<IdentityResult> Create(User createdUser)
+        public async Task<IdentityResult> Create(RegistrateUserDto createdUser)
         {
-            
-            var result = await _userManager.CreateAsync(createdUser,createdUser.Password);
-            return result;
+            var findedUser = await _userManager.FindByEmailAsync(createdUser.Email);
+            if (findedUser == null)
+            {
+                var newUser = _mapper.Map<RegistrateUserDto, User>(createdUser);
+                var result = await _userManager.CreateAsync(newUser, createdUser.Password);
+                return result;
+            }
+            else return default;
         }
 
         public void Update(User updatedUser)

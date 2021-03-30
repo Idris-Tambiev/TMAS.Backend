@@ -14,11 +14,9 @@ namespace TMAS.BLL.Services
     public class BoardService : IBoardService
     {
       private readonly  BoardRepository _boardRepository;
-        private readonly IMapper _mapper;
-        public BoardService(BoardRepository repository/*,IMapper mapper*/)
+        public BoardService(BoardRepository repository)
         {
             _boardRepository = repository;
-            _mapper = null /*mapper*/;
         }
 
         public IEnumerable<Board> GetAll(Guid userId)
@@ -37,29 +35,24 @@ namespace TMAS.BLL.Services
 
         public async Task<Board> Create(string title, Guid id)
         {
-            //var array = _mapper.Map<Question, QuestionDto>(question);
-
-            //var createdBoard = _mapper.Map<NewBoardDto, Board>();
             Board createdBoard = new Board
             {
                 Title = title,
                 BoardUserId = id,
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.Now,
+                IsActive=true
             };
-
-            //return await Task.FromResult(default(CreatedBoardDto));
-            //return await _boardRepository.Create(createdBoard);
             return await _boardRepository.Create(createdBoard);
         }
 
-        public void Update(Board board)
+        public Board Update(Board board)
         {
-            
+            return _boardRepository.Update(board);
         }
 
-        public void Delete(int id)
+        public Board Delete(int id)
         {
-            
+            return _boardRepository.Delete(id);
         }
 
         public void Create(Board item)

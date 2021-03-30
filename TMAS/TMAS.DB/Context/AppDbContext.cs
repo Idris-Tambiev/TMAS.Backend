@@ -44,9 +44,6 @@ namespace TMAS.DB.Context
                .Property(u => u.Name)
                .HasColumnType("varchar(30)");
 
-            modelBuilder.Entity<User>()
-               .Property(u => u.Password)
-               .HasColumnType("varchar(50)");
 
             modelBuilder.Entity<User>()
                .Property(u => u.Lastname)
@@ -75,7 +72,8 @@ namespace TMAS.DB.Context
 
             modelBuilder.Entity<Column>()
                 .HasOne(p => p.Board)
-                .WithMany(b => b.Columns);
+                .WithMany(b => b.Columns)
+                .HasForeignKey(b=>b.BoardId);
 
             modelBuilder.Entity<Card>()
                 .HasOne(p => p.Column)

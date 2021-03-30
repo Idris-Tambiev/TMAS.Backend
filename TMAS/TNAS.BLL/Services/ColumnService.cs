@@ -6,39 +6,48 @@ using System.Threading.Tasks;
 using TMAS.DAL.Repositories;
 using TMAS.BLL.Interfaces;
 using TMAS.DB.Models;
+using TMAS.BLL.Interfaces.BaseInterfaces;
 
 namespace TMAS.BLL.Services
 {
-    public class ColumnService: IColumnService
+    public class ColumnService//: IColumnService
     {
-        private readonly ColumnRepository column;
+        private readonly ColumnRepository _columnRepository;
         public ColumnService(ColumnRepository repository)
         {
-            column = repository;
+            _columnRepository = repository;
         }
 
-        public IEnumerable<Column> GetAll(int userId)
+        public IEnumerable<Column> GetAll(int boardId)
         {
-            return column.GetAll(userId);
+            return _columnRepository.GetAll(boardId);
         }
         public Column GetOne(int id)
         {
-            return column.GetOne(id);
+            return _columnRepository.GetOne(id);
         }
 
-        public void Create(Column createdColumn)
+        public async Task<Column> Create(Column createdColumn)
         {
-
+            var newColumn = new Column
+            {
+                Title = createdColumn.Title,
+                BoardId = createdColumn.BoardId,
+                CreatedDate =DateTime.Now,
+                IsActive=true
+        };
+            return await _columnRepository.Create(newColumn);
         }
 
-        public void Update(Column updatedColumn)
+        public async Task<Column> Update(Column updatedColumn)
         {
-
+            return await _columnRepository.Update(updatedColumn);
         }
 
-        public void Delete(int id)
-        {
 
+        public Column Delete(int id)
+        {
+            return _columnRepository.Delete(id);
         }
     }
 }

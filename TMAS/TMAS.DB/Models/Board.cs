@@ -11,7 +11,8 @@ namespace TMAS.DB.Models
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public string Title { get; set; }
-
+        [Required]
+        public Boolean IsActive { get; set; }
         [Required]
         public Guid BoardUserId { get; set; }
         public User User { get; set; }

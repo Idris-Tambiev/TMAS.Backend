@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ namespace TMAS.DB.Models
         public string Text { get; set; }
         public Boolean IsDone { get; set; }
 
+        [Required]
+        public Boolean IsActive { get; set; }
         public int ColumnId { get; set; }
         public Column Column { get; set; }
     }

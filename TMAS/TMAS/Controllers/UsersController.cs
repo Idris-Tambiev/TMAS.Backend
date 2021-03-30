@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using TMAS.BLL.Services;
 using TMAS.DB.Models;
+using TMAS.DB.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
@@ -33,7 +34,7 @@ namespace TMAS.Controllers
         }
 
         [HttpPost("/create/user")]
-        public async Task<ActionResult<User>> Registrate( User model)
+        public async Task<ActionResult<User>> Registrate(RegistrateUserDto model)
         {
 
             return Ok(await _user.Create(model));
@@ -41,13 +42,10 @@ namespace TMAS.Controllers
 
         [HttpGet("test")]
         [Authorize]
-        public async Task<Guid> Test()
+        public Guid Test()
         {
 
             var id = _params.GetId(HttpContext);
-            
-
-            //var user = HttpContext.User?.Identity?.Name;
             return id;
         }
     }

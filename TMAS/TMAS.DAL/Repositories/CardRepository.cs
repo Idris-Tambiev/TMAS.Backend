@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TMAS.DB.Context;
 using TMAS.DB.Models;
 using TMAS.DAL.Interfaces;
+using TMAS.DAL.Interfaces.BaseInterfaces;
 
 namespace TMAS.DAL.Repositories
 {
@@ -45,6 +46,21 @@ namespace TMAS.DAL.Repositories
             Card card = db.Cards.Find(id);
             if (card != null)
                 db.Cards.Remove(card);
+        }
+
+        Card IBaseRepository<Card>.Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        Card IBaseRepository<Card>.Create(Card item)
+        {
+            throw new NotImplementedException();
+        }
+
+        Card IBaseRepository<Card>.Update(Card item)
+        {
+            throw new NotImplementedException();
         }
     }
 }

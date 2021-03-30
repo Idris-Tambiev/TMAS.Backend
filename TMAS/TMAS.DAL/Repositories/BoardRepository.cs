@@ -39,16 +39,22 @@ namespace TMAS.DAL.Repositories
            return board;
         }
 
-        public void Update(Board board)
+        public Board Update(Board board)
         {
-           // db.Entry(book).State = EntityState.Modified;
+            Board updatedBoard = db.Boards.FirstOrDefault(x => x.Id == board.Id);
+            updatedBoard.Title = board.Title;
+            updatedBoard.UpdatedDate = DateTime.Now;
+            db.SaveChanges();
+            return updatedBoard;
         }
 
-        public void Delete(int id)
+        public Board Delete(int id)
         {
-            Board board = db.Boards.Find(id);
-            if (board != null)
-                db.Boards.Remove(board);
+            Board deletedBoard = db.Boards.FirstOrDefault(x => x.Id == id);
+            deletedBoard.IsActive = false;
+            deletedBoard.UpdatedDate = DateTime.Now;
+            db.SaveChanges();
+            return deletedBoard;
         }
 
     }

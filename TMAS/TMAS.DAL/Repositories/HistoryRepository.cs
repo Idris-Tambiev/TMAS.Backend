@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TMAS.DAL.Repositories
 {
-    public class HistoryRepository:IHistoryRepository
+    public class HistoryRepository//:IHistoryRepository
     {
         private AppDbContext db;
 

@@ -10,8 +10,8 @@ namespace TMAS.DAL.Interfaces.BaseInterfaces
     {
         IEnumerable<T> GetAll(int id);
         T GetOne(int id);
-        void Create(T item);
-        void Update(T item);
-        void Delete(int id);
+        T Create(T item);
+        T Update(T item);
+        T Delete(int id);
     }
 }

@@ -15,8 +15,11 @@ namespace TMAS.DB.Models
         public DateTime UpdatedDate { get; set; }
         //varchar(100)
         public string Title { get; set; }
+        [Required]
+        public Boolean IsActive { get; set; }
         public List<Card> Cards { get; set; }
         [Required]
+        public int BoardId { get; set; }
         public Board Board { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace TMAS.Controllers
 
         [HttpGet("/get/boards")]
         [Authorize]
-        public async Task<IActionResult> GetBoard()
+        public IActionResult GetBoards()
         {
             var id = _params.GetId(HttpContext);
             return Ok(_board.GetAll(id));
@@ -37,6 +37,21 @@ namespace TMAS.Controllers
         {
             var id = _params.GetId(HttpContext);
             return Ok(await _board.Create(title,id));
+        }
+
+        [HttpPost("/update/board")]
+        [Authorize]
+        public async Task<ActionResult<Board>> UpdateBoard(Board board)
+        {
+            //var idUser = _params.GetId(HttpContext);
+            return Ok(_board.Update(board));
+        }
+
+        [HttpPost("/delete/board")]
+        [Authorize]
+        public async Task<ActionResult<Board>> DeleteBoard(int id)
+        {
+            return Ok(_board.Delete(id));
         }
     }
 }
