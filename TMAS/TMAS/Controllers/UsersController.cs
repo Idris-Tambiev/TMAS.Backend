@@ -36,7 +36,6 @@ namespace TMAS.Controllers
         [HttpPost("/create/user")]
         public async Task<ActionResult<User>> Registrate(RegistrateUserDto model)
         {
-
             return Ok(await _user.Create(model));
         }
 
@@ -44,7 +43,6 @@ namespace TMAS.Controllers
         [Authorize]
         public Guid Test()
         {
-
             var id = _params.GetId(HttpContext);
             return id;
         }

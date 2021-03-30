@@ -10,7 +10,7 @@ using TMAS.DAL.Interfaces.BaseInterfaces;
 
 namespace TMAS.DAL.Repositories
 {
-    public class CardRepository:ICardRepository
+    public class CardRepository//:ICardRepository
     {
         private AppDbContext db;
 
@@ -18,49 +18,38 @@ namespace TMAS.DAL.Repositories
         {
             db = context;
         }
-        public IEnumerable<Card> GetAll(int userId)
+        public IEnumerable<Card> GetAll(int columnId)
         {
-            return db.Cards;
+            return db.Cards.Where(x => x.ColumnId == columnId);
         }
         public Card GetOne(int id)
         {
             return db.Cards.Find(id);
         }
-        public Card FindCard(string card)
-        {
-            return db.Cards.Find(card);
-        }
 
-        public void Create(Card card)
+        public async Task<Card> Create(Card card)
         {
             db.Cards.Add(card);
+            await db.SaveChangesAsync();
+            return card;
         }
 
-        public void Update(Card card)
+        public async Task<Card> Update(Card card)
         {
-            // db.Entry(book).State = EntityState.Modified;
+            Card updatedCard = db.Cards.FirstOrDefault(x => x.Id == card.Id);
+            updatedCard.Text = card.Text;
+            updatedCard.UpdatedDate = DateTime.Now;
+            db.SaveChanges();
+            return updatedCard;
         }
 
-        public void Delete(int id)
+        public Card Delete(int id)
         {
-            Card card = db.Cards.Find(id);
-            if (card != null)
-                db.Cards.Remove(card);
-        }
-
-        Card IBaseRepository<Card>.Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        Card IBaseRepository<Card>.Create(Card item)
-        {
-            throw new NotImplementedException();
-        }
-
-        Card IBaseRepository<Card>.Update(Card item)
-        {
-            throw new NotImplementedException();
+            Card deletedCard = db.Cards.FirstOrDefault(x => x.Id == id);
+            deletedCard.IsActive = false;
+            deletedCard.UpdatedDate = DateTime.Now;
+            db.SaveChanges();
+            return deletedCard;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace TMAS.DB.Models
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public Actions ActionType { get; set; }
-        public int ActionObjectId { get; set; }
+       // public int ActionObjectId { get; set; }
         public Guid AuthorId { get; set; }
         [Required]
         public User User { get; set; }

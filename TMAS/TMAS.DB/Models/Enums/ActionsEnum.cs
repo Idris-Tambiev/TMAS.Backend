@@ -16,6 +16,9 @@ namespace TMAS.DB.Models.Enums
             DeleteColumn=5,
             CheckCardDone=6,
             CheckCardUndone=7,
-            MoveCard=8
+            MoveCard=8,
+            AddBoard=9,
+            DeleteBoard=10,
+            EditBoard=11
         }
 }

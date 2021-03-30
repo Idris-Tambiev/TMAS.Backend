@@ -18,18 +18,20 @@ namespace TMAS.DAL.Repositories
         {
             db = context;
         }
-        public IEnumerable<History> GetAll(int userId)
+        public IEnumerable<History> GetAll(Guid userId)
         {
-            return db.Histories;
+            return db.Histories.Where(x=>x.AuthorId==userId);
         }
         public History GetOne(int id)
         {
             return db.Histories.Find(id);
         }
 
-        public void Create(History history)
+        public History Create(History history)
         {
             db.Histories.Add(history);
+            db.SaveChanges();
+            return history;
         }
 
         public void Update(History history)

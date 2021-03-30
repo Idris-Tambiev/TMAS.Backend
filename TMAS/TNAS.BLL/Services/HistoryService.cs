@@ -9,25 +9,32 @@ using TMAS.DB.Models;
 
 namespace TMAS.BLL.Services
 {
-    public class HistoryService:IHistoryService
+    public class HistoryService//:IHistoryService
     {
-        private readonly HistoryRepository history;
+        private readonly HistoryRepository _historyRepository;
         public HistoryService(HistoryRepository repository)
         {
-            history = repository;
+            _historyRepository = repository;
         }
-        public IEnumerable<History> GetAll(int userId)
+        public IEnumerable<History> GetAll(Guid userId)
         {
-            return history.GetAll(userId);
+            return _historyRepository.GetAll(userId);
         }
-        public History GetOne(int userId)
+        public History GetOne(int id)
         {
-            return history.GetOne(userId);
+            //return _cardRepository.GetOne(id);
+            return default;
         }
 
-        public void Create(History board)
+        public async Task<History> Create(int actionId,Guid userId)
         {
-
+            var newHistory = new History
+            {
+                ActionType = (DB.Models.Enums.Actions)actionId,
+                AuthorId = userId,
+                CreatedDate = DateTime.Now,
+            };
+            return  _historyRepository.Create(newHistory);
         }
 
         public void Update(History board)

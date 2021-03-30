@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,29 @@ namespace TMAS.Controllers
     [ApiController]
     public class HistoryController : ControllerBase
     {
-        HistoryService history;
-        public HistoryController (HistoryService service)
+        HistoryService _historyService;
+        private readonly Base.UserParams _params;
+        public HistoryController (HistoryService service,Base.UserParams userParams)
         {
-            history=service;
+            _historyService = service;
+            _params = userParams;
+        }
+
+
+        [HttpGet("/get/history")]
+        [Authorize]
+        public async Task<ActionResult<History>> GetHistory()
+        {
+            var id = _params.GetId(HttpContext);
+            return Ok(_historyService.GetAll(id));
+        }
+
+        [HttpPost("/create/history")]
+        [Authorize]
+        public async Task<ActionResult<History>> CreateNewCard(int actionId)
+        {
+            var id = _params.GetId(HttpContext);
+            return Ok(await _historyService.Create(actionId, id));
         }
     }
 }

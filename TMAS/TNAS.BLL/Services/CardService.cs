@@ -9,40 +9,45 @@ using TMAS.DB.Models;
 
 namespace TMAS.BLL.Services
 {
-    public class CardService:ICardService
+    public class CardService//:ICardService
     {
-        private readonly CardRepository card;
+        private readonly CardRepository _cardRepository;
         public CardService(CardRepository repository)
         {
-            card = repository;
+            _cardRepository = repository;
         }
-        public IEnumerable<Card> GetAll(int userId)
+        public IEnumerable<Card> GetAll(int boardId)
         {
-            return card.GetAll(userId);
+            return _cardRepository.GetAll(boardId);
         }
+
         public Card GetOne(int id)
         {
-            return card.GetOne(id);
+            return _cardRepository.GetOne(id);
         }
 
-        public Card FindCard(string name)
+        public async Task<Card> Create(Card createdCard)
         {
-            return card.FindCard(name);
+            var newColumn = new Card
+            {
+                Text = createdCard.Text,
+                ColumnId = createdCard.ColumnId,
+                CreatedDate = DateTime.Now,
+                IsActive = true,
+                IsDone=false
+            };
+            return await _cardRepository.Create(newColumn);
         }
 
-        public void Create(Card createdCard)
+        public async Task<Card> Update(Card updatedCard)
         {
-
+            return await _cardRepository.Update(updatedCard);
         }
 
-        public void Update(Card updatedCard)
+
+        public Card Delete(int id)
         {
-
-        }
-
-        public void Delete(int id)
-        {
-
+            return _cardRepository.Delete(id);
         }
 
     }

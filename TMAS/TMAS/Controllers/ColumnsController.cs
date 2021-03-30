@@ -37,14 +37,14 @@ namespace TMAS.Controllers
 
         [HttpPost("/update/column")]
         [Authorize]
-        public async Task<ActionResult<Column>> UpdateBoard(Column column)
+        public async Task<ActionResult<Column>> UpdateColumn(Column column)
         {
             return Ok(await _column.Update(column));
         }
 
         [HttpPost("/delete/column")]
         [Authorize]
-        public async Task<ActionResult<Column>> DeleteBoard(int id)
+        public async Task<ActionResult<Column>> DeleteColumn(int id)
         {
             return Ok(_column.Delete(id));
         }

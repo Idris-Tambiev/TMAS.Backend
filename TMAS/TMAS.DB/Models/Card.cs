@@ -15,7 +15,6 @@ namespace TMAS.DB.Models
         public DateTime ExecutionPeriod { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
-        //varchar(5000)
         public string Text { get; set; }
         public Boolean IsDone { get; set; }
 
