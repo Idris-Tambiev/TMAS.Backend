@@ -15,11 +15,11 @@ namespace TMAS.Controllers
     [ApiController]
     public class BoardsController : ControllerBase
     {
-       private readonly BoardService _board;
+       private readonly BoardService _boardService;
        private readonly Base.UserParams _params;
         public BoardsController(BoardService service,Base.UserParams userParams)
         {
-            _board = service;
+            _boardService = service;
             _params = userParams;
         }
 
@@ -28,7 +28,7 @@ namespace TMAS.Controllers
         public IActionResult GetBoards()
         {
             var id = _params.GetId(HttpContext);
-            return Ok(_board.GetAll(id));
+            return Ok(_boardService.GetAll(id));
         }
 
         [HttpGet("/search/boards")]
@@ -36,7 +36,7 @@ namespace TMAS.Controllers
         public IActionResult FindBoards(string text)
         {
             var id = _params.GetId(HttpContext);
-            return Ok(_board.FindBoard(id,text));
+            return Ok(_boardService.FindBoard(id,text));
         }
 
         [HttpPost("/create/board")]
@@ -44,7 +44,7 @@ namespace TMAS.Controllers
         public async Task<ActionResult<Board>> CreateNewBoard(string title)
         {
             var id = _params.GetId(HttpContext);
-            return Ok(await _board.Create(title,id));
+            return Ok(await _boardService.Create(title,id));
         }
 
         [HttpPost("/update/board")]
@@ -52,14 +52,14 @@ namespace TMAS.Controllers
         public async Task<ActionResult<Board>> UpdateBoard(Board board)
         {
             //var idUser = _params.GetId(HttpContext);
-            return Ok(_board.Update(board));
+            return Ok(_boardService.Update(board));
         }
 
         [HttpPost("/delete/board")]
         [Authorize]
         public async Task<ActionResult<Board>> DeleteBoard(int id)
         {
-            return Ok(_board.Delete(id));
+            return Ok(_boardService.Delete(id));
         }
     }
 }

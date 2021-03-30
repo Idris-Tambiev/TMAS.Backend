@@ -8,10 +8,10 @@ namespace TMAS.BLL.Interfaces.BaseInterfaces
 {
     public interface IBaseService<T>
     {
-        IEnumerable<T> GetAll(int id);
+        IEnumerable<T> GetAll(Guid id);
         T GetOne(int id);
-        void Create(T item);
-        void Update(T item);
-        void Delete(int id);
+        //T Create();
+        T Update(T item);
+        T Delete(int id);
     }
 }

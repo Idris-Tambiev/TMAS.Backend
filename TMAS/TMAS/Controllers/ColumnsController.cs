@@ -14,39 +14,39 @@ namespace TMAS.Controllers
     [ApiController]
     public class ColumnsController : ControllerBase
     {
-        private readonly ColumnService _column;
+        private readonly ColumnService _columnService;
 
         public ColumnsController(ColumnService service)
         {
-            _column = service;
+            _columnService = service;
         }
 
         [HttpGet("/get/columns")]
         [Authorize]
         public async Task<ActionResult<Column>> GetColumns(int id)
         {
-            return Ok( _column.GetAll(id));
+            return Ok(_columnService.GetAll(id));
         }
 
         [HttpPost("/create/column")]
         [Authorize]
         public async Task<ActionResult<Column>> CreateNewColumn(Column column)
         {
-            return Ok(await _column.Create(column));
+            return Ok(await _columnService.Create(column));
         }
 
         [HttpPost("/update/column")]
         [Authorize]
         public async Task<ActionResult<Column>> UpdateColumn(Column column)
         {
-            return Ok(await _column.Update(column));
+            return Ok(await _columnService.Update(column));
         }
 
         [HttpPost("/delete/column")]
         [Authorize]
         public async Task<ActionResult<Column>> DeleteColumn(int id)
         {
-            return Ok(_column.Delete(id));
+            return Ok(_columnService.Delete(id));
         }
     }
 }

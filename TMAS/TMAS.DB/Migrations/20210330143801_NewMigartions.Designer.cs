@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TMAS.DB.Context;
 
 namespace TMAS.DB.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210330143801_NewMigartions")]
+    partial class NewMigartions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,14 +184,9 @@ namespace TMAS.DB.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ColumnId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Cards");
                 });
@@ -426,15 +423,7 @@ namespace TMAS.DB.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TMAS.DB.Models.User", "User")
-                        .WithMany("Cards")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Column");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TMAS.DB.Models.Column", b =>
@@ -472,8 +461,6 @@ namespace TMAS.DB.Migrations
             modelBuilder.Entity("TMAS.DB.Models.User", b =>
                 {
                     b.Navigation("Boards");
-
-                    b.Navigation("Cards");
 
                     b.Navigation("Histories");
                 });

@@ -8,10 +8,11 @@ using TMAS.BLL.Interfaces;
 using TMAS.DB.Models;
 using TMAS.DB.DTO;
 using AutoMapper;
+using TMAS.BLL.Interfaces.BaseInterfaces;
 
 namespace TMAS.BLL.Services
 {
-    public class BoardService //: IBoardService
+    public class BoardService : IBoardService
     {
       private readonly  BoardRepository _boardRepository;
         public BoardService(BoardRepository repository)
@@ -55,9 +56,7 @@ namespace TMAS.BLL.Services
             return _boardRepository.Delete(id);
         }
 
-        public void Create(Board item)
-        {
-            throw new NotImplementedException();
-        }
+
+
     }
 }

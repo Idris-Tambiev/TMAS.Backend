@@ -14,39 +14,48 @@ namespace TMAS.Controllers
     [ApiController]
     public class CardsController : ControllerBase
     {
-        private readonly CardService _cards;
-
-        public CardsController(CardService service)
+        private readonly CardService _cardsService;
+        private readonly Base.UserParams _params;
+        public CardsController(CardService service,Base.UserParams userParams)
         {
-            _cards = service;
+            _cardsService = service;
+            _params = userParams;
         }
 
+        [HttpGet("/search/cards")]
+        [Authorize]
+        public IActionResult FindBoards(string text)
+        {
+            var id = _params.GetId(HttpContext);
+            return Ok(_cardsService.FindCard(id, text));
+
+        }
         [HttpGet("/get/cards")]
         [Authorize]
         public async Task<ActionResult<Card>> GetCards(int id)
         {
-            return Ok(_cards.GetAll(id));
+            return Ok(_cardsService.GetAll(id));
         }
 
         [HttpPost("/create/card")]
         [Authorize]
         public async Task<ActionResult<Card>> CreateNewCard(Card card)
         {
-            return Ok(await _cards.Create(card));
+            return Ok(await _cardsService.Create(card));
         }
 
         [HttpPost("/update/card")]
         [Authorize]
         public async Task<ActionResult<Card>> UpdateCard(Card card)
         {
-            return Ok(await _cards.Update(card));
+            return Ok(await _cardsService.Update(card));
         }
 
         [HttpPost("/delete/card")]
         [Authorize]
         public async Task<ActionResult<Card>> DeleteCard(int id)
         {
-            return Ok(_cards.Delete(id));
+            return Ok(_cardsService.Delete(id));
         }
     }
 }

@@ -15,6 +15,7 @@ namespace TMAS.DB.Models
         public DateTime ExecutionPeriod { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
+        public string Title { get; set; }
         public string Text { get; set; }
         public Boolean IsDone { get; set; }
 
@@ -22,5 +23,8 @@ namespace TMAS.DB.Models
         public Boolean IsActive { get; set; }
         public int ColumnId { get; set; }
         public Column Column { get; set; }
+
+        public Guid UserId { get; set; }
+        public User User { get; set; }
     }
 }

@@ -33,10 +33,10 @@ namespace TMAS.Controllers
 
         [HttpPost("/create/history")]
         [Authorize]
-        public async Task<ActionResult<History>> CreateNewCard(int actionId)
+        public async Task<ActionResult<History>> CreateNewCard(int actionId,string text)
         {
             var id = _params.GetId(HttpContext);
-            return Ok(await _historyService.Create(actionId, id));
+            return Ok(await _historyService.Create(actionId, text,id));
         }
     }
 }

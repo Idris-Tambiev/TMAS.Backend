@@ -14,12 +14,12 @@ namespace TMAS.BLL.Services
 {
    public class UserService
     {
-        private readonly UserRepository _user;
+        private readonly UserRepository _userRepository;
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
         public UserService(UserRepository repository, UserManager<User> userManager,IMapper mapper)
         {
-            _user = repository;
+            _userRepository = repository;
              _userManager = userManager;
             _mapper = mapper;
         }

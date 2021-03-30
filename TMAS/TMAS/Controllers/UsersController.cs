@@ -17,12 +17,12 @@ namespace TMAS.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly UserService _user;
+        private readonly UserService _userService;
         private readonly Base.UserParams _params;
         private readonly UserManager<User> _userManager;
         public UsersController(UserService service, Base.UserParams param,UserManager<User> userManager)
         {
-            _user = service;
+            _userService = service;
             _params = param;
             _userManager = userManager;
         }
@@ -30,13 +30,13 @@ namespace TMAS.Controllers
         [HttpPost("/login/user")]
         public async Task<ActionResult<User>> Login (User model)
         {
-            return Ok(await _user.GetOneByEmail(model));
+            return Ok(await _userService.GetOneByEmail(model));
         }
 
         [HttpPost("/create/user")]
         public async Task<ActionResult<User>> Registrate(RegistrateUserDto model)
         {
-            return Ok(await _user.Create(model));
+            return Ok(await _userService.Create(model));
         }
 
         [HttpGet("test")]

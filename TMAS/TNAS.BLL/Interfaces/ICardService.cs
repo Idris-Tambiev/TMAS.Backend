@@ -10,6 +10,7 @@ namespace TMAS.BLL.Interfaces
 {
     public interface ICardService:IBaseService<Card>
     {
-        Card FindCard(string card);
+        // Card FindCard(string card);
+        Task<Card> Create(Card createdCard);
     }
 }

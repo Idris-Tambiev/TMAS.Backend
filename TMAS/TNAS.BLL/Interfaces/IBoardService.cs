@@ -8,8 +8,9 @@ using TMAS.DB.Models;
 
 namespace TMAS.BLL.Interfaces
 {
-    public interface IBoardService//IBaseService<Board>
+    public interface IBoardService:IBaseService<Board>
     {
-        Board FindBoard(string name);
+        Task<Board> Create(string title, Guid id);
+        IEnumerable<Board> FindBoard(Guid userId, string search);
     }
 }

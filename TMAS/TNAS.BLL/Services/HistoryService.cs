@@ -26,13 +26,15 @@ namespace TMAS.BLL.Services
             return default;
         }
 
-        public async Task<History> Create(int actionId,Guid userId)
+        public async Task<History> Create(int actionId,string actionObject,Guid userId)
         {
             var newHistory = new History
             {
                 ActionType = (DB.Models.Enums.Actions)actionId,
                 AuthorId = userId,
                 CreatedDate = DateTime.Now,
+                ActionObject = actionObject
+
             };
             return  _historyRepository.Create(newHistory);
         }

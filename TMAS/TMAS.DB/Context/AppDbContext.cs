@@ -50,6 +50,10 @@ namespace TMAS.DB.Context
                .HasColumnType("varchar(30)");
 
             modelBuilder.Entity<Card>()
+                .Property(u => u.Title)
+                .HasColumnType("varchar(100)");
+
+            modelBuilder.Entity<Card>()
                 .Property(u => u.Text)
                 .HasColumnType("varchar(5000)");
 
@@ -79,10 +83,20 @@ namespace TMAS.DB.Context
                 .HasOne(p => p.Column)
                 .WithMany(b => b.Cards);
 
+            modelBuilder.Entity<Card>()
+                .HasOne(p => p.User)
+                .WithMany(b => b.Cards)
+                .HasForeignKey(b => b.UserId);
+
             modelBuilder.Entity<History>()
                 .HasOne(p => p.User)
                 .WithMany(b => b.Histories)
                 .HasForeignKey(b => b.AuthorId);
+
+
+            modelBuilder.Entity<History>()
+                .Property(u => u.ActionObject)
+                .HasColumnType("varchar(100)");
         }
     }
 }

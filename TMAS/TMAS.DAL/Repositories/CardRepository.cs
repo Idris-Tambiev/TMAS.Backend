@@ -26,6 +26,11 @@ namespace TMAS.DAL.Repositories
         {
             return db.Cards.Find(id);
         }
+        public IEnumerable<Card> FindCards(Guid id, string search)
+        {
+            return db.Cards.Where(p => p.Title.Contains(search) && p.UserId == id).ToList();
+        }
+
 
         public async Task<Card> Create(Card card)
         {

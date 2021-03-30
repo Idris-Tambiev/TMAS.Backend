@@ -30,6 +30,7 @@ namespace TMAS.BLL.Services
         {
             var newColumn = new Card
             {
+                Title=createdCard.Title,
                 Text = createdCard.Text,
                 ColumnId = createdCard.ColumnId,
                 CreatedDate = DateTime.Now,
@@ -39,11 +40,14 @@ namespace TMAS.BLL.Services
             return await _cardRepository.Create(newColumn);
         }
 
+        public IEnumerable<Card> FindCard(Guid userId, string search)
+        {
+            return _cardRepository.FindCards(userId, search);
+        }
         public async Task<Card> Update(Card updatedCard)
         {
             return await _cardRepository.Update(updatedCard);
         }
-
 
         public Card Delete(int id)
         {
