@@ -11,7 +11,7 @@ using AutoMapper;
 
 namespace TMAS.BLL.Services
 {
-    public class BoardService : IBoardService
+    public class BoardService //: IBoardService
     {
       private readonly  BoardRepository _boardRepository;
         public BoardService(BoardRepository repository)
@@ -28,9 +28,9 @@ namespace TMAS.BLL.Services
             return _boardRepository.GetOne(id);
         }
 
-        public Board FindBoard(string name)
+        public IEnumerable<Board> FindBoard(Guid userId,string search)
         {
-            return _boardRepository.FindBoard(name);
+            return _boardRepository.FindBoard(userId,search);
         }
 
         public async Task<Board> Create(string title, Guid id)

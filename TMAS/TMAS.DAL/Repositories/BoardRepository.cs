@@ -27,9 +27,9 @@ namespace TMAS.DAL.Repositories
             return db.Boards.Find(id);
         }
 
-        public Board FindBoard(string name)
+        public IEnumerable<Board> FindBoard(Guid id,string search)
         {
-            return db.Boards.Find(name);
+            return db.Boards.Where(p => p.Title.Contains(search) && p.BoardUserId==id).ToList();
         }
 
         public async Task<Board> Create(Board board)

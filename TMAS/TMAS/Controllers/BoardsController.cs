@@ -31,6 +31,14 @@ namespace TMAS.Controllers
             return Ok(_board.GetAll(id));
         }
 
+        [HttpGet("/search/boards")]
+        [Authorize]
+        public IActionResult FindBoards(string text)
+        {
+            var id = _params.GetId(HttpContext);
+            return Ok(_board.FindBoard(id,text));
+        }
+
         [HttpPost("/create/board")]
         [Authorize]
         public async Task<ActionResult<Board>> CreateNewBoard(string title)
