@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TMAS.BLL.Services;
 using TMAS.DB.Models;
+using TMAS.Controllers.Base;
 
 namespace TMAS.Controllers
 {
@@ -30,9 +31,9 @@ namespace TMAS.Controllers
 
         [HttpPost("create")]
         [Authorize]
-        public async Task<ActionResult<Column>> CreateNewColumn(Column column)
+        public async Task<ActionResult<Column>> CreateNewColumn(string title,int boardId)
         {
-            return Ok(await _columnService.Create(column));
+            return Ok(await _columnService.Create(title,boardId));
         }
 
         [HttpPost("update")]

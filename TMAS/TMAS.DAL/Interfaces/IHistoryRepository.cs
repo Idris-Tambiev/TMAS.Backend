@@ -8,8 +8,10 @@ using TMAS.DAL.Interfaces.BaseInterfaces;
 
 namespace TMAS.DAL.Interfaces
 {
-    public interface IHistoryRepository:IBaseRepository<History>,IGetAllByGuid<History>
+    public interface IHistoryRepository:IBaseRepository
     {
-
+        Task<IEnumerable<History>> GetAll(Guid userId);
+        Task<History> GetOne(int id);
+        History Create(History history);
     }
 }

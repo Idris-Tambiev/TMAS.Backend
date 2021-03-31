@@ -8,7 +8,7 @@ using TMAS.DB.Models;
 
 namespace TMAS.BLL.Interfaces
 {
-    public interface IUserService:IBaseService<User>
+    public interface IUserService:IBaseService
     {
     }
 }

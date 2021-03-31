@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace TMAS.DAL.Interfaces.BaseInterfaces
 {
-    public interface IBaseRepository<T>
+    public interface IBaseRepository
     {
-        //IEnumerable<T> GetAll(int id);
-        Task<T> GetOne(int id);
-        Task<T> Create(T item);
-        Task<T> Update(T item);
-        Task<T> Delete(int id);
     }
 }

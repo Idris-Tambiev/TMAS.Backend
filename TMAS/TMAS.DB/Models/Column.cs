@@ -13,12 +13,11 @@ namespace TMAS.DB.Models
         public int Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
-        //varchar(100)
         public string Title { get; set; }
-        [Required]
+        public int OrderBy { get; set; }
         public Boolean IsActive { get; set; }
         public List<Card> Cards { get; set; }
-        [Required]
+        
         public int BoardId { get; set; }
         public Board Board { get; set; }
     }

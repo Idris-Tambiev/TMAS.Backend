@@ -7,26 +7,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using TMAS.BLL.Services;
 using TMAS.DB.Models;
+using TMAS.Controllers.Base;
 
 namespace TMAS.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CardsController : ControllerBase
+    public class CardsController : BaseController
     {
         private readonly CardService _cardsService;
-        private readonly Base.UserParams _params;
-        public CardsController(CardService service,Base.UserParams userParams)
+        public CardsController(CardService service)
         {
             _cardsService = service;
-            _params = userParams;
         }
 
         [HttpGet("search")]
         [Authorize]
         public async Task<IActionResult> FindBoards(string text)
         {
-            var id = _params.GetId(HttpContext);
+            var id = GetUserId();
             return Ok(await _cardsService.FindCard(id, text));
 
         }
@@ -34,14 +33,14 @@ namespace TMAS.Controllers
         [Authorize]
         public async Task<ActionResult<Card>> GetCards(int id)
         {
-            return Ok(await _cardsService.GetAll(id));
+            return Ok(_cardsService.GetAll(id));
         }
 
         [HttpPost("create")]
         [Authorize]
-        public async Task<ActionResult<Card>> CreateNewCard(Card card)
+        public async Task<ActionResult<Card>> CreateNewCard(string title,string text,int columnId)
         {
-            return Ok(await _cardsService.Create(card));
+            return Ok(await _cardsService.Create(title,text,columnId));
         }
 
         [HttpPost("update")]

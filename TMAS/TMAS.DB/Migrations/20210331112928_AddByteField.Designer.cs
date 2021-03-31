@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TMAS.DB.Context;
 
 namespace TMAS.DB.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210331112928_AddByteField")]
+    partial class AddByteField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -180,7 +182,6 @@ namespace TMAS.DB.Migrations
                         .HasColumnType("varchar(5000)");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("varchar(100)");
 
                     b.Property<DateTime>("UpdatedDate")
@@ -246,10 +247,10 @@ namespace TMAS.DB.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DestinationAction")
+                    b.Property<int>("DestinationAction")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SourceAction")
+                    b.Property<int>("SourceAction")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedDate")

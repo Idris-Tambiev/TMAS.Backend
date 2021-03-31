@@ -1,3 +1,4 @@
+D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\appsettings.Development.json
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\appsettings.json
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\TMAS.exe
@@ -46,7 +47,6 @@ D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\System.Runtime.Caching.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\System.Security.Cryptography.ProtectedData.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.pdb
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll

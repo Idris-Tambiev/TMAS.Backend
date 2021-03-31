@@ -8,9 +8,15 @@ using TMAS.DB.Models;
 
 namespace TMAS.BLL.Interfaces
 {
-    public interface ICardService:IBaseService<Card>,IGetAllByInt<Card>,ICreateWithoutGuid<Card>
+    public interface ICardService:IBaseService
     {
-        // Card FindCard(string card);
-        Task<Card> Create(Card createdCard);
+
+        Task<IEnumerable<Card>> FindCard(Guid userId, string search);
+        IEnumerable<Card> GetAll(int columnId);
+        Task<Card> GetOne(int id);
+        Task<Card> Create(string title,string text,int columnId);
+        Task<Card> Update(Card updatedCard);
+        Task<Card> Delete(int id);
     }
+
 }

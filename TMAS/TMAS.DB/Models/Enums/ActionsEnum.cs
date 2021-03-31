@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TMAS.DB.Models.Enums
 {
-        public enum Actions:byte
+        public enum UserActions:byte
         {
             AddCard=0,
             EditCard=1,

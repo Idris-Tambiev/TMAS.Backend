@@ -7,27 +7,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using TMAS.BLL.Services;
 using TMAS.DB.Models;
+using TMAS.Controllers.Base;
 
 namespace TMAS.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HistoryController : ControllerBase
+    public class HistoryController : BaseController
     {
         HistoryService _historyService;
-        private readonly Base.UserParams _params;
-        public HistoryController (HistoryService service,Base.UserParams userParams)
+        public HistoryController (HistoryService service)
         {
             _historyService = service;
-            _params = userParams;
         }
-
 
         [HttpGet("get")]
         [Authorize]
         public async Task<ActionResult<History>> GetHistory()
         {
-            var id = _params.GetId(HttpContext);
+            var id = GetUserId();
             return Ok(await _historyService.GetAll(id));
         }
 
@@ -35,7 +33,7 @@ namespace TMAS.Controllers
         [Authorize]
         public async Task<ActionResult<History>> CreateNewCard(History history)
         {
-            var id = _params.GetId(HttpContext);
+            var id = GetUserId();
             return Ok(await _historyService.Create(history,id));
         }
     }

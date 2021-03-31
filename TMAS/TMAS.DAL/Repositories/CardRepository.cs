@@ -18,16 +18,16 @@ namespace TMAS.DAL.Repositories
         {
             db = context;
         }
-        public async Task<IEnumerable<Card>> GetAll(int columnId)
+        public IEnumerable<Card> GetAll(int columnId)
         {
             return db.Cards.Where(x => x.ColumnId == columnId);
         }
 
-        public async Task<Card> GetOne(int id)
+        public Card GetOne(int id)
         {
             return db.Cards.FirstOrDefault(i => i.Id == id);
         }
-        public async Task<IEnumerable<Card>> FindCards(Guid id, string search)
+        public IEnumerable<Card> FindCards(Guid id, string search)
         {
             return db.Cards.Where(p => p.Title.Contains(search)).ToList();
         }
@@ -40,7 +40,7 @@ namespace TMAS.DAL.Repositories
             return card;
         }
 
-        public async Task<Card> Update(Card card)
+        public Card Update(Card card)
         {
             Card updatedCard = db.Cards.FirstOrDefault(x => x.Id == card.Id);
             updatedCard.Text = card.Text;

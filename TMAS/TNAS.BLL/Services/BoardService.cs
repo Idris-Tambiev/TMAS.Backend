@@ -34,14 +34,14 @@ namespace TMAS.BLL.Services
             return await _boardRepository.FindBoard(userId,search);
         }
 
-        public async Task<Board> Create(Board board, Guid id)
+        public async Task<Board> Create(string title , Guid id)
         {
             Board createdBoard = new Board
             {
-                Title = board.Title,
+                Title = title,
                 BoardUserId = id,
                 CreatedDate = DateTime.Now,
-                IsActive=board.IsActive
+                IsActive=true
             };
 
             return await _boardRepository.Create(createdBoard);

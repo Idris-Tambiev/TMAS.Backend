@@ -16,23 +16,23 @@ namespace TMAS.BLL.Services
         {
             _cardRepository = repository;
         }
-        public async Task<IEnumerable<Card>> GetAll(int columnId)
+        public IEnumerable<Card> GetAll(int columnId)
         {
-            return await _cardRepository.GetAll(columnId);
+            return _cardRepository.GetAll(columnId);
         }
 
         public async Task<Card> GetOne(int id)
         {
-            return await _cardRepository.GetOne(id);
+            return _cardRepository.GetOne(id);
         }
 
-        public async Task<Card> Create(Card createdCard)
+        public async Task<Card> Create(string title,string text,int columnId)
         {
             var newColumn = new Card
             {
-                Title=createdCard.Title,
-                Text = createdCard.Text,
-                ColumnId = createdCard.ColumnId,
+                Title=title,
+                Text = text,
+                ColumnId = columnId,
                 CreatedDate = DateTime.Now,
                 IsActive = true,
                 IsDone=false
@@ -42,11 +42,11 @@ namespace TMAS.BLL.Services
 
         public async Task<IEnumerable<Card>> FindCard(Guid userId, string search)
         {
-            return await _cardRepository.FindCards(userId, search);
+            return _cardRepository.FindCards(userId, search);
         }
         public async Task<Card> Update(Card updatedCard)
         {
-            return await _cardRepository.Update(updatedCard);
+            return _cardRepository.Update(updatedCard);
         }
 
         public async Task<Card> Delete(int id)

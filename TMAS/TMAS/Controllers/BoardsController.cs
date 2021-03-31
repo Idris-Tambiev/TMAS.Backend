@@ -8,26 +8,27 @@ using TMAS.BLL.Services;
 using TMAS.DB.Models;
 using TMAS.DB.DTO;
 using Microsoft.AspNetCore.Authorization;
+using TMAS.Controllers.Base;
 
 namespace TMAS.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BoardsController : ControllerBase
+    public class BoardsController : BaseController
     {
        private readonly BoardService _boardService;
-       private readonly Base.UserParams _params;
-        public BoardsController(BoardService service,Base.UserParams userParams)
+       //private readonly Base.BaseController _params;
+        public BoardsController(BoardService service)
         {
             _boardService = service;
-            _params = userParams;
+            //_params = userParams;
         }
 
         [HttpGet("get")]
         [Authorize]
         public async Task<IActionResult> GetBoards()
         {
-            var id = _params.GetId(HttpContext);
+            var id = GetUserId();
             return Ok(await _boardService.GetAll(id));
         }
 
@@ -35,23 +36,23 @@ namespace TMAS.Controllers
         [Authorize]
         public async Task<IActionResult> FindBoards(string text)
         {
-            var id = _params.GetId(HttpContext);
+            var id = GetUserId();
             return Ok(await _boardService.FindBoard(id,text));
         }
 
         [HttpPost("create")]
         [Authorize]
-        public async Task<ActionResult<Board>> CreateNewBoard(Board board)
+        public async Task<ActionResult<Board>> CreateNewBoard(string title)
         {
-            var id = _params.GetId(HttpContext);
-            return Ok(await _boardService.Create(board, id));
+            var id = GetUserId();
+            return Ok(await _boardService.Create(title, id));
         }
 
         [HttpPost("update")]
         [Authorize]
         public async Task<ActionResult<Board>> UpdateBoard(Board board)
         {
-            //var idUser = _params.GetId(HttpContext);
+            //var idUser = GetUserId();
             return Ok(await _boardService.Update(board));
         }
 

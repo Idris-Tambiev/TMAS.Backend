@@ -19,11 +19,11 @@ namespace TMAS.DAL.Repositories
             db =context;
         }
 
-        public async Task<IEnumerable<Column>> GetAll(int boardId)
+        public IEnumerable<Column> GetAll(int boardId)
         {
-            return db.Columns.Where(x=>x.BoardId== boardId);
+            return db.Columns.Where(x => x.BoardId == boardId);
         }
-        public async Task<Column> GetOne(int id)
+        public Column GetOne(int id)
         {
             return db.Columns.FirstOrDefault(i => i.Id == id);
         }
@@ -35,7 +35,7 @@ namespace TMAS.DAL.Repositories
             return column;
         }
 
-        public async Task<Column> Update(Column column)
+        public Column Update(Column column)
         {
             Column updatedColumn = db.Columns.FirstOrDefault(x => x.Id == column.Id);
             updatedColumn.Title = column.Title;
@@ -44,7 +44,7 @@ namespace TMAS.DAL.Repositories
             return updatedColumn;
         }
 
-        public async Task<Column> Delete(int id)
+        public Column Delete(int id)
         {
             Column deletedColumn = db.Columns.FirstOrDefault(x => x.Id == id);
             deletedColumn.IsActive = false;

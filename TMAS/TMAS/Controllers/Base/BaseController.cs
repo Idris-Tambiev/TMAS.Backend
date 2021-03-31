@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace TMAS.Controllers.Base
 {
-    public class UserParams:ControllerBase
+    public class BaseController:ControllerBase
     {
 
-        public Guid GetId(HttpContext httpContext)
+        protected Guid GetUserId()
         {
-            var claims = httpContext.User.Claims.ToList();
+            var claims = HttpContext.User.Claims.ToList();
             string[] words = claims[4].ToString().Split(' ');
             Guid id = Guid.Parse(words[1]);
             return id;

@@ -10,20 +10,19 @@ using TMAS.DB.Models;
 using TMAS.DB.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using TMAS.Controllers.Base;
 
 namespace TMAS.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : BaseController
     {
         private readonly UserService _userService;
-        private readonly Base.UserParams _params;
         private readonly UserManager<User> _userManager;
-        public UsersController(UserService service, Base.UserParams param,UserManager<User> userManager)
+        public UsersController(UserService service, UserManager<User> userManager)
         {
             _userService = service;
-            _params = param;
             _userManager = userManager;
         }
 
@@ -43,7 +42,7 @@ namespace TMAS.Controllers
         [Authorize]
         public Guid Test()
         {
-            var id = _params.GetId(HttpContext);
+            var id = GetUserId();
             return id;
         }
     }

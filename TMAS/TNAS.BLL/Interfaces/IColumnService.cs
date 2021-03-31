@@ -8,7 +8,12 @@ using TMAS.DB.Models;
 
 namespace TMAS.BLL.Interfaces
 {
-    public interface IColumnService:IBaseService<Column>, IGetAllByInt<Column>, ICreateWithoutGuid<Column>
+    public interface IColumnService:IBaseService
     {
+        Task<IEnumerable<Column>> GetAll(int boardId);
+        Task<Column> GetOne(int id);
+        Task<Column> Create(string title, int boardId);
+        Task<Column> Update(Column updatedColumn);
+        Task<Column> Delete(int id);
     }
 }

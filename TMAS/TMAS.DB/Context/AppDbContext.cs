@@ -20,78 +20,136 @@ namespace TMAS.DB.Context
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
-            //Database.EnsureDeleted();
-            //Database.EnsureCreated();
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<History>()
-                .Property(e => e.ActionType)
-                .HasConversion<string>();
+            //boards
+            modelBuilder.Entity<Board>()
+                .Property(b => b.Title)
+                .HasColumnType("varchar(100)")
+                .IsRequired();
 
             modelBuilder.Entity<Board>()
-                .Property(u => u.Title)
-                .HasColumnType("varchar(100)");
+               .HasOne(p => p.User)
+               .WithMany(b => b.Boards)
+               .HasForeignKey(b => b.BoardUserId);
 
+            modelBuilder.Entity<Board>()
+                .Property(b => b.CreatedDate)
+                .IsRequired();
+
+            modelBuilder.Entity<Board>()
+                .Property(b => b.UpdatedDate)
+                .IsRequired();
+
+            modelBuilder.Entity<Board>()
+                .Property(b => b.IsActive)
+                .IsRequired();
+
+            //columns
             modelBuilder.Entity<Column>()
                .Property(u => u.Title)
-               .HasColumnType("varchar(100)");
-
-            modelBuilder.Entity<User>()
-               .Property(u => u.Name)
-               .HasColumnType("varchar(30)");
-
-
-            modelBuilder.Entity<User>()
-               .Property(u => u.Lastname)
-               .HasColumnType("varchar(30)");
-
-            modelBuilder.Entity<Card>()
-                .Property(u => u.Title)
-                .HasColumnType("varchar(100)");
-
-            modelBuilder.Entity<Card>()
-                .Property(u => u.Text)
-                .HasColumnType("varchar(5000)");
-
-            modelBuilder.Entity<Board>()
-                .Property(b => b.Title)
-                .IsRequired();
-
-            modelBuilder.Entity<Card>()
-                .Property(b => b.Text)
-                .IsRequired();
-
-            modelBuilder.Entity<Column>()
-                .Property(b => b.Title)
-                .IsRequired();
-
-            modelBuilder.Entity<Board>()
-                .HasOne(p => p.User)
-                .WithMany(b => b.Boards)
-                .HasForeignKey(b => b.BoardUserId);
+               .HasColumnType("varchar(100)")
+               .IsRequired();
 
             modelBuilder.Entity<Column>()
                 .HasOne(p => p.Board)
-                .WithMany(b => b.Columns)
-                .HasForeignKey(b=>b.BoardId);
+                .WithMany(c => c.Columns)
+                .HasForeignKey(b => b.BoardId);
+
+            modelBuilder.Entity<Column>()
+                .Property(c => c.CreatedDate)
+                .IsRequired();
+
+            modelBuilder.Entity<Column>()
+                .Property(c => c.UpdatedDate)
+                .IsRequired();
+
+            modelBuilder.Entity<Column>()
+                .Property(c => c.IsActive)
+                .IsRequired();
+
+            modelBuilder.Entity<Column>()
+                .Property(c => c.OrderBy)
+                .IsRequired();
+
+            //cards
+            modelBuilder.Entity<Card>()
+                .Property(u => u.Title)
+                .HasColumnType("varchar(100)")
+                .IsRequired();
+
+            modelBuilder.Entity<Card>()
+                .Property(u => u.Text)
+                .HasColumnType("varchar(5000)")
+                .IsRequired();
 
             modelBuilder.Entity<Card>()
                 .HasOne(p => p.Column)
                 .WithMany(b => b.Cards);
 
+            modelBuilder.Entity<Card>()
+                .Property(c => c.CreatedDate)
+                .IsRequired();
+
+            modelBuilder.Entity<Card>()
+                .Property(c => c.UpdatedDate)
+                .IsRequired();
+
+            modelBuilder.Entity<Card>()
+                .Property(c => c.IsActive)
+                .IsRequired();
+
+            modelBuilder.Entity<Card>()
+                .Property(c => c.OrderBy)
+                .IsRequired();
+
+            modelBuilder.Entity<Card>()
+                .Property(c => c.IsDone)
+                .IsRequired();
+
+
+            //history
             modelBuilder.Entity<History>()
                 .HasOne(p => p.User)
                 .WithMany(b => b.Histories)
                 .HasForeignKey(b => b.AuthorId);
 
-
             modelBuilder.Entity<History>()
                 .Property(u => u.ActionObject)
-                .HasColumnType("varchar(100)");
+                .HasColumnType("varchar(100)")
+                .IsRequired();
+
+            modelBuilder.Entity<History>()
+                .Property(e => e.ActionType)
+                .HasConversion<byte>()
+                .IsRequired();
+
+            modelBuilder.Entity<History>()
+                .Property(e => e.CreatedDate)
+                .IsRequired();
+
+            modelBuilder.Entity<History>()
+                .Property(e => e.UpdatedDate)
+                .IsRequired();
+
+            //user
+            modelBuilder.Entity<User>()
+               .Property(u => u.Name)
+               .HasColumnType("varchar(30)")
+               .IsRequired();
+
+
+            modelBuilder.Entity<User>()
+               .Property(u => u.Lastname)
+               .HasColumnType("varchar(30)")
+               .IsRequired();
+
         }
     }
 }

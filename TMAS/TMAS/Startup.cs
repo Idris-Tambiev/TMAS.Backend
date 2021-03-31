@@ -88,7 +88,7 @@ namespace TMAS
             services.AddScoped<CardRepository>();
             services.AddScoped<ColumnRepository>();
             services.AddScoped<HistoryRepository>();
-            services.AddScoped<Controllers.Base.UserParams>();
+            services.AddScoped<Controllers.Base.BaseController>();
 
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("TMAS.DB")));

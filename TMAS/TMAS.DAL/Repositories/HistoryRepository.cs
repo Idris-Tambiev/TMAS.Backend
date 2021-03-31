@@ -20,28 +20,19 @@ namespace TMAS.DAL.Repositories
         }
         public async Task<IEnumerable<History>> GetAll(Guid userId)
         {
-            return db.Histories.Where(x=>x.AuthorId==userId);
+            return await db.Histories.Where(x=>x.AuthorId==userId).ToListAsync();
         }
         public async Task<History> GetOne(int id)
         {
-            return db.Histories.FirstOrDefault(i => i.Id == id);
+            return await db.Histories.FirstOrDefaultAsync(i => i.Id == id);
         }
 
-        public async Task<History> Create(History history)
+        public History Create(History history)
         {
             db.Histories.Add(history);
             db.SaveChanges();
             return history;
         }
 
-        public async Task<History> Update(History history)
-        {
-            return default;
-        }
-
-        public async Task<History> Delete(int id)
-        {
-            return default;
-        }
     }
 }

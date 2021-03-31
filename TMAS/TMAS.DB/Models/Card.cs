@@ -16,10 +16,9 @@ namespace TMAS.DB.Models
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public string Title { get; set; }
+        public int OrderBy { get; set; }
         public string Text { get; set; }
         public Boolean IsDone { get; set; }
-
-        [Required]
         public Boolean IsActive { get; set; }
         public int ColumnId { get; set; }
         public Column Column { get; set; }

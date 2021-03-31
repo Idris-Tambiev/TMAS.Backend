@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TMAS.DB.Context;
 
 namespace TMAS.DB.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210331121636_NewMigartionrequired223")]
+    partial class NewMigartionrequired223
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -311,6 +313,7 @@ namespace TMAS.DB.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Lastname")
+                        .IsRequired()
                         .HasColumnType("varchar(30)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -320,6 +323,7 @@ namespace TMAS.DB.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("varchar(30)");
 
                     b.Property<string>("NormalizedEmail")

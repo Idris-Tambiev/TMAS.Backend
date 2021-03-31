@@ -20,19 +20,19 @@ namespace TMAS.BLL.Services
 
         public async Task<IEnumerable<Column>> GetAll(int boardId)
         {
-            return await _columnRepository.GetAll(boardId);
+            return _columnRepository.GetAll(boardId);
         }
         public async Task<Column> GetOne(int id)
         {
-            return await _columnRepository.GetOne(id);
+            return _columnRepository.GetOne(id);
         }
 
-        public async Task<Column> Create(Column createdColumn)
+        public async Task<Column> Create(string title, int boardId)
         {
             var newColumn = new Column
             {
-                Title = createdColumn.Title,
-                BoardId = createdColumn.BoardId,
+                Title = title,
+                BoardId = boardId,
                 CreatedDate =DateTime.Now,
                 IsActive=true
         };
@@ -41,13 +41,13 @@ namespace TMAS.BLL.Services
 
         public async Task<Column> Update(Column updatedColumn)
         {
-            return await _columnRepository.Update(updatedColumn);
+            return _columnRepository.Update(updatedColumn);
         }
 
 
         public async Task<Column> Delete(int id)
         {
-            return await _columnRepository.Delete(id);
+            return _columnRepository.Delete(id);
         }
     }
 }
