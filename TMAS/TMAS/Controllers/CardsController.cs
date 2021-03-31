@@ -22,7 +22,7 @@ namespace TMAS.Controllers
             _params = userParams;
         }
 
-        [HttpGet("/search/cards")]
+        [HttpGet("search")]
         [Authorize]
         public IActionResult FindBoards(string text)
         {
@@ -30,28 +30,28 @@ namespace TMAS.Controllers
             return Ok(_cardsService.FindCard(id, text));
 
         }
-        [HttpGet("/get/cards")]
+        [HttpGet("get")]
         [Authorize]
         public async Task<ActionResult<Card>> GetCards(int id)
         {
             return Ok(_cardsService.GetAll(id));
         }
 
-        [HttpPost("/create/card")]
+        [HttpPost("create")]
         [Authorize]
         public async Task<ActionResult<Card>> CreateNewCard(Card card)
         {
             return Ok(await _cardsService.Create(card));
         }
 
-        [HttpPost("/update/card")]
+        [HttpPost("update")]
         [Authorize]
         public async Task<ActionResult<Card>> UpdateCard(Card card)
         {
             return Ok(await _cardsService.Update(card));
         }
 
-        [HttpPost("/delete/card")]
+        [HttpPost("delete")]
         [Authorize]
         public async Task<ActionResult<Card>> DeleteCard(int id)
         {

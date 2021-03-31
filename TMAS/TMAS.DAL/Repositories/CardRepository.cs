@@ -28,7 +28,7 @@ namespace TMAS.DAL.Repositories
         }
         public IEnumerable<Card> FindCards(Guid id, string search)
         {
-            return db.Cards.Where(p => p.Title.Contains(search) && p.UserId == id).ToList();
+            return db.Cards.Where(p => p.Title.Contains(search)).ToList();
         }
 
 

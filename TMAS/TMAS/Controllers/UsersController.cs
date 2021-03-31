@@ -27,19 +27,19 @@ namespace TMAS.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost("/login/user")]
+        [HttpPost("login")]
         public async Task<ActionResult<User>> Login (User model)
         {
             return Ok(await _userService.GetOneByEmail(model));
         }
 
-        [HttpPost("/create/user")]
+        [HttpPost("create")]
         public async Task<ActionResult<User>> Registrate(RegistrateUserDto model)
         {
             return Ok(await _userService.Create(model));
         }
 
-        [HttpGet("test")]
+        [HttpGet("/test")]
         [Authorize]
         public Guid Test()
         {

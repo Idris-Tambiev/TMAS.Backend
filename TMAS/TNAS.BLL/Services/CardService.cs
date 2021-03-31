@@ -16,9 +16,9 @@ namespace TMAS.BLL.Services
         {
             _cardRepository = repository;
         }
-        public IEnumerable<Card> GetAll(int boardId)
+        public IEnumerable<Card> GetAll(int columnId)
         {
-            return _cardRepository.GetAll(boardId);
+            return _cardRepository.GetAll(columnId);
         }
 
         public Card GetOne(int id)

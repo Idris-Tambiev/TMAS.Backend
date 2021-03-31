@@ -23,7 +23,7 @@ namespace TMAS.Controllers
             _params = userParams;
         }
 
-        [HttpGet("/get/boards")]
+        [HttpGet("get")]
         [Authorize]
         public IActionResult GetBoards()
         {
@@ -31,7 +31,7 @@ namespace TMAS.Controllers
             return Ok(_boardService.GetAll(id));
         }
 
-        [HttpGet("/search/boards")]
+        [HttpGet("search")]
         [Authorize]
         public IActionResult FindBoards(string text)
         {
@@ -39,7 +39,7 @@ namespace TMAS.Controllers
             return Ok(_boardService.FindBoard(id,text));
         }
 
-        [HttpPost("/create/board")]
+        [HttpPost("create")]
         [Authorize]
         public async Task<ActionResult<Board>> CreateNewBoard(string title)
         {
@@ -47,7 +47,7 @@ namespace TMAS.Controllers
             return Ok(await _boardService.Create(title,id));
         }
 
-        [HttpPost("/update/board")]
+        [HttpPost("update")]
         [Authorize]
         public async Task<ActionResult<Board>> UpdateBoard(Board board)
         {
@@ -55,7 +55,7 @@ namespace TMAS.Controllers
             return Ok(_boardService.Update(board));
         }
 
-        [HttpPost("/delete/board")]
+        [HttpPost("delete")]
         [Authorize]
         public async Task<ActionResult<Board>> DeleteBoard(int id)
         {

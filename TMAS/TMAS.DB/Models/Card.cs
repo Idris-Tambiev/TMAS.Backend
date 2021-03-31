@@ -24,7 +24,5 @@ namespace TMAS.DB.Models
         public int ColumnId { get; set; }
         public Column Column { get; set; }
 
-        public Guid UserId { get; set; }
-        public User User { get; set; }
     }
 }

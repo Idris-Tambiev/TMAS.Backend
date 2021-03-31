@@ -83,11 +83,6 @@ namespace TMAS.DB.Context
                 .HasOne(p => p.Column)
                 .WithMany(b => b.Cards);
 
-            modelBuilder.Entity<Card>()
-                .HasOne(p => p.User)
-                .WithMany(b => b.Cards)
-                .HasForeignKey(b => b.UserId);
-
             modelBuilder.Entity<History>()
                 .HasOne(p => p.User)
                 .WithMany(b => b.Histories)

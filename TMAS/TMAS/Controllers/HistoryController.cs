@@ -23,7 +23,7 @@ namespace TMAS.Controllers
         }
 
 
-        [HttpGet("/get/history")]
+        [HttpGet("get")]
         [Authorize]
         public async Task<ActionResult<History>> GetHistory()
         {
@@ -31,7 +31,7 @@ namespace TMAS.Controllers
             return Ok(_historyService.GetAll(id));
         }
 
-        [HttpPost("/create/history")]
+        [HttpPost("create")]
         [Authorize]
         public async Task<ActionResult<History>> CreateNewCard(int actionId,string text)
         {
