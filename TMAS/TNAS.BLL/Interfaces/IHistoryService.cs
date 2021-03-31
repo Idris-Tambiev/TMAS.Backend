@@ -8,7 +8,7 @@ using TMAS.DB.Models;
 
 namespace TMAS.BLL.Interfaces
 {
-    public interface IHistoryService:IBaseService<History>
+    public interface IHistoryService:IBaseService<History>,IGetAllByGuid<History>, ICreateWithGuid<History>
     {
     }
 }

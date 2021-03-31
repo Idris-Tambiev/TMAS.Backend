@@ -8,7 +8,7 @@ using TMAS.DB.Models;
 
 namespace TMAS.BLL.Interfaces
 {
-    public interface ICardService:IBaseService<Card>
+    public interface ICardService:IBaseService<Card>,IGetAllByInt<Card>,ICreateWithoutGuid<Card>
     {
         // Card FindCard(string card);
         Task<Card> Create(Card createdCard);

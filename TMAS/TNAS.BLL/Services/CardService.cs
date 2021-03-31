@@ -9,7 +9,7 @@ using TMAS.DB.Models;
 
 namespace TMAS.BLL.Services
 {
-    public class CardService//:ICardService
+    public class CardService:ICardService
     {
         private readonly CardRepository _cardRepository;
         public CardService(CardRepository repository)

@@ -25,7 +25,7 @@ namespace TMAS.DAL.Repositories
         }
         public Column GetOne(int id)
         {
-            return db.Columns.Find(id);
+            return db.Columns.FirstOrDefault(i => i.Id == id);
         }
 
         public async Task<Column> Create(Column column)

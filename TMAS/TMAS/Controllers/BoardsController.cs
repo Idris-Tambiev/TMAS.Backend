@@ -41,12 +41,16 @@ namespace TMAS.Controllers
 
         [HttpPost("create")]
         [Authorize]
-        public async Task<ActionResult<Board>> CreateNewBoard(string title)
+        //public async Task<ActionResult<Board>> CreateNewBoard(string title)
+        //{
+        //    var id = _params.GetId(HttpContext);
+        //    return Ok(await _boardService.Create(title,id));
+        //}
+        public async Task<ActionResult<Board>> CreateNewBoard(Board board)
         {
             var id = _params.GetId(HttpContext);
-            return Ok(await _boardService.Create(title,id));
+            return Ok(await _boardService.Create(board, id));
         }
-
         [HttpPost("update")]
         [Authorize]
         public async Task<ActionResult<Board>> UpdateBoard(Board board)

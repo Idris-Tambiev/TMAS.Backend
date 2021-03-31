@@ -24,7 +24,7 @@ namespace TMAS.DAL.Repositories
         }
         public Board GetOne(int id)
         {
-            return db.Boards.Find(id);
+            return db.Boards.FirstOrDefault(i=>i.Id==id);
         }
 
         public IEnumerable<Board> FindBoard(Guid id,string search)
@@ -39,7 +39,7 @@ namespace TMAS.DAL.Repositories
            return board;
         }
 
-        public Board Update(Board board)
+        public async Task<Board> Update(Board board)
         {
             Board updatedBoard = db.Boards.FirstOrDefault(x => x.Id == board.Id);
             updatedBoard.Title = board.Title;

@@ -24,7 +24,7 @@ namespace TMAS.DAL.Repositories
         }
         public Card GetOne(int id)
         {
-            return db.Cards.Find(id);
+            return db.Cards.FirstOrDefault(i => i.Id == id);
         }
         public IEnumerable<Card> FindCards(Guid id, string search)
         {

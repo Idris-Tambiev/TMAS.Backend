@@ -9,7 +9,7 @@ using TMAS.DB.Models;
 
 namespace TMAS.BLL.Services
 {
-    public class HistoryService//:IHistoryService
+    public class HistoryService:IHistoryService
     {
         private readonly HistoryRepository _historyRepository;
         public HistoryService(HistoryRepository repository)
@@ -26,27 +26,28 @@ namespace TMAS.BLL.Services
             return default;
         }
 
-        public async Task<History> Create(int actionId,string actionObject,Guid userId)
+        public async Task<History> Create(History history,Guid userId)
         {
             var newHistory = new History
             {
-                ActionType = (DB.Models.Enums.Actions)actionId,
+                ActionType = history.ActionType,
                 AuthorId = userId,
                 CreatedDate = DateTime.Now,
-                ActionObject = actionObject
+                ActionObject = history.ActionObject
 
             };
             return  _historyRepository.Create(newHistory);
         }
 
-        public void Update(History board)
+        public Task<History> Update(History board)
         {
-
+            return default;
         }
 
-        public void Delete(int id)
-        {
 
+        public History Delete(int id)
+        {
+            return default;
         }
 
     }

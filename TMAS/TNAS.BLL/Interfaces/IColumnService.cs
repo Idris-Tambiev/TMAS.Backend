@@ -8,7 +8,7 @@ using TMAS.DB.Models;
 
 namespace TMAS.BLL.Interfaces
 {
-    public interface IColumnService:IBaseService<Column>
+    public interface IColumnService:IBaseService<Column>, IGetAllByInt<Column>, ICreateWithoutGuid<Column>
     {
     }
 }

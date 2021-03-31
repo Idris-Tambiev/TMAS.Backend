@@ -10,7 +10,7 @@ using TMAS.BLL.Interfaces.BaseInterfaces;
 
 namespace TMAS.BLL.Services
 {
-    public class ColumnService//: IColumnService
+    public class ColumnService: IColumnService
     {
         private readonly ColumnRepository _columnRepository;
         public ColumnService(ColumnRepository repository)

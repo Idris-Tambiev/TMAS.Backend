@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace TMAS.BLL.Interfaces.BaseInterfaces
 {
-    public interface IBaseService<T>
+    public interface IGetAllByInt<T>
     {
-        T GetOne(int id);
-        Task<T> Update(T item);
-        T Delete(int id);
+        IEnumerable<T> GetAll(int id);
     }
 }

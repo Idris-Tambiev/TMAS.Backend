@@ -24,7 +24,7 @@ namespace TMAS.DAL.Repositories
         }
         public History GetOne(int id)
         {
-            return db.Histories.Find(id);
+            return db.Histories.FirstOrDefault(i => i.Id == id);
         }
 
         public History Create(History history)
