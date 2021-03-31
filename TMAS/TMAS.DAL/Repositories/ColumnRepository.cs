@@ -10,7 +10,7 @@ using TMAS.DAL.Interfaces.BaseInterfaces;
 
 namespace TMAS.DAL.Repositories
 {
-    public class ColumnRepository//:IColumnRepository
+    public class ColumnRepository:IColumnRepository
     {
         private AppDbContext db;
 
@@ -19,11 +19,11 @@ namespace TMAS.DAL.Repositories
             db =context;
         }
 
-        public IEnumerable<Column> GetAll(int boardId)
+        public async Task<IEnumerable<Column>> GetAll(int boardId)
         {
             return db.Columns.Where(x=>x.BoardId== boardId);
         }
-        public Column GetOne(int id)
+        public async Task<Column> GetOne(int id)
         {
             return db.Columns.FirstOrDefault(i => i.Id == id);
         }
@@ -44,7 +44,7 @@ namespace TMAS.DAL.Repositories
             return updatedColumn;
         }
 
-        public Column Delete(int id)
+        public async Task<Column> Delete(int id)
         {
             Column deletedColumn = db.Columns.FirstOrDefault(x => x.Id == id);
             deletedColumn.IsActive = false;

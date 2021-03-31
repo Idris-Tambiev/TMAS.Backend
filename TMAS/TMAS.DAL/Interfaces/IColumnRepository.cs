@@ -8,7 +8,7 @@ using TMAS.DAL.Interfaces.BaseInterfaces;
 
 namespace TMAS.DAL.Interfaces
 {
-    public interface IColumnRepository:IBaseRepository<Column>
+    public interface IColumnRepository:IBaseRepository<Column>,IGetAllByInt<Column>
     {
 
     }

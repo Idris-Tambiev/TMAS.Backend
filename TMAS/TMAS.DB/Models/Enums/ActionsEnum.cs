@@ -10,7 +10,7 @@ namespace TMAS.DB.Models.Enums
         {
             AddCard=0,
             EditCard=1,
-            DeletCard=2,
+            DeleteCard=2,
             AddColumn=3,
             EditColumn=4,
             DeleteColumn=5,

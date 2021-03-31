@@ -182,14 +182,9 @@ namespace TMAS.DB.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ColumnId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Cards");
                 });
@@ -426,15 +421,7 @@ namespace TMAS.DB.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TMAS.DB.Models.User", "User")
-                        .WithMany("Cards")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Column");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TMAS.DB.Models.Column", b =>
@@ -472,8 +459,6 @@ namespace TMAS.DB.Migrations
             modelBuilder.Entity("TMAS.DB.Models.User", b =>
                 {
                     b.Navigation("Boards");
-
-                    b.Navigation("Cards");
 
                     b.Navigation("Histories");
                 });

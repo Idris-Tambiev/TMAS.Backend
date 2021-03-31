@@ -10,7 +10,7 @@ using TMAS.DAL.Interfaces.BaseInterfaces;
 
 namespace TMAS.DAL.Repositories
 {
-    public class CardRepository//:ICardRepository
+    public class CardRepository:ICardRepository
     {
         private AppDbContext db;
 
@@ -18,15 +18,16 @@ namespace TMAS.DAL.Repositories
         {
             db = context;
         }
-        public IEnumerable<Card> GetAll(int columnId)
+        public async Task<IEnumerable<Card>> GetAll(int columnId)
         {
             return db.Cards.Where(x => x.ColumnId == columnId);
         }
-        public Card GetOne(int id)
+
+        public async Task<Card> GetOne(int id)
         {
             return db.Cards.FirstOrDefault(i => i.Id == id);
         }
-        public IEnumerable<Card> FindCards(Guid id, string search)
+        public async Task<IEnumerable<Card>> FindCards(Guid id, string search)
         {
             return db.Cards.Where(p => p.Title.Contains(search)).ToList();
         }
@@ -48,7 +49,7 @@ namespace TMAS.DAL.Repositories
             return updatedCard;
         }
 
-        public Card Delete(int id)
+        public async Task<Card> Delete(int id)
         {
             Card deletedCard = db.Cards.FirstOrDefault(x => x.Id == id);
             deletedCard.IsActive = false;

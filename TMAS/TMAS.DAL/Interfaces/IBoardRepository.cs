@@ -8,9 +8,9 @@ using TMAS.DAL.Interfaces.BaseInterfaces;
 
 namespace TMAS.DAL.Interfaces
 {
-    public interface IBoardRepository:IBaseRepository<Board>
+    public interface IBoardRepository:IBaseRepository<Board>,IGetAllByGuid<Board>
     {
-        Board FindBoard(string name);
+        Task<IEnumerable<Board>> FindBoard(Guid id,string name);
     }
 
 }

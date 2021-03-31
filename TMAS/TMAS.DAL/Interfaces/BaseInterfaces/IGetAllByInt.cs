@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TMAS.BLL.Interfaces.BaseInterfaces
+namespace TMAS.DAL.Interfaces.BaseInterfaces
 {
-    public interface IGetAllByGuid<T>
+    public interface IGetAllByInt<T>
     {
-        Task<IEnumerable<T>> GetAll(Guid id);
+        Task<IEnumerable<T>> GetAll(int id);
     }
 }

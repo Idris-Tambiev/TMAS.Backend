@@ -20,18 +20,18 @@ namespace TMAS.BLL.Services
             _boardRepository = repository;
         }
 
-        public IEnumerable<Board> GetAll(Guid userId)
+        public async Task<IEnumerable<Board>> GetAll(Guid userId)
         {
-            return _boardRepository.GetAll(userId);
+            return await _boardRepository.GetAll(userId);
         }
-        public Board GetOne(int id)
+        public async Task<Board> GetOne(int id)
         {
-            return _boardRepository.GetOne(id);
+            return await _boardRepository.GetOne(id);
         }
 
-        public IEnumerable<Board> FindBoard(Guid userId,string search)
+        public async Task<IEnumerable<Board>> FindBoard(Guid userId,string search)
         {
-            return _boardRepository.FindBoard(userId,search);
+            return await _boardRepository.FindBoard(userId,search);
         }
 
         public async Task<Board> Create(Board board, Guid id)
@@ -52,9 +52,9 @@ namespace TMAS.BLL.Services
             return await _boardRepository.Update(board);
         }
 
-        public Board Delete(int id)
+        public async Task<Board> Delete(int id)
         {
-            return _boardRepository.Delete(id);
+            return await _boardRepository.Delete(id);
         }
 
 

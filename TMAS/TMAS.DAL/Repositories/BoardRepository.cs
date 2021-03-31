@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TMAS.DAL.Repositories
 {
-    public class BoardRepository //: //IBoardRepository
+    public class BoardRepository : IBoardRepository
     {
         AppDbContext db;
 
@@ -18,16 +18,16 @@ namespace TMAS.DAL.Repositories
         {
             db = context;
         }
-        public IEnumerable<Board> GetAll(Guid userId)
+        public async Task<IEnumerable<Board>> GetAll(Guid userId)
         {
             return db.Boards.Where(x=>x.BoardUserId==userId);
         }
-        public Board GetOne(int id)
+        public async Task<Board> GetOne(int id)
         {
             return db.Boards.FirstOrDefault(i=>i.Id==id);
         }
 
-        public IEnumerable<Board> FindBoard(Guid id,string search)
+        public async Task<IEnumerable<Board>> FindBoard(Guid id,string search)
         {
             return db.Boards.Where(p => p.Title.Contains(search) && p.BoardUserId==id).ToList();
         }
@@ -48,7 +48,7 @@ namespace TMAS.DAL.Repositories
             return updatedBoard;
         }
 
-        public Board Delete(int id)
+        public async Task<Board> Delete(int id)
         {
             Board deletedBoard = db.Boards.FirstOrDefault(x => x.Id == id);
             deletedBoard.IsActive = false;

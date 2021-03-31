@@ -8,6 +8,6 @@ namespace TMAS.BLL.Interfaces.BaseInterfaces
 {
     public interface IGetAllByInt<T>
     {
-        IEnumerable<T> GetAll(int id);
+        Task<IEnumerable<T>> GetAll(int id);
     }
 }

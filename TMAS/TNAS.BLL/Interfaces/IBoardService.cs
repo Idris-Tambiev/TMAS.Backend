@@ -10,6 +10,6 @@ namespace TMAS.BLL.Interfaces
 {
     public interface IBoardService:IBaseService<Board>,IGetAllByGuid<Board>,ICreateWithGuid<Board>
     {
-        IEnumerable<Board> FindBoard(Guid userId, string search);
+        Task<IEnumerable<Board>> FindBoard(Guid userId, string search);
     }
 }

@@ -8,7 +8,7 @@ using TMAS.DAL.Interfaces.BaseInterfaces;
 
 namespace TMAS.DAL.Interfaces
 {
-    public interface IHistoryRepository:IBaseRepository<History>
+    public interface IHistoryRepository:IBaseRepository<History>,IGetAllByGuid<History>
     {
 
     }

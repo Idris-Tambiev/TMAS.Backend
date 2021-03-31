@@ -39,7 +39,7 @@ namespace TMAS.Controllers
             return Ok(await _userService.Create(model));
         }
 
-        [HttpGet("/test")]
+        [HttpGet("test")]
         [Authorize]
         public Guid Test()
         {

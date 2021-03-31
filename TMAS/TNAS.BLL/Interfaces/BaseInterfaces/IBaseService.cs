@@ -8,8 +8,8 @@ namespace TMAS.BLL.Interfaces.BaseInterfaces
 {
     public interface IBaseService<T>
     {
-        T GetOne(int id);
+        Task<T> GetOne(int id);
         Task<T> Update(T item);
-        T Delete(int id);
+        Task<T> Delete(int id);
     }
 }

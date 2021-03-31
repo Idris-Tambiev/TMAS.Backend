@@ -18,13 +18,13 @@ namespace TMAS.BLL.Services
             _columnRepository = repository;
         }
 
-        public IEnumerable<Column> GetAll(int boardId)
+        public async Task<IEnumerable<Column>> GetAll(int boardId)
         {
-            return _columnRepository.GetAll(boardId);
+            return await _columnRepository.GetAll(boardId);
         }
-        public Column GetOne(int id)
+        public async Task<Column> GetOne(int id)
         {
-            return _columnRepository.GetOne(id);
+            return await _columnRepository.GetOne(id);
         }
 
         public async Task<Column> Create(Column createdColumn)
@@ -45,9 +45,9 @@ namespace TMAS.BLL.Services
         }
 
 
-        public Column Delete(int id)
+        public async Task<Column> Delete(int id)
         {
-            return _columnRepository.Delete(id);
+            return await _columnRepository.Delete(id);
         }
     }
 }

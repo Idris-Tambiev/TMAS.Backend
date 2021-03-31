@@ -25,45 +25,41 @@ namespace TMAS.Controllers
 
         [HttpGet("get")]
         [Authorize]
-        public IActionResult GetBoards()
+        public async Task<IActionResult> GetBoards()
         {
             var id = _params.GetId(HttpContext);
-            return Ok(_boardService.GetAll(id));
+            return Ok(await _boardService.GetAll(id));
         }
 
         [HttpGet("search")]
         [Authorize]
-        public IActionResult FindBoards(string text)
+        public async Task<IActionResult> FindBoards(string text)
         {
             var id = _params.GetId(HttpContext);
-            return Ok(_boardService.FindBoard(id,text));
+            return Ok(await _boardService.FindBoard(id,text));
         }
 
         [HttpPost("create")]
         [Authorize]
-        //public async Task<ActionResult<Board>> CreateNewBoard(string title)
-        //{
-        //    var id = _params.GetId(HttpContext);
-        //    return Ok(await _boardService.Create(title,id));
-        //}
         public async Task<ActionResult<Board>> CreateNewBoard(Board board)
         {
             var id = _params.GetId(HttpContext);
             return Ok(await _boardService.Create(board, id));
         }
+
         [HttpPost("update")]
         [Authorize]
         public async Task<ActionResult<Board>> UpdateBoard(Board board)
         {
             //var idUser = _params.GetId(HttpContext);
-            return Ok(_boardService.Update(board));
+            return Ok(await _boardService.Update(board));
         }
 
         [HttpPost("delete")]
         [Authorize]
         public async Task<ActionResult<Board>> DeleteBoard(int id)
         {
-            return Ok(_boardService.Delete(id));
+            return Ok(await _boardService.Delete(id));
         }
     }
 }

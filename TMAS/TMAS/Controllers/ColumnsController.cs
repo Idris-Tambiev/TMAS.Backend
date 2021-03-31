@@ -25,7 +25,7 @@ namespace TMAS.Controllers
         [Authorize]
         public async Task<ActionResult<Column>> GetColumns(int id)
         {
-            return Ok(_columnService.GetAll(id));
+            return Ok(await _columnService.GetAll(id));
         }
 
         [HttpPost("create")]
@@ -46,7 +46,7 @@ namespace TMAS.Controllers
         [Authorize]
         public async Task<ActionResult<Column>> DeleteColumn(int id)
         {
-            return Ok(_columnService.Delete(id));
+            return Ok(await _columnService.Delete(id));
         }
     }
 }

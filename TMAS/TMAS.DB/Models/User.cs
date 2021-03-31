@@ -18,6 +18,5 @@ namespace TMAS.DB.Models
         public string Lastname { get; set; }
         public List<Board> Boards { get; set; }
         public List<History> Histories { get; set; }
-        public List<Card> Cards { get; set; }
     }
 }

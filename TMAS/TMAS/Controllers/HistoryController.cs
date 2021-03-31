@@ -28,7 +28,7 @@ namespace TMAS.Controllers
         public async Task<ActionResult<History>> GetHistory()
         {
             var id = _params.GetId(HttpContext);
-            return Ok(_historyService.GetAll(id));
+            return Ok(await _historyService.GetAll(id));
         }
 
         [HttpPost("create")]

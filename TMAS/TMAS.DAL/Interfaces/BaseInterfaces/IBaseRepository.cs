@@ -8,10 +8,10 @@ namespace TMAS.DAL.Interfaces.BaseInterfaces
 {
     public interface IBaseRepository<T>
     {
-        IEnumerable<T> GetAll(int id);
-        T GetOne(int id);
-        T Create(T item);
-        T Update(T item);
-        T Delete(int id);
+        //IEnumerable<T> GetAll(int id);
+        Task<T> GetOne(int id);
+        Task<T> Create(T item);
+        Task<T> Update(T item);
+        Task<T> Delete(int id);
     }
 }

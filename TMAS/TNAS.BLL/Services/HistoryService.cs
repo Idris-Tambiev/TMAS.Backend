@@ -16,13 +16,13 @@ namespace TMAS.BLL.Services
         {
             _historyRepository = repository;
         }
-        public IEnumerable<History> GetAll(Guid userId)
+        public async Task<IEnumerable<History>> GetAll(Guid userId)
         {
-            return _historyRepository.GetAll(userId);
+            return await _historyRepository.GetAll(userId);
         }
-        public History GetOne(int id)
+        public async Task<History> GetOne(int id)
         {
-            //return _cardRepository.GetOne(id);
+
             return default;
         }
 
@@ -36,16 +36,16 @@ namespace TMAS.BLL.Services
                 ActionObject = history.ActionObject
 
             };
-            return  _historyRepository.Create(newHistory);
+            return await  _historyRepository.Create(newHistory);
         }
 
-        public Task<History> Update(History board)
+        public async Task<History> Update(History board)
         {
             return default;
         }
 
 
-        public History Delete(int id)
+        public async Task<History> Delete(int id)
         {
             return default;
         }

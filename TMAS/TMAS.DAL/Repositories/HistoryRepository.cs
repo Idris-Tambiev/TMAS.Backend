@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TMAS.DAL.Repositories
 {
-    public class HistoryRepository//:IHistoryRepository
+    public class HistoryRepository:IHistoryRepository
     {
         private AppDbContext db;
 
@@ -18,32 +18,30 @@ namespace TMAS.DAL.Repositories
         {
             db = context;
         }
-        public IEnumerable<History> GetAll(Guid userId)
+        public async Task<IEnumerable<History>> GetAll(Guid userId)
         {
             return db.Histories.Where(x=>x.AuthorId==userId);
         }
-        public History GetOne(int id)
+        public async Task<History> GetOne(int id)
         {
             return db.Histories.FirstOrDefault(i => i.Id == id);
         }
 
-        public History Create(History history)
+        public async Task<History> Create(History history)
         {
             db.Histories.Add(history);
             db.SaveChanges();
             return history;
         }
 
-        public void Update(History history)
+        public async Task<History> Update(History history)
         {
-             db.Entry(history).State = EntityState.Modified;
+            return default;
         }
 
-        public void Delete(int id)
+        public async Task<History> Delete(int id)
         {
-            History history = db.Histories.Find(id);
-            if (history != null)
-                db.Histories.Remove(history);
+            return default;
         }
     }
 }

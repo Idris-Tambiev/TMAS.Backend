@@ -8,8 +8,8 @@ using TMAS.DAL.Interfaces.BaseInterfaces;
 
 namespace TMAS.DAL.Interfaces
 {
-    public interface ICardRepository:IBaseRepository<Card>
+    public interface ICardRepository:IBaseRepository<Card>,IGetAllByInt<Card>
     {
-        Card FindCard(string card);
+        Task<IEnumerable<Card>> FindCards(Guid id, string card);
     }
 }
