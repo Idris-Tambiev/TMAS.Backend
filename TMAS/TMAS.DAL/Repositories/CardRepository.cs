@@ -27,9 +27,12 @@ namespace TMAS.DAL.Repositories
         {
             return db.Cards.FirstOrDefault(i => i.Id == id);
         }
-        public IEnumerable<Card> FindCards(Guid id, string search)
+        public IEnumerable<Card> FindCards(int boardId, string search)
         {
-            return db.Cards.Where(p => p.Title.Contains(search)).ToList();
+            var a = db.Boards.SelectMany(s=>s.Columns.SelectMany(s=>s.Title)).ToList();
+                //.Where(p => p.Title.Contains(search))
+                //.ToList();
+            return (IEnumerable<Card>)a;
         }
 
 

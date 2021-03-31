@@ -23,10 +23,9 @@ namespace TMAS.Controllers
 
         [HttpGet("search")]
         [Authorize]
-        public async Task<IActionResult> FindBoards(string text)
+        public async Task<IActionResult> FindBoards(int boardId,string text)
         {
-            var id = GetUserId();
-            return Ok(await _cardsService.FindCard(id, text));
+            return Ok(await _cardsService.FindCard(boardId, text));
 
         }
         [HttpGet("get")]

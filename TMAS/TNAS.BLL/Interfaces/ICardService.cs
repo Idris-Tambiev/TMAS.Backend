@@ -11,7 +11,7 @@ namespace TMAS.BLL.Interfaces
     public interface ICardService:IBaseService
     {
 
-        Task<IEnumerable<Card>> FindCard(Guid userId, string search);
+        Task<IEnumerable<Card>> FindCard(int id, string search);
         IEnumerable<Card> GetAll(int columnId);
         Task<Card> GetOne(int id);
         Task<Card> Create(string title,string text,int columnId);
