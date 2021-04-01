@@ -26,8 +26,8 @@ namespace TMAS.Controllers
         public async Task<IActionResult> FindBoards(int boardId,string text)
         {
             return Ok(await _cardsService.FindCard(boardId, text));
-
         }
+
         [HttpGet("get")]
         [Authorize]
         public async Task<ActionResult<Card>> GetCards(int id)
@@ -41,7 +41,6 @@ namespace TMAS.Controllers
         {
             return Ok(await _cardsService.GetOne(cardId));
         }
-
 
         [HttpPost("create")]
         [Authorize]
