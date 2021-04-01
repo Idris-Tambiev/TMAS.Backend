@@ -9,7 +9,6 @@ namespace TMAS.Controllers.Base
 {
     public class BaseController:ControllerBase
     {
-
         protected Guid GetUserId()
         {
             var claims = HttpContext.User.Claims.ToList();

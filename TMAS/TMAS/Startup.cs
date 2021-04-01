@@ -91,7 +91,7 @@ namespace TMAS
             services.AddScoped<CardRepository>();
             services.AddScoped<ColumnRepository>();
             services.AddScoped<HistoryRepository>();
-            services.AddTransient<IValidator, UserValidator>();
+            services.AddSingleton<AbstractValidator<RegistrateUserDto>, UserValidator>();
             services.AddScoped<Controllers.Base.BaseController>();
 
             services.AddDbContext<AppDbContext>(options =>

@@ -19,8 +19,8 @@ namespace TMAS.BLL.Services
         private readonly UserRepository _userRepository;
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
-        private readonly UserValidator _userValidator;
-        public UserService(UserRepository repository, UserManager<User> userManager,IMapper mapper,UserValidator validator)
+        private readonly AbstractValidator<RegistrateUserDto> _userValidator;
+        public UserService(UserRepository repository, UserManager<User> userManager,IMapper mapper,AbstractValidator<RegistrateUserDto> validator)
         {
             _userRepository = repository;
              _userManager = userManager;
@@ -39,7 +39,7 @@ namespace TMAS.BLL.Services
 
             if (!validationResult.IsValid)
             {
-                throw new Exception();
+                throw new Exception(validationResult.ToString());
             }
             else
             {

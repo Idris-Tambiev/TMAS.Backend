@@ -12,11 +12,12 @@ namespace TMAS.BLL.Validator
     {
         public UserValidator()
         {
-            RuleFor(x => x.Name).NotEmpty();
-            RuleFor(x => x.Lastname).NotEmpty();
-            RuleFor(x => x.UserName).NotEmpty();
-            RuleFor(x => x.Email).NotEmpty().EmailAddress();
-            RuleFor(x => x.Password).NotEmpty().MinimumLength(6);
+            RuleFor(x => x.Name).NotEmpty().MaximumLength(30).WithMessage("Incorrect Name");
+            RuleFor(x => x.LastName).NotEmpty().MaximumLength(30).WithMessage("Incorrect Name");
+            RuleFor(x => x.UserName).NotEmpty().WithMessage("Empty Username");
+            RuleFor(x => x.Email).NotEmpty().EmailAddress().WithMessage("bad email");
+            RuleFor(x => x.Password).NotEmpty()
+                .MinimumLength(6).WithMessage("Incorrect Password"); ;
         }
     }
 }
