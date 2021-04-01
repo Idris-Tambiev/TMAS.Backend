@@ -42,11 +42,11 @@ namespace TMAS.BLL.Services
 
         public async Task<IEnumerable<Card>> FindCard(int boardId, string search)
         {
-            return _cardRepository.FindCards(boardId,search);
+            return await _cardRepository.FindCards(boardId,search);
         }
         public async Task<Card> Update(Card updatedCard)
         {
-            return _cardRepository.Update(updatedCard);
+            return await _cardRepository.Update(updatedCard);
         }
 
         public async Task<Card> Delete(int id)

@@ -31,7 +31,7 @@ namespace TMAS.BLL.Services
                 ActionObject = history.ActionObject
 
             };
-            return  _historyRepository.Create(newHistory);
+            return  await _historyRepository.Create(newHistory);
         }
 
     }

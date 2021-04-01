@@ -14,18 +14,17 @@ namespace TMAS.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BoardsController : BaseController
     {
        private readonly BoardService _boardService;
-       //private readonly Base.BaseController _params;
         public BoardsController(BoardService service)
         {
             _boardService = service;
-            //_params = userParams;
         }
 
         [HttpGet("get")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetBoards()
         {
             var id = GetUserId();
@@ -33,7 +32,7 @@ namespace TMAS.Controllers
         }
 
         [HttpGet("search")]
-        [Authorize]
+       // [Authorize]
         public async Task<IActionResult> FindBoards(string text)
         {
             var id = GetUserId();
@@ -41,23 +40,23 @@ namespace TMAS.Controllers
         }
 
         [HttpPost("create")]
-        [Authorize]
+       // [Authorize]
         public async Task<ActionResult<Board>> CreateNewBoard(string title)
         {
             var id = GetUserId();
             return Ok(await _boardService.Create(title, id));
         }
 
-        [HttpPost("update")]
-        [Authorize]
+        [HttpPut("update")]
+        //[Authorize]
         public async Task<ActionResult<Board>> UpdateBoard(Board board)
         {
             //var idUser = GetUserId();
             return Ok(await _boardService.Update(board));
         }
 
-        [HttpPost("delete")]
-        [Authorize]
+        [HttpDelete("delete")]
+       // [Authorize]
         public async Task<ActionResult<Board>> DeleteBoard(int id)
         {
             return Ok(await _boardService.Delete(id));

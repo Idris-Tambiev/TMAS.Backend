@@ -27,7 +27,7 @@ namespace TMAS.DAL.Repositories
             return await db.Histories.FirstOrDefaultAsync(i => i.Id == id);
         }
 
-        public History Create(History history)
+        public async Task<History> Create(History history)
         {
             db.Histories.Add(history);
             db.SaveChanges();

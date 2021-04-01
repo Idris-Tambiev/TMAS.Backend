@@ -12,9 +12,9 @@ namespace TMAS.DAL.Interfaces
     {
         IEnumerable<Card> GetAll(int columnId);
         Card GetOne(int id);
-        IEnumerable<Card> FindCards(int id, string card);
+        Task<IEnumerable<Card>> FindCards(int id, string card);
         Task<Card> Create(Card card);
-        Card Update(Card card);
+        Task<Card> Update(Card card);
         Task<Card> Delete(int id);
     }
 }

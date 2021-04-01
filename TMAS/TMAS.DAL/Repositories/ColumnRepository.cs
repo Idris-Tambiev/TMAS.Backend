@@ -47,10 +47,19 @@ namespace TMAS.DAL.Repositories
         public Column Delete(int id)
         {
             Column deletedColumn = db.Columns.FirstOrDefault(x => x.Id == id);
-            deletedColumn.IsActive = false;
-            deletedColumn.UpdatedDate = DateTime.Now;
-            db.SaveChanges();
-            return deletedColumn;
+            if (deletedColumn != null)
+            {
+                deletedColumn.IsActive = false;
+                deletedColumn.UpdatedDate = DateTime.Now;
+                db.SaveChanges();
+                return deletedColumn;
+            }
+            else
+            {
+                return default;
+            }
+            
+            
         }
 
     }

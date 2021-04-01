@@ -12,6 +12,6 @@ namespace TMAS.DAL.Interfaces
     {
         Task<IEnumerable<History>> GetAll(Guid userId);
         Task<History> GetOne(int id);
-        History Create(History history);
+        Task<History> Create(History history);
     }
 }

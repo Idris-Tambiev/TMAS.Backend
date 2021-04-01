@@ -42,14 +42,14 @@ namespace TMAS.Controllers
             return Ok(await _cardsService.Create(title,text,columnId));
         }
 
-        [HttpPost("update")]
+        [HttpPut("update")]
         [Authorize]
         public async Task<ActionResult<Card>> UpdateCard(Card card)
         {
             return Ok(await _cardsService.Update(card));
         }
 
-        [HttpPost("delete")]
+        [HttpDelete("delete")]
         [Authorize]
         public async Task<ActionResult<Card>> DeleteCard(int id)
         {

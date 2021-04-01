@@ -7,6 +7,7 @@ using TMAS.DB.Context;
 using TMAS.DB.Models;
 using TMAS.DAL.Interfaces;
 using TMAS.DAL.Interfaces.BaseInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace TMAS.DAL.Repositories
 {
@@ -27,12 +28,16 @@ namespace TMAS.DAL.Repositories
         {
             return db.Cards.FirstOrDefault(i => i.Id == id);
         }
-        public IEnumerable<Card> FindCards(int boardId, string search)
+        public async Task<IEnumerable<Card>> FindCards(int boardId, string search)
         {
-            var a = db.Boards.SelectMany(s=>s.Columns.SelectMany(s=>s.Title)).ToList();
-                //.Where(p => p.Title.Contains(search))
-                //.ToList();
-            return (IEnumerable<Card>)a;
+            var findedCards =await db.Boards
+                .Where(x => x.Id == boardId)
+                .SelectMany(s => 
+                s.Columns.SelectMany(
+                    b=>b.Cards.Where(x=>
+                    x.Title.Contains(search)))
+                ).ToListAsync();
+            return findedCards;
         }
 
 
@@ -43,7 +48,7 @@ namespace TMAS.DAL.Repositories
             return card;
         }
 
-        public Card Update(Card card)
+        public async Task<Card> Update(Card card)
         {
             Card updatedCard = db.Cards.FirstOrDefault(x => x.Id == card.Id);
             updatedCard.Text = card.Text;
