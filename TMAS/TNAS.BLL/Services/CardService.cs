@@ -16,14 +16,14 @@ namespace TMAS.BLL.Services
         {
             _cardRepository = repository;
         }
-        public IEnumerable<Card> GetAll(int columnId)
+        public async Task<IEnumerable<Card>> GetAll(int columnId)
         {
-            return _cardRepository.GetAll(columnId);
+            return await _cardRepository.GetAll(columnId);
         }
 
-        public async Task<Card> GetOne(int id)
+        public async Task<Card> GetOne(int cardId)
         {
-            return _cardRepository.GetOne(id);
+            return await _cardRepository.GetOne(cardId);
         }
 
         public async Task<Card> Create(string title,string text,int columnId)

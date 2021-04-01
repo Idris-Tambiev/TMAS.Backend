@@ -9,6 +9,8 @@ using TMAS.DB.Models;
 using Microsoft.AspNetCore.Identity;
 using TMAS.DB.DTO;
 using AutoMapper;
+using FluentValidation;
+using TMAS.BLL.Validator;
 
 namespace TMAS.BLL.Services
 {
@@ -17,46 +19,39 @@ namespace TMAS.BLL.Services
         private readonly UserRepository _userRepository;
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
-        public UserService(UserRepository repository, UserManager<User> userManager,IMapper mapper)
+        private readonly UserValidator _userValidator;
+        public UserService(UserRepository repository, UserManager<User> userManager,IMapper mapper,UserValidator validator)
         {
             _userRepository = repository;
              _userManager = userManager;
             _mapper = mapper;
+            _userValidator = validator;
         }
-
-        public User GetOne(User user)
-        {
-            return default;
-        }
-
         public async Task<User> GetOneByEmail(User user)
         {
-            
            var findedUser= await _userManager.FindByEmailAsync(user.Email);
            return findedUser;
         }
 
         public async Task<IdentityResult> Create(RegistrateUserDto createdUser)
         {
-            var findedUser = await _userManager.FindByEmailAsync(createdUser.Email);
-            if (findedUser == null)
+            var validationResult = _userValidator.Validate(createdUser);
+
+            if (!validationResult.IsValid)
             {
-                var newUser = _mapper.Map<RegistrateUserDto, User>(createdUser);
-                var result = await _userManager.CreateAsync(newUser, createdUser.Password);
-                return result;
+                throw new Exception();
             }
-            else return default;
+            else
+            {
+                var findedUser = await _userManager.FindByEmailAsync(createdUser.Email);
+                if (findedUser == null)
+                {
+                    var newUser = _mapper.Map<RegistrateUserDto, User>(createdUser);
+                    var result = await _userManager.CreateAsync(newUser, createdUser.Password);
+                    return result;
+                }
+                else return default;
+            }
         }
-
-        public void Update(User updatedUser)
-        {
-
-        }
-
-        public void Delete(int id)
-        {
-
-        }
-
     }
 }

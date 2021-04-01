@@ -10,8 +10,8 @@ using TMAS.DB.Context;
 namespace TMAS.DB.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210331121636_NewMigartionrequired223")]
-    partial class NewMigartionrequired223
+    [Migration("20210401074806_MigrationSort")]
+    partial class MigrationSort
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -174,7 +174,7 @@ namespace TMAS.DB.Migrations
                     b.Property<bool>("IsDone")
                         .HasColumnType("bit");
 
-                    b.Property<int>("OrderBy")
+                    b.Property<int>("SortBy")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -211,7 +211,7 @@ namespace TMAS.DB.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("OrderBy")
+                    b.Property<int>("SortBy")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")

@@ -10,8 +10,8 @@ using TMAS.DB.Context;
 namespace TMAS.DB.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210331122001_NewMigartionrequi")]
-    partial class NewMigartionrequi
+    [Migration("20210401075453_MigrationSort2")]
+    partial class MigrationSort2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -174,7 +174,7 @@ namespace TMAS.DB.Migrations
                     b.Property<bool>("IsDone")
                         .HasColumnType("bit");
 
-                    b.Property<int>("OrderBy")
+                    b.Property<int>("SortBy")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -211,7 +211,7 @@ namespace TMAS.DB.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("OrderBy")
+                    b.Property<int>("SortBy")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -313,6 +313,7 @@ namespace TMAS.DB.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Lastname")
+                        .IsRequired()
                         .HasColumnType("varchar(30)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -322,6 +323,7 @@ namespace TMAS.DB.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("varchar(30)");
 
                     b.Property<string>("NormalizedEmail")

@@ -79,3 +79,6 @@ D:\TMAS\backend\TMAS\TMAS\obj\Debug\net5.0\TMAS.dll
 D:\TMAS\backend\TMAS\TMAS\obj\Debug\net5.0\ref\TMAS.dll
 D:\TMAS\backend\TMAS\TMAS\obj\Debug\net5.0\TMAS.pdb
 D:\TMAS\backend\TMAS\TMAS\obj\Debug\net5.0\TMAS.genruntimeconfig.cache
+D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\FluentValidation.dll
+D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\FluentValidation.AspNetCore.dll
+D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\FluentValidation.DependencyInjectionExtensions.dll

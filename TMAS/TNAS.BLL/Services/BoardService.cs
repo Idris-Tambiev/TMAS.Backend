@@ -24,9 +24,9 @@ namespace TMAS.BLL.Services
         {
             return await _boardRepository.GetAll(userId);
         }
-        public async Task<Board> GetOne(int id)
+        public async Task<Board> GetOne(int boardId)
         {
-            return await _boardRepository.GetOne(id);
+             return await _boardRepository.GetOne(boardId);
         }
 
         public async Task<IEnumerable<Board>> FindBoard(Guid userId,string search)
@@ -56,8 +56,5 @@ namespace TMAS.BLL.Services
         {
             return await _boardRepository.Delete(id);
         }
-
-
-
     }
 }

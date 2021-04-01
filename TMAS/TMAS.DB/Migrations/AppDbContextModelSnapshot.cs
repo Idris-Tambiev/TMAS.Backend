@@ -172,7 +172,7 @@ namespace TMAS.DB.Migrations
                     b.Property<bool>("IsDone")
                         .HasColumnType("bit");
 
-                    b.Property<int>("OrderBy")
+                    b.Property<int>("SortBy")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -209,7 +209,7 @@ namespace TMAS.DB.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("OrderBy")
+                    b.Property<int>("SortBy")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -311,6 +311,7 @@ namespace TMAS.DB.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Lastname")
+                        .IsRequired()
                         .HasColumnType("varchar(30)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -320,6 +321,7 @@ namespace TMAS.DB.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("varchar(30)");
 
                     b.Property<string>("NormalizedEmail")

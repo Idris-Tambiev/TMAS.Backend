@@ -20,16 +20,16 @@ namespace TMAS.DAL.Repositories
         }
         public async Task<IEnumerable<Board>> GetAll(Guid userId)
         {
-            return db.Boards.Where(x=>x.BoardUserId==userId);
+            return await db.Boards.Where(x=>x.BoardUserId==userId).ToListAsync();
         }
-        public async Task<Board> GetOne(int id)
+        public async Task<Board> GetOne(int boardId)
         {
-            return db.Boards.FirstOrDefault(i=>i.Id==id);
+            return await db.Boards.FirstOrDefaultAsync(i=>i.Id== boardId);
         }
 
         public async Task<IEnumerable<Board>> FindBoard(Guid id,string search)
         {
-            return db.Boards.Where(p => p.Title.Contains(search) && p.BoardUserId==id).ToList();
+            return await db.Boards.Where(p => p.Title.Contains(search) && p.BoardUserId==id).ToListAsync();
         }
 
         public async Task<Board> Create(Board board)

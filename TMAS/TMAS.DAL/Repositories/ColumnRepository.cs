@@ -7,6 +7,7 @@ using TMAS.DB.Context;
 using TMAS.DB.Models;
 using TMAS.DAL.Interfaces;
 using TMAS.DAL.Interfaces.BaseInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace TMAS.DAL.Repositories
 {
@@ -23,9 +24,9 @@ namespace TMAS.DAL.Repositories
         {
             return db.Columns.Where(x => x.BoardId == boardId);
         }
-        public Column GetOne(int id)
+        public async Task<Column> GetOne(int columnId)
         {
-            return db.Columns.FirstOrDefault(i => i.Id == id);
+            return await db.Columns.FirstOrDefaultAsync(i => i.Id == columnId);
         }
 
         public async Task<Column> Create(Column column)

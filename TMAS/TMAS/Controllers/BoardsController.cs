@@ -14,7 +14,6 @@ namespace TMAS.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class BoardsController : BaseController
     {
        private readonly BoardService _boardService;
@@ -24,23 +23,30 @@ namespace TMAS.Controllers
         }
 
         [HttpGet("get")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetBoards()
         {
-            var id = GetUserId();
-            return Ok(await _boardService.GetAll(id));
+            var userId = GetUserId();
+            return Ok(await _boardService.GetAll(userId));
+        }
+
+        [HttpGet("get/one")]
+        [Authorize]
+        public async Task<IActionResult> GetOneBoard(int boardId)
+        {
+            return Ok(await _boardService.GetOne(boardId));
         }
 
         [HttpGet("search")]
-       // [Authorize]
+        [Authorize]
         public async Task<IActionResult> FindBoards(string text)
         {
-            var id = GetUserId();
-            return Ok(await _boardService.FindBoard(id,text));
+            var userId = GetUserId();
+            return Ok(await _boardService.FindBoard(userId, text));
         }
 
         [HttpPost("create")]
-       // [Authorize]
+        [Authorize]
         public async Task<ActionResult<Board>> CreateNewBoard(string title)
         {
             var id = GetUserId();
@@ -48,18 +54,17 @@ namespace TMAS.Controllers
         }
 
         [HttpPut("update")]
-        //[Authorize]
+        [Authorize]
         public async Task<ActionResult<Board>> UpdateBoard(Board board)
         {
-            //var idUser = GetUserId();
             return Ok(await _boardService.Update(board));
         }
 
         [HttpDelete("delete")]
-       // [Authorize]
-        public async Task<ActionResult<Board>> DeleteBoard(int id)
+        [Authorize]
+        public async Task<ActionResult<Board>> DeleteBoard(int boardId)
         {
-            return Ok(await _boardService.Delete(id));
+            return Ok(await _boardService.Delete(boardId));
         }
     }
 }

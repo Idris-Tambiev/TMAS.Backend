@@ -2,7 +2,7 @@
 
 namespace TMAS.DB.Migrations
 {
-    public partial class NewMigartionrequired223 : Migration
+    public partial class MigrationSort : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

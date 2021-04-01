@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "y2N8HGTiu3Ph18cvZ4A8OPQBZG4UQWJvcTPFol/sELmrPR6D07rDBa2Gh92IEnxsfbcdoD4LE8DTDSqiqDGpXA==",
+  "dgSpecHash": "6aX28KcavRIKXOhtJzrJixdmmpD6wgmxyDHh1LTE4Z5HM7a2oNVr+iwsASLNAo5emkqBK5mPqTCpXgCi4BcIhQ==",
   "success": true,
   "projectFilePath": "D:\\TMAS\\backend\\TMAS\\TNAS.BLL\\TMAS.BLL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Idris\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
+    "C:\\Users\\Idris\\.nuget\\packages\\fluentvalidation\\9.5.3\\fluentvalidation.9.5.3.nupkg.sha512",
+    "C:\\Users\\Idris\\.nuget\\packages\\fluentvalidation.aspnetcore\\9.5.3\\fluentvalidation.aspnetcore.9.5.3.nupkg.sha512",
+    "C:\\Users\\Idris\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\9.5.3\\fluentvalidation.dependencyinjectionextensions.9.5.3.nupkg.sha512",
     "C:\\Users\\Idris\\.nuget\\packages\\identitymodel\\4.4.0\\identitymodel.4.4.0.nupkg.sha512",
     "C:\\Users\\Idris\\.nuget\\packages\\identityserver4\\4.1.2\\identityserver4.4.1.2.nupkg.sha512",
     "C:\\Users\\Idris\\.nuget\\packages\\identityserver4.aspnetidentity\\4.1.2\\identityserver4.aspnetidentity.4.1.2.nupkg.sha512",

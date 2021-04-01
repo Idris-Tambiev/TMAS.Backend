@@ -5,9 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using TMAS.DB.Context;
+using TMAS.DB.DTO;
 using TMAS.Configuration;
 using TMAS.BLL.Mapper;
 using TMAS.BLL.Services;
+using TMAS.BLL.Validator;
 using TMAS.DAL.Repositories;
 using AutoMapper;
 using TMAS.DB.Models;
@@ -16,6 +18,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.IdentityModel.JsonWebTokens;
+using FluentValidation;
 
 namespace TMAS
 {
@@ -88,6 +91,7 @@ namespace TMAS
             services.AddScoped<CardRepository>();
             services.AddScoped<ColumnRepository>();
             services.AddScoped<HistoryRepository>();
+            services.AddTransient<IValidator, UserValidator>();
             services.AddScoped<Controllers.Base.BaseController>();
 
             services.AddDbContext<AppDbContext>(options =>

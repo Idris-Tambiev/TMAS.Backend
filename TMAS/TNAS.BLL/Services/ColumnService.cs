@@ -22,9 +22,9 @@ namespace TMAS.BLL.Services
         {
             return _columnRepository.GetAll(boardId);
         }
-        public async Task<Column> GetOne(int id)
+        public async Task<Column> GetOne(int columnId)
         {
-            return _columnRepository.GetOne(id);
+            return await _columnRepository.GetOne(columnId);
         }
 
         public async Task<Column> Create(string title, int boardId)

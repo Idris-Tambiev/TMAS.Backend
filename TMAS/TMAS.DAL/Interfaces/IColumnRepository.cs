@@ -11,7 +11,7 @@ namespace TMAS.DAL.Interfaces
     public interface IColumnRepository:IBaseRepository
     {
         IEnumerable<Column> GetAll(int boardId);
-        Column GetOne(int id);
+        Task<Column> GetOne(int id);
         Task<Column> Create(Column column);
         Column Update(Column column);
         Column Delete(int id);

@@ -19,11 +19,9 @@ namespace TMAS.Controllers
     public class UsersController : BaseController
     {
         private readonly UserService _userService;
-        private readonly UserManager<User> _userManager;
-        public UsersController(UserService service, UserManager<User> userManager)
+        public UsersController(UserService service)
         {
             _userService = service;
-            _userManager = userManager;
         }
 
         [HttpPost("login")]

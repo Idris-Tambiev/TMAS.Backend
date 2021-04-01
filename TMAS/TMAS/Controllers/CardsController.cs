@@ -32,8 +32,16 @@ namespace TMAS.Controllers
         [Authorize]
         public async Task<ActionResult<Card>> GetCards(int id)
         {
-            return Ok(_cardsService.GetAll(id));
+            return Ok(await _cardsService.GetAll(id));
         }
+
+        [HttpGet("get/one")]
+        [Authorize]
+        public async Task<ActionResult<Card>> GetOneCard(int cardId)
+        {
+            return Ok(await _cardsService.GetOne(cardId));
+        }
+
 
         [HttpPost("create")]
         [Authorize]

@@ -29,6 +29,13 @@ namespace TMAS.Controllers
             return Ok(await _columnService.GetAll(id));
         }
 
+        [HttpGet("get/one")]
+        [Authorize]
+        public async Task<ActionResult<Column>> GetOneColumn(int columnId)
+        {
+            return Ok(await _columnService.GetOne(columnId));
+        }
+
         [HttpPost("create")]
         [Authorize]
         public async Task<ActionResult<Column>> CreateNewColumn(string title,int boardId)

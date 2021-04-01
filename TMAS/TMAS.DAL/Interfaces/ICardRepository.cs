@@ -10,8 +10,8 @@ namespace TMAS.DAL.Interfaces
 {
     public interface ICardRepository:IBaseRepository
     {
-        IEnumerable<Card> GetAll(int columnId);
-        Card GetOne(int id);
+        Task<IEnumerable<Card>> GetAll(int columnId);
+        Task<Card> GetOne(int id);
         Task<IEnumerable<Card>> FindCards(int id, string card);
         Task<Card> Create(Card card);
         Task<Card> Update(Card card);

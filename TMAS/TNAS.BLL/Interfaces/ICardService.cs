@@ -12,7 +12,7 @@ namespace TMAS.BLL.Interfaces
     {
 
         Task<IEnumerable<Card>> FindCard(int id, string search);
-        IEnumerable<Card> GetAll(int columnId);
+        Task<IEnumerable<Card>> GetAll(int columnId);
         Task<Card> GetOne(int id);
         Task<Card> Create(string title,string text,int columnId);
         Task<Card> Update(Card updatedCard);
