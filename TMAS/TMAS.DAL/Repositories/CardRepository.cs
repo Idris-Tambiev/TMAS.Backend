@@ -21,7 +21,7 @@ namespace TMAS.DAL.Repositories
         }
         public async Task<IEnumerable<Card>> GetAll(int columnId)
         {
-            return await db.Cards.Where(x => x.ColumnId == columnId).ToListAsync();
+            return await db.Cards.Where(x => x.ColumnId == columnId).Where(x => x.IsActive == true).ToListAsync();
         }
 
         public async Task<Card> GetOne(int cardId)

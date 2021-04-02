@@ -22,7 +22,7 @@ namespace TMAS.DAL.Repositories
 
         public IEnumerable<Column> GetAll(int boardId)
         {
-            return db.Columns.Where(x => x.BoardId == boardId);
+            return db.Columns.Where(x => x.BoardId == boardId).Where(x => x.IsActive == true);
         }
         public async Task<Column> GetOne(int columnId)
         {

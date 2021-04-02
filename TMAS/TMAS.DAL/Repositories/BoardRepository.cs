@@ -20,7 +20,7 @@ namespace TMAS.DAL.Repositories
         }
         public async Task<IEnumerable<Board>> GetAll(Guid userId)
         {
-            return await db.Boards.Where(x=>x.BoardUserId==userId).ToListAsync();
+            return await db.Boards.Where(x=>x.BoardUserId==userId).Where(x=>x.IsActive==true).ToListAsync();
         }
         public async Task<Board> GetOne(int boardId)
         {
@@ -29,7 +29,7 @@ namespace TMAS.DAL.Repositories
 
         public async Task<IEnumerable<Board>> FindBoard(Guid id,string search)
         {
-            return await db.Boards.Where(p => p.Title.Contains(search) && p.BoardUserId==id).ToListAsync();
+            return await db.Boards.Where(p => p.Title.Contains(search) && p.BoardUserId==id).Where(x => x.IsActive == true).ToListAsync();
         }
 
         public async Task<Board> Create(Board board)

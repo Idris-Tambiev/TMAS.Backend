@@ -43,12 +43,6 @@ namespace TMAS
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
-            //services.AddCors(options => options.AddPolicy("ApiCorsPolicy", build =>
-            //{
-            //    build.WithOrigins("http://localhost:4200").SetIsOriginAllowed((host) => true)
-            //         .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
-            //}));
-
             services.AddSingleton<ICorsPolicyService>((container) => {
                 var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
                 return new DefaultCorsPolicyService(logger)
@@ -155,7 +149,6 @@ namespace TMAS
 
             app.UseRouting();
 
-            //app.UseCors("ApiCorsPolicy");
             app.UseCors("CorsPolicy");
 
             app.UseHttpsRedirection();
