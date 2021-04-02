@@ -19,6 +19,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.IdentityModel.JsonWebTokens;
 using FluentValidation;
+using IdentityServer4.Services;
+using Microsoft.Extensions.Logging;
 
 namespace TMAS
 {
@@ -40,7 +42,32 @@ namespace TMAS
                 })
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
-              
+
+            //services.AddCors(options => options.AddPolicy("ApiCorsPolicy", build =>
+            //{
+            //    build.WithOrigins("http://localhost:4200").SetIsOriginAllowed((host) => true)
+            //         .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+            //}));
+
+            services.AddSingleton<ICorsPolicyService>((container) => {
+                var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
+                return new DefaultCorsPolicyService(logger)
+                {
+                    AllowAll = true
+                };
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .SetIsOriginAllowed((host) => true)
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                 );
+            });
+
+            services.AddCors();
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
                 .AddInMemoryClients(Clients.Get())
@@ -54,6 +81,7 @@ namespace TMAS
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
+
             .AddJwtBearer(options =>
            {
                options.Authority = "https://localhost:44324";
@@ -97,26 +125,23 @@ namespace TMAS
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("TMAS.DB")));
 
-            services.AddSwaggerGen();
+           
+
+        services.AddSwaggerGen();
             services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-        
+            
+           
+            
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
- 
 
             app.UseIdentityServer();
 
@@ -126,6 +151,16 @@ namespace TMAS
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+            
+
+            app.UseRouting();
+
+            //app.UseCors("ApiCorsPolicy");
+            app.UseCors("CorsPolicy");
+
+            app.UseHttpsRedirection();
+            app.UseAuthorization();
+            app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers(); 
