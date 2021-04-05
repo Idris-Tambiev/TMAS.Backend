@@ -62,7 +62,12 @@ namespace TMAS.Controllers
         public async Task<ActionResult<Card>> UpdateCard(Card card)
         {
             return Ok(await _cardsService.Update(card));
-            //return default;
+        }
+        [HttpPut("move")]
+        [Authorize]
+        public async Task<ActionResult<Card>> MoveCard(Card card)
+        {
+            return Ok(await _cardsService.Move(card));
         }
 
         [HttpDelete("delete")]

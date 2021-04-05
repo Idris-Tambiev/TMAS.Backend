@@ -45,7 +45,8 @@ namespace TMAS.BLL.Services
                 ColumnId = card.ColumnId,
                 CreatedDate = DateTime.Now,
                 IsActive = true,
-                IsDone=false
+                IsDone=false,
+                SortBy=card.SortBy
             };
             return await _cardRepository.Create(newCard);
         }
@@ -57,6 +58,10 @@ namespace TMAS.BLL.Services
         public async Task<Card> Update(Card updatedCard)
         {
             return await _cardRepository.Update(updatedCard);
+        }
+        public async Task<Card> Move(Card movedCard)
+        {
+            return await _cardRepository.Move(movedCard);
         }
 
         public async Task<Card> Delete(int id)

@@ -21,7 +21,11 @@ namespace TMAS.DAL.Repositories
         }
         public async Task<IEnumerable<Card>> GetAll(int columnId)
         {
-            return await db.Cards.Where(x => x.ColumnId == columnId).Where(x => x.IsActive == true).ToListAsync();
+            return await db.Cards
+                .Where(x => x.ColumnId == columnId)
+                .Where(x => x.IsActive == true)
+                .OrderBy(d=>d.SortBy)
+                .ToListAsync();
         }
 
         public async Task<Card> GetOne(int cardId)
@@ -64,6 +68,15 @@ namespace TMAS.DAL.Repositories
             db.SaveChanges();
             return updatedCard;
         }
+        public async Task<Card> Move(Card card)
+        {
+            Card updatedCard = db.Cards.FirstOrDefault(x => x.Id == card.Id);
+            updatedCard.SortBy = card.SortBy;
+            updatedCard.UpdatedDate = DateTime.Now;
+            MoveOtherCards(card.ColumnId, card.SortBy);
+            db.SaveChanges();
+            return updatedCard;
+        }
 
         public async Task<Card> Delete(int id)
         {
@@ -72,6 +85,18 @@ namespace TMAS.DAL.Repositories
             deletedCard.UpdatedDate = DateTime.Now;
             db.SaveChanges();
             return deletedCard;
+        }
+        private void MoveOtherCards(int columnId,int current)
+        {
+            var cards = db.Cards
+                .Where(x => x.ColumnId == columnId)
+                .OrderBy(x => x.SortBy)
+                .Skip(current)
+                .ToList();
+            for (int i = 0; i < cards.Count(); i++)
+            {
+                cards[i].SortBy++;
+            }
         }
     }
 }

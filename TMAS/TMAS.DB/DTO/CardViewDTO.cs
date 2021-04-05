@@ -13,5 +13,6 @@ namespace TMAS.DB.DTO
         public string  Text  { get; set; }
         public Boolean IsDone { get; set; }
         public int ColumnId { get; set; }
+        public int SortBy { get; set; }
     }
 }
