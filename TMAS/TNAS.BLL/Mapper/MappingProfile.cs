@@ -20,6 +20,13 @@ namespace TMAS.BLL.Mapper
                     .ForMember(dest => dest.Name, act => act.MapFrom(src => src.Name))
                     .ForMember(dest => dest.EmailConfirmed, act => act.MapFrom(src => true))
                     .ForMember(dest => dest.LockoutEnabled, act => act.MapFrom(src => false));
+
+            CreateMap<Card, CardViewDTO>()
+                    .ForMember(dest => dest.Id, act => act.MapFrom(src => src.Id))
+                    .ForMember(dest => dest.Title, act => act.MapFrom(src => src.Title))
+                    .ForMember(dest => dest.Text, act => act.MapFrom(src => src.Text))
+                    .ForMember(dest => dest.IsDone, act => act.MapFrom(src => src.IsDone))
+                    .ForMember(dest => dest.ColumnId, act => act.MapFrom(src => src.ColumnId));
         }
     }
 }

@@ -20,8 +20,9 @@ namespace TMAS.DB.Context
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
-            //Database.EnsureDeleted();
-            Database.EnsureCreated();
+           //Database.EnsureDeleted();
+           //Database.EnsureCreated();
+           Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -86,7 +87,7 @@ namespace TMAS.DB.Context
             modelBuilder.Entity<Card>()
                 .Property(u => u.Text)
                 .HasColumnType("varchar(5000)")
-                .IsRequired();
+                .IsRequired(false);
 
             modelBuilder.Entity<Card>()
                 .HasOne(p => p.Column)

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TMAS.BLL.Services;
 using TMAS.DB.Models;
 using TMAS.Controllers.Base;
+using TMAS.DB.DTO;
 
 namespace TMAS.Controllers
 {
@@ -34,7 +35,12 @@ namespace TMAS.Controllers
         {
             return Ok(await _cardsService.GetAll(id));
         }
-
+        [HttpGet("update/check")]
+        [Authorize]
+        public async Task<ActionResult<Card>> UpdatecardCheck(int id,string isDone)
+        {
+            return Ok(await _cardsService.CheckCard(id,Convert.ToBoolean(isDone)));
+        }
         [HttpGet("get/one")]
         [Authorize]
         public async Task<ActionResult<Card>> GetOneCard(int cardId)
@@ -42,18 +48,21 @@ namespace TMAS.Controllers
             return Ok(await _cardsService.GetOne(cardId));
         }
 
+
         [HttpPost("create")]
         [Authorize]
-        public async Task<ActionResult<Card>> CreateNewCard(string title,string text,int columnId)
+        public async Task<ActionResult<Card>> CreateNewCard([FromBody]Card card)
         {
-            return Ok(await _cardsService.Create(title,text,columnId));
+            return Ok(await _cardsService.Create(card));
         }
+
 
         [HttpPut("update")]
         [Authorize]
         public async Task<ActionResult<Card>> UpdateCard(Card card)
         {
             return Ok(await _cardsService.Update(card));
+            //return default;
         }
 
         [HttpDelete("delete")]

@@ -10,8 +10,8 @@ using TMAS.DB.Context;
 namespace TMAS.DB.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210401074806_MigrationSort")]
-    partial class MigrationSort
+    [Migration("20210405094208_InitialDb")]
+    partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -178,7 +178,6 @@ namespace TMAS.DB.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
-                        .IsRequired()
                         .HasColumnType("varchar(5000)");
 
                     b.Property<string>("Title")

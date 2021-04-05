@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TMAS.DB.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,7 +28,6 @@ namespace TMAS.DB.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "varchar(30)", nullable: false),
                     Lastname = table.Column<string>(type: "varchar(30)", nullable: false),
-                    Password = table.Column<string>(type: "varchar(50)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -164,6 +163,7 @@ namespace TMAS.DB.Migrations
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Title = table.Column<string>(type: "varchar(100)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     BoardUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -185,8 +185,10 @@ namespace TMAS.DB.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ActionType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ActionObjectId = table.Column<int>(type: "int", nullable: false),
+                    ActionType = table.Column<byte>(type: "tinyint", nullable: false),
+                    ActionObject = table.Column<string>(type: "varchar(100)", nullable: false),
+                    SourceAction = table.Column<int>(type: "int", nullable: true),
+                    DestinationAction = table.Column<int>(type: "int", nullable: true),
                     AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -209,6 +211,8 @@ namespace TMAS.DB.Migrations
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Title = table.Column<string>(type: "varchar(100)", nullable: false),
+                    SortBy = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     BoardId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -231,8 +235,11 @@ namespace TMAS.DB.Migrations
                     ExecutionPeriod = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Text = table.Column<string>(type: "varchar(5000)", nullable: false),
+                    Title = table.Column<string>(type: "varchar(100)", nullable: false),
+                    SortBy = table.Column<int>(type: "int", nullable: false),
+                    Text = table.Column<string>(type: "varchar(5000)", nullable: true),
                     IsDone = table.Column<bool>(type: "bit", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     ColumnId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

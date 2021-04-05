@@ -6,19 +6,29 @@ using System.Threading.Tasks;
 using TMAS.DAL.Repositories;
 using TMAS.BLL.Interfaces;
 using TMAS.DB.Models;
+using AutoMapper;
+using TMAS.DB.DTO;
 
 namespace TMAS.BLL.Services
 {
     public class CardService:ICardService
     {
         private readonly CardRepository _cardRepository;
-        public CardService(CardRepository repository)
+        private readonly IMapper _mapper;
+        public CardService(CardRepository repository,IMapper mapper)
         {
             _cardRepository = repository;
+            _mapper = mapper;
         }
-        public async Task<IEnumerable<Card>> GetAll(int columnId)
+        public async Task<IEnumerable<CardViewDTO>> GetAll(int columnId)
         {
-            return await _cardRepository.GetAll(columnId);
+            var allCards = await _cardRepository.GetAll(columnId);
+            var result = _mapper.Map<IEnumerable<Card>,IEnumerable<CardViewDTO>>(allCards);
+            return result;
+        }
+        public async Task<Card> CheckCard(int cardId,Boolean status)
+        {
+            return await _cardRepository.CheckCard(cardId,status);
         }
 
         public async Task<Card> GetOne(int cardId)
@@ -26,18 +36,18 @@ namespace TMAS.BLL.Services
             return await _cardRepository.GetOne(cardId);
         }
 
-        public async Task<Card> Create(string title,string text,int columnId)
+        public async Task<Card> Create(Card card)
         {
-            var newColumn = new Card
+            var newCard = new Card
             {
-                Title=title,
-                Text = text,
-                ColumnId = columnId,
+                Title=card.Title,
+                Text = card.Text,
+                ColumnId = card.ColumnId,
                 CreatedDate = DateTime.Now,
                 IsActive = true,
                 IsDone=false
             };
-            return await _cardRepository.Create(newColumn);
+            return await _cardRepository.Create(newCard);
         }
 
         public async Task<IEnumerable<Card>> FindCard(int boardId, string search)

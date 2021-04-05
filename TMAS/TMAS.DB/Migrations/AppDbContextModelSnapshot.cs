@@ -176,7 +176,6 @@ namespace TMAS.DB.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
-                        .IsRequired()
                         .HasColumnType("varchar(5000)");
 
                     b.Property<string>("Title")
