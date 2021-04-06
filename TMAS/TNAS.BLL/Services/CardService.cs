@@ -70,14 +70,17 @@ namespace TMAS.BLL.Services
             SwitchCardsOnColumn(movedCard.SortBy, prev, movedCard);
             return updatedCard;
         }
+
         public async Task<Card> MoveOnColumn(Card movedCard)
         {
             Card updatedCard = db.Cards.FirstOrDefault(x => x.Id == movedCard.Id);
-            MoveCards(movedCard, updatedCard.ColumnId);
+            int prevSortPosition = updatedCard.SortBy;
+            MoveCardsOnNewColumn(movedCard, updatedCard.ColumnId);
             updatedCard.ColumnId = movedCard.ColumnId;
             updatedCard.SortBy = movedCard.SortBy;
             updatedCard.UpdatedDate = DateTime.Now;
             db.SaveChanges();
+            MoveCardsOnOldColumn(movedCard, updatedCard.ColumnId, prevSortPosition);
             return updatedCard;
      
         }
@@ -87,31 +90,46 @@ namespace TMAS.BLL.Services
             return await _cardRepository.Delete(id);
         }
 
-        private void MoveCards(Card card, int prevPosition)
+        private void MoveCardsOnNewColumn(Card card, int prevPosition)
         {
-            var result = db.Cards.Where(x => x.ColumnId == card.ColumnId).ToList();
+
+            var result = db.Cards
+                .Where(x => x.ColumnId == card.ColumnId)
+                .OrderBy(x => x.SortBy)
+                .Skip(card.SortBy)
+                .ToList();
             for (int i = 0; i < result.Count; i++)
             {
-                if (result[i].SortBy >= card.SortBy)
-                {
                     result[i].SortBy++;
-                }
-
             }
             db.SaveChanges();
-            var previousCards = db.Cards.Where(x => x.ColumnId == prevPosition).ToList();
+
+        }
+        private void MoveCardsOnOldColumn(Card card, int prevPosition,int prevSort)
+        {
+            var previousCards = db.Cards
+                .Where(x => x.ColumnId == prevPosition)
+                .OrderBy(x => x.SortBy)
+                .Skip(prevSort)
+                .ToList();
             for (int i = 0; i < previousCards.Count; i++)
             {
-                if (previousCards[i].SortBy >= card.SortBy)
-                    previousCards[i].SortBy--;
+                previousCards[i].SortBy--;
             }
             db.SaveChanges();
         }
+
         private void SwitchCardsOnColumn(int curPosition, int prevPosition, Card card)
         {
             if (curPosition > prevPosition)
             {
-                var result = db.Cards.Where(x => x.ColumnId == card.ColumnId).OrderBy(x => x.SortBy).Skip(prevPosition).Take(curPosition - prevPosition + 1).ToList();
+                var result = db.Cards
+                    .Where(x => x.ColumnId == card.ColumnId)
+                    .OrderBy(x => x.SortBy)
+                    .Skip(prevPosition)
+                    .Take(curPosition - prevPosition + 1)
+                    .ToList();
+
                 for (int i = 1; i < result.Count; i++)
                 {
                     result[i].SortBy--;
@@ -121,7 +139,13 @@ namespace TMAS.BLL.Services
             }
             else
             {
-                var result = db.Cards.Where(x => x.ColumnId == card.ColumnId).OrderBy(x => x.SortBy).Skip(curPosition).Take(prevPosition - curPosition + 1).ToList();
+                var result = db.Cards
+                    .Where(x => x.ColumnId == card.ColumnId)
+                    .OrderBy(x => x.SortBy)
+                    .Skip(curPosition)
+                    .Take(prevPosition - curPosition + 1)
+                    .ToList();
+
                 for (int i = 0; i < result.Count - 1; i++)
                 {
                     result[i].SortBy++;
