@@ -68,18 +68,7 @@ namespace TMAS.DAL.Repositories
             db.SaveChanges();
             return updatedCard;
         }
-        public async Task<Card> Move(Card card)
-        {
-            Card oldCard = db.Cards.Where(x => x.ColumnId == card.ColumnId).FirstOrDefault(x => x.SortBy == card.SortBy);
-            Card updatedCard = db.Cards.FirstOrDefault(x => x.Id == card.Id);
-            oldCard.SortBy = updatedCard.SortBy;
-            oldCard.UpdatedDate = DateTime.Now;
-            db.SaveChanges();
-            updatedCard.SortBy = card.SortBy;
-            updatedCard.UpdatedDate = DateTime.Now;
-            db.SaveChanges();
-            return updatedCard;
-        }
+        
 
         public async Task<Card> Delete(int id)
         {
@@ -90,38 +79,5 @@ namespace TMAS.DAL.Repositories
             return deletedCard;
         }
 
-        public async Task<Card> MoveOnColumn(Card card)
-        {
-            Card updatedCard = db.Cards.FirstOrDefault(x => x.Id == card.Id);
-            MoveCards(card, updatedCard.ColumnId);
-            updatedCard.ColumnId = card.ColumnId;
-            updatedCard.SortBy = card.SortBy;
-            updatedCard.UpdatedDate = DateTime.Now;
-            db.SaveChanges();
-            return updatedCard;
-        }
-
-        private void MoveCards(Card card,int prevPosition)
-        {
-            var result = db.Cards.Where(x => x.ColumnId == card.ColumnId).ToList();
-            for(int i = 0; i < result.Count; i++)
-            {
-                if (result[i].SortBy >= card.SortBy)
-                {
-                    result[i].SortBy++;
-                }
-                    
-               
-            }
-            db.SaveChanges();
-            //уменьшить предыдущие
-            var previousCards = db.Cards.Where(x => x.ColumnId == prevPosition).ToList();
-            for (int i = 0; i < previousCards.Count; i++)
-            {
-                if (previousCards[i].SortBy >= card.SortBy)
-                    previousCards[i].SortBy--;
-            }
-            db.SaveChanges();
-        }
     }
 }
