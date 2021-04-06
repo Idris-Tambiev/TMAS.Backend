@@ -63,6 +63,10 @@ namespace TMAS.BLL.Services
         {
             return await _cardRepository.Move(movedCard);
         }
+        public async Task<Card> MoveOnColumn(Card movedCard)
+        {
+            return await _cardRepository.MoveOnColumn(movedCard);
+        }
 
         public async Task<Card> Delete(int id)
         {
