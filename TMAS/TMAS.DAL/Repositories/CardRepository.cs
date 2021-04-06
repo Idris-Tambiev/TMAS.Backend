@@ -70,10 +70,13 @@ namespace TMAS.DAL.Repositories
         }
         public async Task<Card> Move(Card card)
         {
+            Card oldCard = db.Cards.Where(x=>x.ColumnId==card.ColumnId).FirstOrDefault(x => x.SortBy == card.SortBy);
             Card updatedCard = db.Cards.FirstOrDefault(x => x.Id == card.Id);
+            oldCard.SortBy = updatedCard.SortBy;
+            oldCard.UpdatedDate = DateTime.Now;
+            db.SaveChanges();
             updatedCard.SortBy = card.SortBy;
             updatedCard.UpdatedDate = DateTime.Now;
-            MoveOtherCards(card.ColumnId, card.SortBy);
             db.SaveChanges();
             return updatedCard;
         }
@@ -91,11 +94,14 @@ namespace TMAS.DAL.Repositories
             var cards = db.Cards
                 .Where(x => x.ColumnId == columnId)
                 .OrderBy(x => x.SortBy)
-                .Skip(current)
                 .ToList();
             for (int i = 0; i < cards.Count(); i++)
             {
-                cards[i].SortBy++;
+                if (current>cards[i].SortBy)
+                {
+                    cards[i].SortBy++;
+                }
+                
             }
         }
     }
