@@ -107,7 +107,7 @@ namespace TMAS
             services.AddScoped<CardService>();
             services.AddScoped<ColumnService>();
             services.AddScoped<HistoryService>();
-
+            services.AddScoped<CardsMoveService>();
             services.AddScoped<UserRepository>();
             services.AddScoped<BoardRepository>();
             services.AddScoped<CardRepository>();

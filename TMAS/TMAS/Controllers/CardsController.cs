@@ -74,7 +74,7 @@ namespace TMAS.Controllers
         [Authorize]
         public async Task<ActionResult<Card>> MoveOnColumnCard(Card card)
         {
-            return Ok(await _cardsService.MoveOnColumn(card));
+            return Ok(await _cardsService.MoveOnColumns(card));
         }
         [HttpDelete("delete")]
         [Authorize]

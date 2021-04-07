@@ -18,11 +18,13 @@ namespace TMAS.BLL.Services
         private readonly CardRepository _cardRepository;
         private readonly IMapper _mapper;
         private AppDbContext db;
-        public CardService(CardRepository repository,IMapper mapper,AppDbContext context)
+        private CardsMoveService _moveCards;
+        public CardService(CardRepository repository,IMapper mapper,AppDbContext context,CardsMoveService cardsMoveService)
         {
             _cardRepository = repository;
             _mapper = mapper;
             db = context;
+            _moveCards = cardsMoveService;
         }
         public async Task<IEnumerable<CardViewDTO>> GetAll(int columnId)
         {
@@ -66,23 +68,23 @@ namespace TMAS.BLL.Services
         public async Task<Card> Move(Card movedCard)
         {
             Card updatedCard = await db.Cards.FirstOrDefaultAsync(x => x.Id == movedCard.Id);
-            int prev = updatedCard.SortBy;
-            SwitchCardsOnColumn(movedCard.SortBy, prev, movedCard);
+            _moveCards.SwitchCards(updatedCard.SortBy,movedCard);
+            updatedCard.SortBy = movedCard.SortBy;
+            updatedCard.UpdatedDate = DateTime.Now;
+            db.SaveChanges();
             return updatedCard;
         }
 
-        public async Task<Card> MoveOnColumn(Card movedCard)
+        public async Task<Card> MoveOnColumns(Card movedCard)
         {
-            Card updatedCard = db.Cards.FirstOrDefault(x => x.Id == movedCard.Id);
-            int prevSortPosition = updatedCard.SortBy;
-            MoveCardsOnNewColumn(movedCard, updatedCard.ColumnId);
+            Card updatedCard =await db.Cards.FirstOrDefaultAsync(x => x.Id == movedCard.Id);
+            _moveCards.MoveOnNewColumn(movedCard);
+            _moveCards.MoveOnOldColumn(updatedCard);
             updatedCard.ColumnId = movedCard.ColumnId;
             updatedCard.SortBy = movedCard.SortBy;
             updatedCard.UpdatedDate = DateTime.Now;
             db.SaveChanges();
-            MoveCardsOnOldColumn(movedCard, updatedCard.ColumnId, prevSortPosition);
             return updatedCard;
-     
         }
 
         public async Task<Card> Delete(int id)
@@ -90,70 +92,5 @@ namespace TMAS.BLL.Services
             return await _cardRepository.Delete(id);
         }
 
-        private void MoveCardsOnNewColumn(Card card, int prevPosition)
-        {
-
-            var result = db.Cards
-                .Where(x => x.ColumnId == card.ColumnId)
-                .OrderBy(x => x.SortBy)
-                .Skip(card.SortBy)
-                .ToList();
-            for (int i = 0; i < result.Count; i++)
-            {
-                    result[i].SortBy++;
-            }
-            db.SaveChanges();
-
-        }
-        private void MoveCardsOnOldColumn(Card card, int prevPosition,int prevSort)
-        {
-            var previousCards = db.Cards
-                .Where(x => x.ColumnId == prevPosition)
-                .OrderBy(x => x.SortBy)
-                .Skip(prevSort)
-                .ToList();
-            for (int i = 0; i < previousCards.Count; i++)
-            {
-                previousCards[i].SortBy--;
-            }
-            db.SaveChanges();
-        }
-
-        private void SwitchCardsOnColumn(int curPosition, int prevPosition, Card card)
-        {
-            if (curPosition > prevPosition)
-            {
-                var result = db.Cards
-                    .Where(x => x.ColumnId == card.ColumnId)
-                    .OrderBy(x => x.SortBy)
-                    .Skip(prevPosition)
-                    .Take(curPosition - prevPosition + 1)
-                    .ToList();
-
-                for (int i = 1; i < result.Count; i++)
-                {
-                    result[i].SortBy--;
-                }
-                result[0].SortBy = curPosition;
-                result[0].UpdatedDate = DateTime.Now;
-            }
-            else
-            {
-                var result = db.Cards
-                    .Where(x => x.ColumnId == card.ColumnId)
-                    .OrderBy(x => x.SortBy)
-                    .Skip(curPosition)
-                    .Take(prevPosition - curPosition + 1)
-                    .ToList();
-
-                for (int i = 0; i < result.Count - 1; i++)
-                {
-                    result[i].SortBy++;
-                }
-                result[result.Count - 1].SortBy = curPosition;
-                result[result.Count - 1].UpdatedDate = DateTime.Now;
-            }
-            db.SaveChanges();
-        }
     }
 }
