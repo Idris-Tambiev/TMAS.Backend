@@ -11,5 +11,6 @@ namespace TMAS.DB.DTO
         public int Id { get; set; }
         public string Title { get; set; }
         public int SortBy { get; set; }
+        public int BoardId { get; set; }
     }
 }

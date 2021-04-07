@@ -45,6 +45,7 @@ namespace TMAS.BLL.Services
             db.SaveChanges();
         }
 
+
         public void SwitchCards(int prevPosition, Card card)
         {
             int currentPosition = card.SortBy;
