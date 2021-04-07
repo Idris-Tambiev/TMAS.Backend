@@ -15,14 +15,18 @@ namespace TMAS.BLL.Services
     public class BoardService : IBoardService
     {
       private readonly  BoardRepository _boardRepository;
-        public BoardService(BoardRepository repository)
+      private readonly IMapper _mapper;
+        public BoardService(BoardRepository repository,IMapper mapper)
         {
             _boardRepository = repository;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Board>> GetAll(Guid userId)
+        public async Task<IEnumerable<BoardViewDTO>> GetAll(Guid userId)
         {
-            return await _boardRepository.GetAll(userId);
+            var boards = await _boardRepository.GetAll(userId);
+            var mapperResult = _mapper.Map<IEnumerable<Board>,IEnumerable<BoardViewDTO>>(boards);
+            return mapperResult;
         }
         public async Task<Board> GetOne(int boardId)
         {

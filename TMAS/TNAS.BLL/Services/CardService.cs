@@ -29,8 +29,8 @@ namespace TMAS.BLL.Services
         public async Task<IEnumerable<CardViewDTO>> GetAll(int columnId)
         {
             var allCards = await _cardRepository.GetAll(columnId);
-            var result = _mapper.Map<IEnumerable<Card>,IEnumerable<CardViewDTO>>(allCards);
-            return result;
+            var mapperResult = _mapper.Map<IEnumerable<Card>,IEnumerable<CardViewDTO>>(allCards);
+            return mapperResult;
         }
         public async Task<Card> CheckCard(int cardId,Boolean status)
         {
@@ -65,10 +65,13 @@ namespace TMAS.BLL.Services
         {
             return await _cardRepository.Update(updatedCard);
         }
+
         public async Task<Card> Move(Card movedCard)
         {
             Card updatedCard = await db.Cards.FirstOrDefaultAsync(x => x.Id == movedCard.Id);
+
             _moveCards.SwitchCards(updatedCard.SortBy,movedCard);
+
             updatedCard.SortBy = movedCard.SortBy;
             updatedCard.UpdatedDate = DateTime.Now;
             db.SaveChanges();
@@ -78,8 +81,10 @@ namespace TMAS.BLL.Services
         public async Task<Card> MoveOnColumns(Card movedCard)
         {
             Card updatedCard =await db.Cards.FirstOrDefaultAsync(x => x.Id == movedCard.Id);
+
             _moveCards.MoveOnNewColumn(movedCard);
             _moveCards.MoveOnOldColumn(updatedCard);
+
             updatedCard.ColumnId = movedCard.ColumnId;
             updatedCard.SortBy = movedCard.SortBy;
             updatedCard.UpdatedDate = DateTime.Now;

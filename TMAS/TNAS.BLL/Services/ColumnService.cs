@@ -7,20 +7,26 @@ using TMAS.DAL.Repositories;
 using TMAS.BLL.Interfaces;
 using TMAS.DB.Models;
 using TMAS.BLL.Interfaces.BaseInterfaces;
+using AutoMapper;
+using TMAS.DB.DTO;
 
 namespace TMAS.BLL.Services
 {
     public class ColumnService: IColumnService
     {
         private readonly ColumnRepository _columnRepository;
-        public ColumnService(ColumnRepository repository)
+        private readonly IMapper _mapper;
+        public ColumnService(ColumnRepository repository,IMapper mapper)
         {
             _columnRepository = repository;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Column>> GetAll(int boardId)
+        public async Task<IEnumerable<ColumnViewDTO>> GetAll(int boardId)
         {
-            return _columnRepository.GetAll(boardId);
+            var columns= _columnRepository.GetAll(boardId);
+            var mapperResult = _mapper.Map<IEnumerable<Column>,IEnumerable<ColumnViewDTO>>(columns);
+            return mapperResult;
         }
         public async Task<Column> GetOne(int columnId)
         {

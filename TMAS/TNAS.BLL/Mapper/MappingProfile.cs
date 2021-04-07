@@ -28,6 +28,15 @@ namespace TMAS.BLL.Mapper
                     .ForMember(dest => dest.IsDone, act => act.MapFrom(src => src.IsDone))
                     .ForMember(dest => dest.ColumnId, act => act.MapFrom(src => src.ColumnId))
                     .ForMember(dest => dest.SortBy, act => act.MapFrom(src => src.SortBy));
+
+            CreateMap<Board, BoardViewDTO>()
+                    .ForMember(dest => dest.Id, act => act.MapFrom(src => src.Id))
+                    .ForMember(dest => dest.Title, act => act.MapFrom(src => src.Title));
+
+            CreateMap<Column, ColumnViewDTO>()
+                    .ForMember(dest => dest.Id, act => act.MapFrom(src => src.Id))
+                    .ForMember(dest => dest.Title, act => act.MapFrom(src => src.Title))
+                    .ForMember(dest => dest.SortBy, act => act.MapFrom(src => src.SortBy));
         }
     }
 }
