@@ -18,13 +18,13 @@ namespace TMAS.BLL.Services
         private readonly CardRepository _cardRepository;
         private readonly IMapper _mapper;
         private AppDbContext db;
-        private CardsMoveService _moveCards;
-        public CardService(CardRepository repository,IMapper mapper,AppDbContext context,CardsMoveService cardsMoveService)
+        private CardsSortService _sortService;
+        public CardService(CardRepository repository,IMapper mapper,AppDbContext context,CardsSortService cardsMoveService)
         {
             _cardRepository = repository;
             _mapper = mapper;
             db = context;
-            _moveCards = cardsMoveService;
+            _sortService = cardsMoveService;
         }
         public async Task<IEnumerable<CardViewDTO>> GetAll(int columnId)
         {
@@ -70,7 +70,7 @@ namespace TMAS.BLL.Services
         {
             Card updatedCard = await db.Cards.FirstOrDefaultAsync(x => x.Id == movedCard.Id);
 
-            _moveCards.SwitchCards(updatedCard.SortBy,movedCard);
+            _sortService.SwitchCards(updatedCard.SortBy,movedCard);
 
             updatedCard.SortBy = movedCard.SortBy;
             updatedCard.UpdatedDate = DateTime.Now;
@@ -82,8 +82,8 @@ namespace TMAS.BLL.Services
         {
             Card updatedCard =await db.Cards.FirstOrDefaultAsync(x => x.Id == movedCard.Id);
 
-            _moveCards.MoveOnNewColumn(movedCard);
-            _moveCards.MoveOnOldColumn(updatedCard);
+            _sortService.MoveOnNewColumn(movedCard);
+            _sortService.MoveOnOldColumn(updatedCard);
 
             updatedCard.ColumnId = movedCard.ColumnId;
             updatedCard.SortBy = movedCard.SortBy;
@@ -94,6 +94,7 @@ namespace TMAS.BLL.Services
 
         public async Task<Card> Delete(int id)
         {
+            var reduceResult =await _sortService.ReduceAfterDeleteAsync(id);
             return await _cardRepository.Delete(id);
         }
 

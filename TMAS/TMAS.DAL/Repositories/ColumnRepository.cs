@@ -14,7 +14,6 @@ namespace TMAS.DAL.Repositories
     public class ColumnRepository:IColumnRepository
     {
         private AppDbContext db;
-
         public ColumnRepository(AppDbContext context)
         {
             db =context;
@@ -34,7 +33,7 @@ namespace TMAS.DAL.Repositories
 
         public async Task<Column> Create(Column column)
         {
-            db.Columns.Add(column);
+            await db.Columns.AddAsync(column);
             await db.SaveChangesAsync();
             return column;
         }
@@ -53,6 +52,7 @@ namespace TMAS.DAL.Repositories
             Column deletedColumn = db.Columns.FirstOrDefault(x => x.Id == id);
             if (deletedColumn != null)
             {
+
                 deletedColumn.IsActive = false;
                 deletedColumn.UpdatedDate = DateTime.Now;
                 db.SaveChanges();
@@ -62,8 +62,7 @@ namespace TMAS.DAL.Repositories
             {
                 return default;
             }
-            
-            
+
         }
 
     }

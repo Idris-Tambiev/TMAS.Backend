@@ -19,11 +19,13 @@ namespace TMAS.BLL.Services
         private readonly ColumnRepository _columnRepository;
         private readonly IMapper _mapper;
         private readonly AppDbContext db;
-        public ColumnService(ColumnRepository repository,IMapper mapper,AppDbContext context)
+        private readonly ColumnsSortService _columnsSortService;
+        public ColumnService(ColumnRepository repository,IMapper mapper,AppDbContext context,ColumnsSortService columnsSortService)
         {
             _columnRepository = repository;
             _mapper = mapper;
             db = context;
+            _columnsSortService = columnsSortService;
         }
 
         public async Task<IEnumerable<ColumnViewDTO>> GetAll(int boardId)
@@ -37,15 +39,9 @@ namespace TMAS.BLL.Services
             return await _columnRepository.GetOne(columnId);
         }
 
-        public async Task<Column> Create(string title, int boardId)
+        public async Task<Column> Create(ColumnViewDTO column)
         {
-            var newColumn = new Column
-            {
-                Title = title,
-                BoardId = boardId,
-                CreatedDate =DateTime.Now,
-                IsActive=true
-        };
+            var newColumn = _mapper.Map<ColumnViewDTO,Column>(column);
             return await _columnRepository.Create(newColumn);
         }
 
@@ -57,55 +53,20 @@ namespace TMAS.BLL.Services
 
         public async Task<Column> Delete(int id)
         {
+            var a =await _columnsSortService.ReduceAfterDeleteAsync(id);
             return _columnRepository.Delete(id);
         }
 
         public async Task<Column> Move(Column movedColumn)
         {
             Column updatedColumn = await db.Columns.FirstOrDefaultAsync(x => x.Id == movedColumn.Id);
-
-            SwitchColumns(updatedColumn.SortBy, movedColumn);
-
+            _columnsSortService.SwitchColumns(updatedColumn.SortBy, movedColumn);
             updatedColumn.SortBy = movedColumn.SortBy;
             updatedColumn.UpdatedDate = DateTime.Now;
             db.SaveChanges();
             return movedColumn;
         }
 
-        public void SwitchColumns(int prevPosition, Column column)
-        {
-            int currentPosition = column.SortBy;
-            if (currentPosition < prevPosition)
-            {
-                var result = db.Columns
-                .Where(x => x.BoardId == column.BoardId)
-                .OrderBy(x => x.SortBy)
-                .Skip(currentPosition)
-                .ToList();
-
-                for (int i = 0; i < result.Count; i++)
-                {
-                    if (result[i].SortBy < prevPosition)
-                    {
-                        result[i].SortBy++;
-                    }
-                }
-            }
-            else
-            {
-                var result = db.Columns
-                .Where(x => x.BoardId == column.BoardId)
-                .OrderBy(x => x.SortBy)
-                .Skip(prevPosition + 1)
-                .Take(currentPosition - prevPosition)
-                .ToList();
-
-                for (int i = 0; i < result.Count; i++)
-                {
-                    result[i].SortBy--;
-                }
-            }
-            db.SaveChanges();
-        }
+        
     }
 }

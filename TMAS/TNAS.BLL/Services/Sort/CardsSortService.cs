@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +9,10 @@ using TMAS.DB.Models;
 
 namespace TMAS.BLL.Services
 {
-    public class CardsMoveService
+    public class CardsSortService
     {
         private AppDbContext db;
-        public CardsMoveService(AppDbContext context)
+        public CardsSortService(AppDbContext context)
         {
             db = context;
         }
@@ -81,5 +82,22 @@ namespace TMAS.BLL.Services
             }
             db.SaveChanges();
         }
+        public async Task<Card> ReduceAfterDeleteAsync(int id)
+        {
+            var card = db.Cards.FirstOrDefault(x => x.Id == id);
+            var result = await db.Cards
+                .Where(x => x.ColumnId == card.ColumnId)
+                .Where(x=>x.IsActive==true)
+                .OrderBy(x => x.SortBy)
+                .Skip(card.SortBy + 1)
+                .ToListAsync();
+            for (int i = 0; i < result.Count; i++)
+            {
+                result[i].SortBy--;
+            }
+            await db.SaveChangesAsync();
+            return card;
+        }
+
     }
 }

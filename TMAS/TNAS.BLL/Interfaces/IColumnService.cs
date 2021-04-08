@@ -13,7 +13,7 @@ namespace TMAS.BLL.Interfaces
     {
         Task<IEnumerable<ColumnViewDTO>> GetAll(int boardId);
         Task<Column> GetOne(int id);
-        Task<Column> Create(string title, int boardId);
+        Task<Column> Create(ColumnViewDTO column);
         Task<Column> Update(Column updatedColumn);
         Task<Column> Delete(int id);
     }
