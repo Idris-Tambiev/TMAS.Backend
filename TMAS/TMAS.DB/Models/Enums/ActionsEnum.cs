@@ -16,7 +16,9 @@ namespace TMAS.DB.Models.Enums
         CreateColumn = 5,
         DeleteColumn = 6,
         UpdateColumn = 7,
-        MoveColumn = 8
+        MoveColumn = 8,
+        CheckedCard=9,
+        UncheckedCard=10
         //AddCard=0,
         //EditCard=1,
         //DeleteCard=2,
