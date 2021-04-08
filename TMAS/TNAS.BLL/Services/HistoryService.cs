@@ -23,12 +23,14 @@ namespace TMAS.BLL.Services
 
         public async Task<History> Create(History history,Guid userId)
         {
-            var newHistory = new History
+            History newHistory = new History
             {
                 ActionType = history.ActionType,
                 AuthorId = userId,
                 CreatedDate = DateTime.Now,
-                ActionObject = history.ActionObject
+                ActionObject = history.ActionObject,
+                SourceAction= history.SourceAction,
+                DestinationAction=history.DestinationAction
 
             };
             return  await _historyRepository.Create(newHistory);
