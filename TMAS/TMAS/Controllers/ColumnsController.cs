@@ -32,9 +32,9 @@ namespace TMAS.Controllers
 
         [HttpGet("get/one")]
         [Authorize]
-        public async Task<ActionResult<Column>> GetOneColumn(int columnId)
+        public async Task<ActionResult<Column>> GetOneColumn(int id)
         {
-            return Ok(await _columnService.GetOne(columnId));
+            return Ok(await _columnService.GetOne(id));
         }
 
         [HttpPost("create")]

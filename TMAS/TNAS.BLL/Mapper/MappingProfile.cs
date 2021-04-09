@@ -45,6 +45,10 @@ namespace TMAS.BLL.Mapper
                     .ForMember(dest => dest.BoardId, act => act.MapFrom(src => src.BoardId))
                     .ForMember(dest => dest.CreatedDate, act => act.MapFrom(src => DateTime.Now))
                     .ForMember(dest => dest.IsActive, act => act.MapFrom(src => true));
+
+            CreateMap<User, UserDTO>()
+                    .ForMember(dest => dest.Name, act => act.MapFrom(src => src.Name))
+                    .ForMember(dest => dest.LastName, act => act.MapFrom(src => src.Lastname));
         }
     }
 }

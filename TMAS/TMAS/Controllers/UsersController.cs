@@ -36,12 +36,12 @@ namespace TMAS.Controllers
             return Ok(await _userService.Create(model));
         }
 
-        [HttpGet("test")]
+        [HttpGet("get")]
         [Authorize]
-        public Guid Test()
+        public async Task<ActionResult<UserDTO>> GetUserName()
         {
             var id = GetUserId();
-            return id;
+            return await _userService.GetOneById(id);
         }
     }
 }

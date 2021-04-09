@@ -53,5 +53,12 @@ namespace TMAS.BLL.Services
                 else return default;
             }
         }
+        public async Task<UserDTO> GetOneById(Guid id)
+        {
+            User findedUser = await _userManager.FindByIdAsync(id.ToString());
+            var result = _mapper.Map<User,UserDTO>(findedUser);
+            return result;
+        }
+
     }
 }
