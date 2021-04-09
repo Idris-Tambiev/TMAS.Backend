@@ -49,6 +49,14 @@ namespace TMAS.BLL.Mapper
             CreateMap<User, UserDTO>()
                     .ForMember(dest => dest.Name, act => act.MapFrom(src => src.Name))
                     .ForMember(dest => dest.LastName, act => act.MapFrom(src => src.Lastname));
+
+            CreateMap<History, HistoryViewDTO>()
+                 .ForMember(dest => dest.Id, act => act.MapFrom(src => src.Id))
+                    .ForMember(dest => dest.ActionObject, act => act.MapFrom(src => src.ActionObject))
+                    .ForMember(dest => dest.ActionType, act => act.MapFrom(src => src.ActionType))
+                    .ForMember(dest => dest.DestinationAction, act => act.MapFrom(src => src.DestinationAction))
+                    .ForMember(dest => dest.SourceAction, act => act.MapFrom(src => src.SourceAction))
+                    .ForMember(dest => dest.CreatedDate, act => act.MapFrom(src => src.CreatedDate));
         }
     }
 }

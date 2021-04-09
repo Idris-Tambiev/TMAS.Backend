@@ -8,6 +8,7 @@ namespace TMAS.DB.DTO
 {
     public class HistoryViewDTO
     {
+        public int Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public int ActionType { get; set; }
         public string ActionObject { get; set; }

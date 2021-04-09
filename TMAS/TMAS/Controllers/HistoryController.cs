@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TMAS.BLL.Services;
 using TMAS.DB.Models;
 using TMAS.Controllers.Base;
+using TMAS.DB.DTO;
 
 namespace TMAS.Controllers
 {
@@ -23,10 +24,10 @@ namespace TMAS.Controllers
 
         [HttpGet("get")]
         [Authorize]
-        public async Task<ActionResult<History>> GetHistory()
+        public async Task<ActionResult<HistoryViewDTO>> GetHistory()
         {
             var id = GetUserId();
-            return Ok(await _historyService.GetAll(id));
+            return Ok( _historyService.GetAll(id));
         }
 
         [HttpPost("create")]

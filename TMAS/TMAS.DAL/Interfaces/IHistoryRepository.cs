@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TMAS.DB.Models;
 using TMAS.DAL.Interfaces.BaseInterfaces;
+using TMAS.DB.DTO;
 
 namespace TMAS.DAL.Interfaces
 {

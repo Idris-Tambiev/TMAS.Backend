@@ -6,19 +6,25 @@ using System.Threading.Tasks;
 using TMAS.DAL.Repositories;
 using TMAS.BLL.Interfaces;
 using TMAS.DB.Models;
+using AutoMapper;
+using TMAS.DB.DTO;
 
 namespace TMAS.BLL.Services
 {
     public class HistoryService:IHistoryService
     {
         private readonly HistoryRepository _historyRepository;
-        public HistoryService(HistoryRepository repository)
+        private readonly IMapper _mapper;
+        public HistoryService(HistoryRepository repository,IMapper mapper)
         {
             _historyRepository = repository;
+            _mapper = mapper;
         }
-        public async Task<IEnumerable<History>> GetAll(Guid userId)
+        public async Task<IEnumerable<HistoryViewDTO>> GetAll(Guid userId)
         {
-            return await _historyRepository.GetAll(userId);
+            var allHistories= await _historyRepository.GetAll(userId);
+             var mapperResult = _mapper.Map<IEnumerable<History>,IEnumerable<HistoryViewDTO>>(allHistories);
+            return mapperResult;
         }
 
         public async Task<History> Create(History history,Guid userId)
