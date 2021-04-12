@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMAS.DB.Models.Enums;
 
 namespace TMAS.DB.DTO
 {
@@ -10,7 +11,7 @@ namespace TMAS.DB.DTO
     {
         public int Id { get; set; }
         public DateTime CreatedDate { get; set; }
-        public int ActionType { get; set; }
+        public UserActions ActionType { get; set; }
         public string ActionObject { get; set; }
         public int? SourceAction { get; set; }
         public int? DestinationAction { get; set; }

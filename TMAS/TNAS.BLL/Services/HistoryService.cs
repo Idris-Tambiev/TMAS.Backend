@@ -20,11 +20,11 @@ namespace TMAS.BLL.Services
             _historyRepository = repository;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<History>> GetAll(Guid userId)
+        public async Task<IEnumerable<HistoryViewDTO>> GetAll(Guid userId)
         {
             var allHistories= await _historyRepository.GetAll(userId);
-             //var mapperResult = _mapper.Map<IEnumerable<History>,IEnumerable<HistoryViewDTO>>(allHistories);
-            return allHistories;
+            var mapperResult = _mapper.Map<IEnumerable<History>,IEnumerable<HistoryViewDTO>>(allHistories);
+            return mapperResult;
         }
 
         public async Task<History> Create(History history,Guid userId)

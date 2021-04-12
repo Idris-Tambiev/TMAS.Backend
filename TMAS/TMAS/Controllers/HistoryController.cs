@@ -24,7 +24,7 @@ namespace TMAS.Controllers
 
         [HttpGet("get")]
         [Authorize]
-        public async Task<ActionResult<History>> GetHistory()
+        public async Task<ActionResult<HistoryViewDTO>> GetHistory()
         {
             var id = GetUserId();
             return Ok( await _historyService.GetAll(id));

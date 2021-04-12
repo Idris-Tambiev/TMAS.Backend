@@ -11,7 +11,7 @@ namespace TMAS.BLL.Interfaces
 {
     public interface IHistoryService:IBaseService
     {
-        Task<IEnumerable<History>> GetAll(Guid userId);
+        Task<IEnumerable<HistoryViewDTO>> GetAll(Guid userId);
         Task<History> Create(History history, Guid userId);
     }
 }
