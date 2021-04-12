@@ -39,10 +39,10 @@ namespace TMAS.Controllers
 
         [HttpGet("search")]
         [Authorize]
-        public async Task<IActionResult> FindBoards(string title)
+        public async Task<IActionResult> FindBoards(string text)
         {
             var userId = GetUserId();
-            return Ok(await _boardService.FindBoard(userId, title));
+            return Ok(await _boardService.FindBoard(userId, text));
         }
 
         [HttpGet("create")]

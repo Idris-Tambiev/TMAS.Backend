@@ -57,9 +57,9 @@ namespace TMAS.BLL.Services
             return await _cardRepository.Create(newCard);
         }
 
-        public async Task<IEnumerable<Card>> FindCard(int boardId, string search)
+        public async Task<IEnumerable<Card>> FindCard(int columnId, string search)
         {
-            return await _cardRepository.FindCards(boardId,search);
+            return await _cardRepository.FindCards(columnId, search);
         }
         public async Task<Card> Update(Card updatedCard)
         {
