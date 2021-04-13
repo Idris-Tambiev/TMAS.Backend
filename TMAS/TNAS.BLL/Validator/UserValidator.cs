@@ -17,7 +17,7 @@ namespace TMAS.BLL.Validator
             RuleFor(x => x.UserName).NotEmpty().WithMessage("Empty Username");
             RuleFor(x => x.Email).NotEmpty().EmailAddress().WithMessage("bad email");
             RuleFor(x => x.Password).NotEmpty()
-                .MinimumLength(6).WithMessage("Incorrect Password"); ;
+            .MinimumLength(6).WithMessage("Incorrect Password"); ;
         }
     }
 }

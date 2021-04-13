@@ -23,7 +23,7 @@ namespace TMAS.BLL.Services
         public UserService(UserRepository repository, UserManager<User> userManager,IMapper mapper,AbstractValidator<RegistrateUserDto> validator)
         {
             _userRepository = repository;
-             _userManager = userManager;
+            _userManager = userManager;
             _mapper = mapper;
             _userValidator = validator;
         }

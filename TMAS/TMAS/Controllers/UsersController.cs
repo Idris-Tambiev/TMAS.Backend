@@ -43,5 +43,9 @@ namespace TMAS.Controllers
             var id = GetUserId();
             return await _userService.GetOneById(id);
         }
+        public IActionResult GoogleLogin()
+        {
+            return default;
+        }
     }
 }

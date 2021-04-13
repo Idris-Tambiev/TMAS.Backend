@@ -21,6 +21,7 @@ using Microsoft.IdentityModel.JsonWebTokens;
 using FluentValidation;
 using IdentityServer4.Services;
 using Microsoft.Extensions.Logging;
+using TMAS.Providers;
 
 namespace TMAS
 {
@@ -95,6 +96,13 @@ namespace TMAS
                 });
             });
 
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = "376665190064-ndjak54aopiu113g92lhvore6660eale.apps.googleusercontent.com";
+                    options.ClientSecret = "I4AUb6G_u5ctTGn0AhelZdBa";
+                });
+
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
@@ -116,11 +124,9 @@ namespace TMAS
             services.AddScoped<HistoryRepository>();
             services.AddSingleton<AbstractValidator<RegistrateUserDto>, UserValidator>();
             services.AddScoped<Controllers.Base.BaseController>();
-
+            services.AddTransient<IGoogleAuthProvider, GoogleAuthProvider<IdentityUser>>();
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("TMAS.DB")));
-
-           
 
         services.AddSwaggerGen();
             services.AddControllers();
@@ -129,9 +135,6 @@ namespace TMAS
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
-           
-            
 
             if (env.IsDevelopment())
             {

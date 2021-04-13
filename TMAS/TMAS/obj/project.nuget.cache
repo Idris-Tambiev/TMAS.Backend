@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "KT9A79ciiirDuq4BCaVEhybJtkfh37F3t+c1CtuqnbzJvjBeUHEyEMAuAAsFvZdDhQv8Q2wXqio0bwGycpdoww==",
+  "dgSpecHash": "LffA88dmvT7RezFotukuJmaWHto7v89Je7clhcOrH+wgawQshvNBYHzJPbzrT+tJVjgth9DMSa0p+6i62bf2Xw==",
   "success": true,
   "projectFilePath": "D:\\TMAS\\backend\\TMAS\\TMAS\\TMAS.csproj",
   "expectedPackageFiles": [
@@ -15,6 +15,7 @@
     "C:\\Users\\Idris\\.nuget\\packages\\identityserver4.entityframework\\4.1.2\\identityserver4.entityframework.4.1.2.nupkg.sha512",
     "C:\\Users\\Idris\\.nuget\\packages\\identityserver4.entityframework.storage\\4.1.2\\identityserver4.entityframework.storage.4.1.2.nupkg.sha512",
     "C:\\Users\\Idris\\.nuget\\packages\\identityserver4.storage\\4.1.2\\identityserver4.storage.4.1.2.nupkg.sha512",
+    "C:\\Users\\Idris\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\5.0.5\\microsoft.aspnetcore.authentication.google.5.0.5.nupkg.sha512",
     "C:\\Users\\Idris\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\5.0.4\\microsoft.aspnetcore.authentication.jwtbearer.5.0.4.nupkg.sha512",
     "C:\\Users\\Idris\\.nuget\\packages\\microsoft.aspnetcore.authentication.openidconnect\\3.1.0\\microsoft.aspnetcore.authentication.openidconnect.3.1.0.nupkg.sha512",
     "C:\\Users\\Idris\\.nuget\\packages\\microsoft.aspnetcore.cors\\2.2.0\\microsoft.aspnetcore.cors.2.2.0.nupkg.sha512",
