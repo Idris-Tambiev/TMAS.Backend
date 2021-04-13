@@ -99,12 +99,12 @@ namespace TMAS
                 });
             });
 
-            //services.AddAuthentication()
-            //    .AddGoogle(options =>
-            //    {
-            //        options.ClientId = "376665190064-ndjak54aopiu113g92lhvore6660eale.apps.googleusercontent.com";
-            //        options.ClientSecret = "I4AUb6G_u5ctTGn0AhelZdBa";
-            //    });
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = "376665190064-ndjak54aopiu113g92lhvore6660eale.apps.googleusercontent.com";
+                    options.ClientSecret = "I4AUb6G_u5ctTGn0AhelZdBa";
+                });
 
             var mappingConfig = new MapperConfiguration(mc =>
             {

@@ -33,9 +33,9 @@ namespace TMAS.Providers
             {
                 var request = new Dictionary<string, string>();
 
-            request.Add("token", accessToken);
-            var http = _clientFactory.CreateClient();
-            var result = http.GetAsync(Provider.UserInfoEndPoint + QueryBuilder.GetQuery(request, ProviderType.Google)).Result;
+                request.Add("token", accessToken);
+                var http = _clientFactory.CreateClient();
+                var result = http.GetAsync(Provider.UserInfoEndPoint + QueryBuilder.GetQuery(request, ProviderType.Google)).Result;
                 if (result.IsSuccessStatusCode)
                 {
                     var infoObject = JObject.Parse(result.Content.ReadAsStringAsync().Result);

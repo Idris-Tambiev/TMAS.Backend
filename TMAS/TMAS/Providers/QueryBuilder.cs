@@ -7,10 +7,6 @@ namespace TMAS.Providers
 {
     public static class QueryBuilder
     {
-        public static string FacebookUserInfoQuery(List<string> fields, string token)
-        {
-            return "?fields=" + String.Join(",", fields) + "&access_token=" + token;
-        }
         public static string GetQuery(Dictionary<string, string> values, ProviderType provider)
         {
             switch (provider)
