@@ -43,7 +43,7 @@ namespace TMAS.Configuration
                 new Client {
                     ClientId = "angular_spa_google",
                     ClientName = "Angular SPA",
-                    AllowedGrantTypes = { "external"},
+                    AllowedGrantTypes = {"external"},
                     AllowAccessTokensViaBrowser = true,
                     RequireClientSecret = false,
                     AllowOfflineAccess = true,
