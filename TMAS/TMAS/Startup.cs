@@ -23,6 +23,7 @@ using IdentityServer4.Services;
 using Microsoft.Extensions.Logging;
 using TMAS.Providers;
 
+
 namespace TMAS
 {
     public class Startup
@@ -69,14 +70,16 @@ namespace TMAS
                 .AddInMemoryIdentityResources(Resources.GetIdentityResources())
                 .AddInMemoryApiResources(Resources.GetApiResources())
                 .AddInMemoryApiScopes(Resources.GetApiScopes())
-                .AddAspNetIdentity<User>();
+                .AddAspNetIdentity<User>()
+                .AddExtensionGrantValidator<ExternalAuthenticationGrant>();
+      
 
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-
+            
             .AddJwtBearer(options =>
            {
                options.Authority = "https://localhost:44324";
@@ -96,12 +99,12 @@ namespace TMAS
                 });
             });
 
-            services.AddAuthentication()
-                .AddGoogle(options =>
-                {
-                    options.ClientId = "376665190064-ndjak54aopiu113g92lhvore6660eale.apps.googleusercontent.com";
-                    options.ClientSecret = "I4AUb6G_u5ctTGn0AhelZdBa";
-                });
+            //services.AddAuthentication()
+            //    .AddGoogle(options =>
+            //    {
+            //        options.ClientId = "376665190064-ndjak54aopiu113g92lhvore6660eale.apps.googleusercontent.com";
+            //        options.ClientSecret = "I4AUb6G_u5ctTGn0AhelZdBa";
+            //    });
 
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -124,11 +127,13 @@ namespace TMAS
             services.AddScoped<HistoryRepository>();
             services.AddSingleton<AbstractValidator<RegistrateUserDto>, UserValidator>();
             services.AddScoped<Controllers.Base.BaseController>();
+
             services.AddTransient<IGoogleAuthProvider, GoogleAuthProvider<IdentityUser>>();
+
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("TMAS.DB")));
 
-        services.AddSwaggerGen();
+            services.AddSwaggerGen();
             services.AddControllers();
         }
 
