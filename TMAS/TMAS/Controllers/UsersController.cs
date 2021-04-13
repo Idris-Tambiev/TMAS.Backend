@@ -20,17 +20,9 @@ namespace TMAS.Controllers
     public class UsersController : BaseController
     {
         private readonly UserService _userService;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        public UsersController(UserService service,SignInManager<IdentityUser> signInManager)
+        public UsersController(UserService service)
         {
             _userService = service;
-            _signInManager = signInManager;
-        }
-
-        [HttpPost("login")]
-        public async Task<ActionResult<User>> Login (User model)
-        {
-            return Ok(await _userService.GetOneByEmail(model));
         }
 
         [HttpPost("create")]
@@ -46,11 +38,6 @@ namespace TMAS.Controllers
             var id = GetUserId();
             return await _userService.GetOneById(id);
         }
-        public IActionResult GoogleLogin()
-        {
-            return default;
-        }
     
-
     }
 }
