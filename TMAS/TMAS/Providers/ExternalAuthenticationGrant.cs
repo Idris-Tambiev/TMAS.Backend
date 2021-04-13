@@ -84,9 +84,10 @@ namespace TMAS.Providers
                     }
                     else
                     {
-                        // register new user
                         user = new User
-                        {
+                        {   
+                            Name=userInfo.Value<string>("given_name"),
+                            Lastname = userInfo.Value<string>("family_name"),
                             UserName = userInfo.Value<string>("email"),
                             Email = userInfo.Value<string>("email"),
                             EmailConfirmed = true

@@ -16,7 +16,6 @@ namespace TMAS.Providers
                     ProviderId=1,
                     Name="Google",
                     UserInfoEndPoint="https://www.googleapis.com/oauth2/v2/userinfo"
-                   //UserInfoEndPoint="https://oauth2.googleapis.com/userinfo"
                 }
             };
         }
