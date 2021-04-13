@@ -11,6 +11,7 @@ using TMAS.DB.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using TMAS.Controllers.Base;
+using System.Security.Claims;
 
 namespace TMAS.Controllers
 {
@@ -19,9 +20,11 @@ namespace TMAS.Controllers
     public class UsersController : BaseController
     {
         private readonly UserService _userService;
-        public UsersController(UserService service)
+        private readonly SignInManager<IdentityUser> _signInManager;
+        public UsersController(UserService service,SignInManager<IdentityUser> signInManager)
         {
             _userService = service;
+            _signInManager = signInManager;
         }
 
         [HttpPost("login")]
@@ -47,5 +50,7 @@ namespace TMAS.Controllers
         {
             return default;
         }
+    
+
     }
 }

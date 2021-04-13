@@ -9,19 +9,37 @@ using TMAS.DB.Models;
 
 namespace TMAS.Providers
 {
-    public interface IGoogleAuthProvider : IExternalAuthProvider
+    public class GoogleAuthProvider
     {
-        Provider Provider { get; }
-    }
-    public class GoogleAuthProvider<TUser> : IGoogleAuthProvider where TUser : IdentityUser, new()
-    {
-        public Provider Provider => ProviderDataSource
-            .GetProviders()
-            .FirstOrDefault(x=>x.Name.ToLower() == ProviderType.Google.ToString().ToLower());
-
-        public JObject GetUserInfo(string accessToken)
+        public interface IGoogleAuthProvider : IExternalAuthProvider
         {
-            throw new NotImplementedException();
+            Provider Provider { get; }
+        }
+
+
+        public class GoogleAuthProvider<TUser> : IGoogleAuthProvider where TUser : IdentityUser, new( )
+        {
+            public Provider Provider => ProviderDataSource
+                .GetProviders()
+
+            .FirstOrDefault(x => x.Name.ToLower() == ProviderType.Google.ToString().ToLower());
+
+
+            public JObject GetUserInfo(string accessToken)
+            {
+                var request = new Dictionary<string, string>();
+                request.Add("token", accessToken);
+​
+            var http = _clientFactory.CreateClient();
+​
+            var result = http.GetAsync(Provider.UserInfoEndPoint + QueryBuilder.GetQuery(request, ProviderType.Google)).Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var infoObject = JObject.Parse(result.Content.ReadAsStringAsync().Result);
+                    return infoObject;
+                }
+                return null;
+            }
         }
     }
 }
