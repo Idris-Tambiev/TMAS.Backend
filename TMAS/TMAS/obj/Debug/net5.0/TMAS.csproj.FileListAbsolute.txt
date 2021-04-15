@@ -84,3 +84,6 @@ D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\FluentValidation.AspNetCore.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\FluentValidation.DependencyInjectionExtensions.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.Google.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\Z.EntityFramework.Extensions.EFCore.dll
+D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\MailKit.dll
+D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\MimeKit.dll
+D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\BouncyCastle.Crypto.dll

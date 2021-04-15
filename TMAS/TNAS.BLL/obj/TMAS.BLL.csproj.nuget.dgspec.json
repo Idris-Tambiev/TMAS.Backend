@@ -181,6 +181,14 @@
             "FluentValidation.AspNetCore": {
               "target": "Package",
               "version": "[9.5.3, )"
+            },
+            "MailKit": {
+              "target": "Package",
+              "version": "[2.11.1, )"
+            },
+            "SendGrid": {
+              "target": "Package",
+              "version": "[9.22.0, )"
             }
           },
           "imports": [

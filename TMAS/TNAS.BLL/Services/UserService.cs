@@ -11,6 +11,7 @@ using TMAS.DB.DTO;
 using AutoMapper;
 using FluentValidation;
 using TMAS.BLL.Validator;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace TMAS.BLL.Services
 {
@@ -20,17 +21,22 @@ namespace TMAS.BLL.Services
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
         private readonly AbstractValidator<RegistrateUserDto> _userValidator;
-        public UserService(UserRepository repository, UserManager<User> userManager,IMapper mapper,AbstractValidator<RegistrateUserDto> validator)
+        private readonly EmailService _emailService;
+        //private readonly IMailService _mailService;
+        public UserService(UserRepository repository, UserManager<User> userManager,IMapper mapper,AbstractValidator<RegistrateUserDto> validator,EmailService emailService)
+
         {
             _userRepository = repository;
             _userManager = userManager;
             _mapper = mapper;
             _userValidator = validator;
+            _emailService = emailService;
         }
         public async Task<User> GetOneByEmail(User user)
         {
            var findedUser= await _userManager.FindByEmailAsync(user.Email);
-           return findedUser;
+           
+            return findedUser;
         }
 
         public async Task<IdentityResult> Create(RegistrateUserDto createdUser)
@@ -48,6 +54,7 @@ namespace TMAS.BLL.Services
                 {
                     var newUser = _mapper.Map<RegistrateUserDto, User>(createdUser);
                     var result = await _userManager.CreateAsync(newUser, createdUser.Password);
+                    
                     return result;
                 }
                 else return default;
@@ -57,8 +64,38 @@ namespace TMAS.BLL.Services
         {
             User findedUser = await _userManager.FindByIdAsync(id.ToString());
             var result = _mapper.Map<User,UserDTO>(findedUser);
+            var a =_emailService.CreateEmailAsync(findedUser);
+            //var a =  _emailService.SendEmailAsync(findedUser.Email, "New login", "<h1>Hey!, new login to your account noticed</h1><p>New login to your account at " + DateTime.Now + "</p>");
             return result;
         }
+        public async Task<UserManagerResponse> ConfirmEmailAsync(string id,string token)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)  return new UserManagerResponse
+            {
+                IsSuccess = false,
+                Message = "User not found"
+            }; ;
 
+            var decodedToken = WebEncoders.Base64UrlDecode(token);
+            string normalToken = Encoding.UTF8.GetString(decodedToken);
+            var result = await _userManager.ConfirmEmailAsync(user,normalToken);
+
+            if (result.Succeeded)
+            {
+                return new UserManagerResponse { 
+                    IsSuccess=true,
+                    Message="Email confirmed successfully"
+                };
+            }
+            else
+            {
+                return new UserManagerResponse
+                {
+                    IsSuccess = false,
+                    Message = "Email did not confirmed"
+                };
+            }
+        }
     }
 }

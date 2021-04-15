@@ -38,6 +38,23 @@ namespace TMAS.Controllers
             var id = GetUserId();
             return await _userService.GetOneById(id);
         }
-    
+
+        // api/users/confirmemail
+        [HttpGet("confirmemail")]
+        public async Task<ActionResult> ConfirmEmail(string userId,string token)
+        {
+            //var id = GetUserId();
+            if(string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
+            {
+                return NotFound();
+            }
+
+            var result = await _userService.ConfirmEmailAsync(userId, token);
+            if (result.IsSuccess)
+            {
+                return Ok("Yes confirmed");
+            }
+            return BadRequest();
+        }
     }
 }
