@@ -52,7 +52,7 @@ namespace TMAS.Controllers
             var result = await _userService.ConfirmEmailAsync(userId, token);
             if (result.IsSuccess)
             {
-                return Ok("Yes confirmed");
+                return Ok(result);
             }
             return BadRequest();
         }
