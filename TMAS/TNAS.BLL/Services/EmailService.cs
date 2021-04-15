@@ -37,7 +37,7 @@ namespace TMAS.BLL.Services
             var encodedEmailToken = Encoding.UTF8.GetBytes(confirmEmailToken);
             var validEmailToken = WebEncoders.Base64UrlEncode(encodedEmailToken);
 
-            string url = $"{_configuration["AppUrl"]}/registration/confirmemail?userid={createdUser.Id}&token={validEmailToken}";
+            string url = $"{_configuration["AppUrl"]}/confirmemail?userid={createdUser.Id}&token={validEmailToken}";
             string content = $"<h1>Welcome to TMAS </h1><p>Please confirm your email by  <a href='{url}'>Clicking here</a></p>";
             await SendEmailAsync(createdUser.Email, "Confirm your email", content );
             return default;
