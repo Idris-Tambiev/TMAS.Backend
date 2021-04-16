@@ -75,8 +75,16 @@ namespace TMAS.DAL.Repositories
             db.SaveChanges();
             return updatedCard;
         }
-        
 
+        public async Task<Card> UpdateChanges(Card card)
+        {
+            Card updatedCard = db.Cards.FirstOrDefault(x => x.Id == card.Id);
+            updatedCard.ExecutionPeriod = card.ExecutionPeriod;
+            updatedCard.Text = card.Text;
+            updatedCard.UpdatedDate = DateTime.Now;
+            db.SaveChanges();
+            return updatedCard;
+        }
         public async Task<Card> Delete(int id)
         {
             Card deletedCard = db.Cards.FirstOrDefault(x => x.Id == id);

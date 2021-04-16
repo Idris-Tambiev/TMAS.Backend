@@ -43,9 +43,9 @@ namespace TMAS.Controllers
         }
         [HttpGet("get/one")]
         [Authorize]
-        public async Task<ActionResult<Card>> GetOneCard(int cardId)
+        public async Task<ActionResult<Card>> GetOneCard(int id)
         {
-            return Ok(await _cardsService.GetOne(cardId));
+            return Ok(await _cardsService.GetOne(id));
         }
 
 
@@ -63,6 +63,14 @@ namespace TMAS.Controllers
         {
             return Ok(await _cardsService.Update(card));
         }
+
+        [HttpPut("update/changes")]
+        [Authorize]
+        public async Task<ActionResult<Card>> UpdateChanges(Card card)
+        {
+            return Ok(await _cardsService.UpdateChanges(card));
+        }
+
         [HttpPut("move")]
         [Authorize]
         public async Task<ActionResult<Card>> MoveCard(Card card)

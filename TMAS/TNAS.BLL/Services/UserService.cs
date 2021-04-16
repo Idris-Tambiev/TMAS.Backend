@@ -54,7 +54,7 @@ namespace TMAS.BLL.Services
                 {
                     var newUser = _mapper.Map<RegistrateUserDto, User>(createdUser);
                     var result = await _userManager.CreateAsync(newUser, createdUser.Password);
-                    //var a = _emailService.CreateEmailAsync(findedUser);
+                    var a = _emailService.CreateEmailAsync(newUser);
                     return result;
                 }
                 else return default;
@@ -64,7 +64,6 @@ namespace TMAS.BLL.Services
         {
             User findedUser = await _userManager.FindByIdAsync(id.ToString());
             var result = _mapper.Map<User,UserDTO>(findedUser);
-            var a = _emailService.CreateEmailAsync(findedUser);
             return result;
         }
         public async Task<UserManagerResponse> ConfirmEmailAsync(string id,string token)

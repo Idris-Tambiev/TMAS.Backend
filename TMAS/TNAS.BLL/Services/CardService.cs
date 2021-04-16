@@ -65,6 +65,10 @@ namespace TMAS.BLL.Services
         {
             return await _cardRepository.Update(updatedCard);
         }
+        public async Task<Card> UpdateChanges(Card updatedCard)
+        {
+            return await _cardRepository.UpdateChanges(updatedCard);
+        }
 
         public async Task<Card> Move(Card movedCard)
         {
