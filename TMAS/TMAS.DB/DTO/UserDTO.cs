@@ -10,5 +10,6 @@ namespace TMAS.DB.DTO
     {
         public string Name { get; set; }
         public string LastName { get; set; }
+        public string Photo { get; set; }
     }
 }

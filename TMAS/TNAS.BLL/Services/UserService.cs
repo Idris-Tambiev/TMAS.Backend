@@ -66,6 +66,8 @@ namespace TMAS.BLL.Services
             var result = _mapper.Map<User,UserDTO>(findedUser);
             return result;
         }
+
+
         public async Task<UserManagerResponse> ConfirmEmailAsync(string id,string token)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -94,6 +96,15 @@ namespace TMAS.BLL.Services
                     Message = "Email did not confirmed"
                 };
             }
+        }
+
+        public async Task<User> AddPhoto(Guid userId,string photo)
+        {
+            var findedUser = await _userManager.FindByIdAsync(userId.ToString());
+            findedUser.Photo = photo;
+            await _userManager.UpdateAsync(findedUser);
+
+            return findedUser;
         }
     }
 }

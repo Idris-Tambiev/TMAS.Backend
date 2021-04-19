@@ -151,6 +151,10 @@ namespace TMAS.DB.Context
                .HasColumnType("varchar(30)")
                .IsRequired();
 
+            modelBuilder.Entity<User>()
+               .Property(u => u.Photo)
+               .HasColumnType("varchar(100)")
+               .IsRequired(false);
 
             //File
             modelBuilder.Entity<File>()
@@ -158,6 +162,20 @@ namespace TMAS.DB.Context
                 .WithMany(b => b.Files)
                 .HasForeignKey(b => b.CardId);
 
+            modelBuilder.Entity<File>()
+               .Property(u => u.FileType)
+               .HasColumnType("varchar(30)")
+               .IsRequired();
+
+            modelBuilder.Entity<File>()
+               .Property(u => u.Path)
+               .HasColumnType("varchar(100)")
+               .IsRequired();
+
+            modelBuilder.Entity<File>()
+               .Property(u => u.Name)
+               .HasColumnType("varchar(100)")
+               .IsRequired();
         }
     }
 }

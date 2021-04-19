@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using TMAS.Controllers.Base;
 using System.Security.Claims;
+using System.IO;
+using System.Net.Http.Headers;
 
 namespace TMAS.Controllers
 {
@@ -55,6 +57,42 @@ namespace TMAS.Controllers
                 return Ok(result);
             }
             return BadRequest();
+        }
+
+        [HttpPost("upload/photo")]
+        [Authorize]
+        public async Task<ActionResult> Upload()
+        {
+            var id = GetUserId();
+            try
+            {
+                var file = Request.Form.Files[0];
+                var folderName = Path.Combine("Files");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                if (file.Length > 0)
+                {
+                    Guid guidName = Guid.NewGuid();
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var splitedName = fileName.Split('.');
+                    var finalName = guidName.ToString() + '.' + splitedName[splitedName.Length - 1];
+                    var fullPath = Path.Combine(pathToSave, finalName);
+                    var dbPath = Path.Combine(folderName, finalName);
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    var saveResult = await _userService.AddPhoto(id,finalName);
+                    return Ok(saveResult);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
         }
     }
 }
