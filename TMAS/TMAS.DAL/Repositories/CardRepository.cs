@@ -42,13 +42,6 @@ namespace TMAS.DAL.Repositories
         }
         public async Task<IEnumerable<Card>> FindCards(int columnId, string search)
         {
-            //var findedCards =await db.Boards
-            //    .Where(x => x.Id == boardId)
-            //    .SelectMany(s => 
-            //    s.Columns.SelectMany(
-            //        b=>b.Cards.Where(x=>
-            //        x.Title.Contains(search)))
-            //    ).ToListAsync();
             var findedCards = await db.Columns
                 .Where(x => x.Id == columnId)
                 .SelectMany(

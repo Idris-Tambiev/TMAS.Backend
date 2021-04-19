@@ -28,4 +28,8 @@
     <ProjectReference Include="..\TNAS.BLL\TMAS.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Files\" />
+  </ItemGroup>
+
 </Project>

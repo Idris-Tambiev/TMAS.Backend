@@ -22,7 +22,8 @@ using FluentValidation;
 using IdentityServer4.Services;
 using Microsoft.Extensions.Logging;
 using TMAS.Providers;
-
+using System.IO;
+using Microsoft.Extensions.FileProviders;
 
 namespace TMAS
 {
@@ -115,11 +116,13 @@ namespace TMAS
             services.AddScoped<HistoryService>();
             services.AddScoped<CardsSortService>();
             services.AddScoped<EmailService>();
+            services.AddScoped<FileService>();
             services.AddScoped<UserRepository>();
             services.AddScoped<BoardRepository>();
             services.AddScoped<CardRepository>();
             services.AddScoped<ColumnRepository>();
             services.AddScoped<HistoryRepository>();
+            services.AddScoped<FileRepository>();
             services.AddSingleton<AbstractValidator<RegistrateUserDto>, UserValidator>();
             services.AddScoped<Controllers.Base.BaseController>();
 
@@ -149,7 +152,13 @@ namespace TMAS
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
-            
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(env.ContentRootPath, "Files")),
+                RequestPath = "/Files"
+            });
 
             app.UseRouting();
 

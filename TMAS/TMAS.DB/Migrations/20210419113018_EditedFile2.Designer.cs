@@ -10,8 +10,8 @@ using TMAS.DB.Context;
 namespace TMAS.DB.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210405094208_InitialDb")]
-    partial class InitialDb
+    [Migration("20210419113018_EditedFile2")]
+    partial class EditedFile2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -225,6 +225,32 @@ namespace TMAS.DB.Migrations
                     b.HasIndex("BoardId");
 
                     b.ToTable("Columns");
+                });
+
+            modelBuilder.Entity("TMAS.DB.Models.File", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CardId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FileType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardId");
+
+                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("TMAS.DB.Models.History", b =>
@@ -449,6 +475,17 @@ namespace TMAS.DB.Migrations
                     b.Navigation("Board");
                 });
 
+            modelBuilder.Entity("TMAS.DB.Models.File", b =>
+                {
+                    b.HasOne("TMAS.DB.Models.Card", "Card")
+                        .WithMany("Files")
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Card");
+                });
+
             modelBuilder.Entity("TMAS.DB.Models.History", b =>
                 {
                     b.HasOne("TMAS.DB.Models.User", "User")
@@ -463,6 +500,11 @@ namespace TMAS.DB.Migrations
             modelBuilder.Entity("TMAS.DB.Models.Board", b =>
                 {
                     b.Navigation("Columns");
+                });
+
+            modelBuilder.Entity("TMAS.DB.Models.Card", b =>
+                {
+                    b.Navigation("Files");
                 });
 
             modelBuilder.Entity("TMAS.DB.Models.Column", b =>

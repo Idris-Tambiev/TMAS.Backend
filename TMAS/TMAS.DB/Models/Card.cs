@@ -22,6 +22,6 @@ namespace TMAS.DB.Models
         public Boolean IsActive { get; set; }
         public int ColumnId { get; set; }
         public Column Column { get; set; }
-
+        public List<File> Files { get; set; }
     }
 }

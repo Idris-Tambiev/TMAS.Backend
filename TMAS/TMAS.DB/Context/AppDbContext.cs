@@ -16,13 +16,14 @@ namespace TMAS.DB.Context
         public DbSet<Card> Cards { get; set; }
         public DbSet<Column> Columns { get; set; }
         public DbSet<History> Histories { get; set; }
+        public DbSet<File> Files { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
            //Database.EnsureDeleted();
            //Database.EnsureCreated();
-           Database.Migrate();
+           //Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -149,6 +150,13 @@ namespace TMAS.DB.Context
                .Property(u => u.Lastname)
                .HasColumnType("varchar(30)")
                .IsRequired();
+
+
+            //File
+            modelBuilder.Entity<File>()
+                .HasOne(p => p.Card)
+                .WithMany(b => b.Files)
+                .HasForeignKey(b => b.CardId);
 
         }
     }

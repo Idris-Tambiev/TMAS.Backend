@@ -45,12 +45,6 @@ namespace TMAS.BLL.Services
 
         public async Task SendEmailAsync(string toEmail, string newSubject, string content)
         {
-            //var apiKey = _configuration["SendGridAPIKey"];
-            //var client = new SendGridClient(apiKey);
-            //var from = new EmailAddress("test@auth.com", "JWT Auth Demo");
-            //var to = new EmailAddress(toEmail);
-            //var msg = MailHelper.CreateSingleEmail(from, to, subject, content, content);
-            //var response = await client.SendEmailAsync(msg);
 
             var fromAddress = new MailAddress("davearmstrong653@gmail.com", "Dave Armstrong");
             var toAddress = new MailAddress(toEmail, "Idris");
