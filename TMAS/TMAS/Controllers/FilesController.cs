@@ -33,7 +33,7 @@ namespace TMAS.Controllers
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
                 if (file.Length > 0)
                 {
-                    Guid guidName = new Guid();
+                    Guid guidName = Guid.NewGuid();
                     var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                     var splitedName = fileName.Split('.');
                     var finalName = guidName.ToString() + '.' + splitedName[splitedName.Length - 1];
