@@ -10,13 +10,14 @@ using TMAS.DB.Models;
 
 namespace TMAS.DB.Context
 {
-   public class AppDbContext : IdentityDbContext<User, Role, Guid>
+    public class AppDbContext : IdentityDbContext<User, Role, Guid>
     {
         public DbSet<Board> Boards { get; set; }
         public DbSet<Card> Cards { get; set; }
         public DbSet<Column> Columns { get; set; }
         public DbSet<History> Histories { get; set; }
         public DbSet<File> Files { get; set; }
+        public DbSet<BoardsAccess> BoardsAccesses{get;set;}
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
@@ -176,6 +177,18 @@ namespace TMAS.DB.Context
                .Property(u => u.Name)
                .HasColumnType("varchar(100)")
                .IsRequired();
+
+           //BoardsAccess
+            modelBuilder.Entity<BoardsAccess>()
+                .HasOne(p => p.User)
+                .WithMany(b => b.BoardsAccesses)
+                .HasForeignKey(b => b.UserId);
+
+            modelBuilder.Entity<BoardsAccess>()
+                 .HasOne(p => p.Board)
+                 .WithMany(b => b.BoardsAccesses)
+                 .HasForeignKey(b => b.BoardId)
+                 ;
         }
     }
 }

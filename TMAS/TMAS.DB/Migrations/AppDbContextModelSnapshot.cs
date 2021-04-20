@@ -150,6 +150,28 @@ namespace TMAS.DB.Migrations
                     b.ToTable("Boards");
                 });
 
+            modelBuilder.Entity("TMAS.DB.Models.BoardsAccess", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BoardId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BoardId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("BoardsAccesses");
+                });
+
             modelBuilder.Entity("TMAS.DB.Models.Card", b =>
                 {
                     b.Property<int>("Id")
@@ -457,6 +479,25 @@ namespace TMAS.DB.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("TMAS.DB.Models.BoardsAccess", b =>
+                {
+                    b.HasOne("TMAS.DB.Models.Board", "Board")
+                        .WithMany("BoardsAccesses")
+                        .HasForeignKey("BoardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TMAS.DB.Models.User", "User")
+                        .WithMany("BoardsAccesses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Board");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("TMAS.DB.Models.Card", b =>
                 {
                     b.HasOne("TMAS.DB.Models.Column", "Column")
@@ -503,6 +544,8 @@ namespace TMAS.DB.Migrations
 
             modelBuilder.Entity("TMAS.DB.Models.Board", b =>
                 {
+                    b.Navigation("BoardsAccesses");
+
                     b.Navigation("Columns");
                 });
 
@@ -519,6 +562,8 @@ namespace TMAS.DB.Migrations
             modelBuilder.Entity("TMAS.DB.Models.User", b =>
                 {
                     b.Navigation("Boards");
+
+                    b.Navigation("BoardsAccesses");
 
                     b.Navigation("Histories");
                 });

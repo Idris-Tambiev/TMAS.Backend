@@ -41,6 +41,13 @@ namespace TMAS.Controllers
             return await _userService.GetOneById(id);
         }
 
+        [HttpGet("get/users")]
+        [Authorize]
+        public async Task<IEnumerable<UserDTO>> GetUsers(string name)
+        {
+            return await _userService.GetUsers(name);
+        }
+
         // api/users/confirmemail
         [HttpGet("confirmemail")]
         public async Task<ActionResult> ConfirmEmail(string userId,string token)

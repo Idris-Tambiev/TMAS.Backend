@@ -12,6 +12,7 @@ using AutoMapper;
 using FluentValidation;
 using TMAS.BLL.Validator;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 
 namespace TMAS.BLL.Services
 {
@@ -37,6 +38,13 @@ namespace TMAS.BLL.Services
            var findedUser= await _userManager.FindByEmailAsync(user.Email);
            
             return findedUser;
+        }
+
+        public async Task<IEnumerable<UserDTO>> GetUsers(string searchText)
+        {
+            var findedUsers = await _userManager.Users.Where(x=>x.UserName.Contains(searchText)).ToListAsync();
+            var mapperResult = _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(findedUsers);
+            return mapperResult;
         }
 
         public async Task<IdentityResult> Create(RegistrateUserDto createdUser)

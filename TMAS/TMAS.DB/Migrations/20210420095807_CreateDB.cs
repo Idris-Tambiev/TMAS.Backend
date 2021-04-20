@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TMAS.DB.Migrations
 {
-    public partial class Initial : Migration
+    public partial class CreateDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,6 +28,7 @@ namespace TMAS.DB.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "varchar(30)", nullable: false),
                     Lastname = table.Column<string>(type: "varchar(30)", nullable: false),
+                    Photo = table.Column<string>(type: "varchar(100)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -203,6 +204,31 @@ namespace TMAS.DB.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BoardsAccesses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BoardId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BoardsAccesses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BoardsAccesses_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BoardsAccesses_Boards_BoardId",
+                        column: x => x.BoardId,
+                        principalTable: "Boards",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Columns",
                 columns: table => new
                 {
@@ -259,7 +285,9 @@ namespace TMAS.DB.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "varchar(100)", nullable: false),
+                    FileType = table.Column<string>(type: "varchar(30)", nullable: false),
+                    Path = table.Column<string>(type: "varchar(100)", nullable: false),
                     CardId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -318,6 +346,16 @@ namespace TMAS.DB.Migrations
                 column: "BoardUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BoardsAccesses_BoardId",
+                table: "BoardsAccesses",
+                column: "BoardId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BoardsAccesses_UserId",
+                table: "BoardsAccesses",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Cards_ColumnId",
                 table: "Cards",
                 column: "ColumnId");
@@ -354,6 +392,9 @@ namespace TMAS.DB.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "BoardsAccesses");
 
             migrationBuilder.DropTable(
                 name: "Files");

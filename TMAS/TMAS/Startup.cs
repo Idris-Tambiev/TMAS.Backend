@@ -117,12 +117,14 @@ namespace TMAS
             services.AddScoped<CardsSortService>();
             services.AddScoped<EmailService>();
             services.AddScoped<FileService>();
+            services.AddScoped<BoardsAccessService>();
             services.AddScoped<UserRepository>();
             services.AddScoped<BoardRepository>();
             services.AddScoped<CardRepository>();
             services.AddScoped<ColumnRepository>();
             services.AddScoped<HistoryRepository>();
             services.AddScoped<FileRepository>();
+            services.AddScoped<BoardsAccessRepository>();
             services.AddSingleton<AbstractValidator<RegistrateUserDto>, UserValidator>();
             services.AddScoped<Controllers.Base.BaseController>();
 
