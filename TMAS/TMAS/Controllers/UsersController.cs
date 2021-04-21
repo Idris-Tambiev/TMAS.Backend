@@ -61,7 +61,6 @@ namespace TMAS.Controllers
         [HttpGet("confirmemail")]
         public async Task<ActionResult> ConfirmEmail(string userId,string token)
         {
-            //var id = GetUserId();
             if(string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
             {
                 return NotFound();
