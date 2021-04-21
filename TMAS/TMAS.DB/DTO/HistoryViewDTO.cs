@@ -15,5 +15,6 @@ namespace TMAS.DB.DTO
         public string ActionObject { get; set; }
         public int? SourceAction { get; set; }
         public int? DestinationAction { get; set; }
+        public Guid AuthorId { get; set; }
     }
 }

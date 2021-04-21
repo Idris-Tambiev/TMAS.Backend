@@ -17,5 +17,6 @@ namespace TMAS.DB.Models
 
         public List<Column> Columns { get; set; }
         public List<BoardsAccess> BoardsAccesses { get; set; }
+        public List<History> Histories { get; set; }
     }
 }

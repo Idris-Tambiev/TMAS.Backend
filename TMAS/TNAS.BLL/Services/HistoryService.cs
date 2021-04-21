@@ -20,9 +20,9 @@ namespace TMAS.BLL.Services
             _historyRepository = repository;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<HistoryViewDTO>> GetAll(Guid userId)
+        public async Task<IEnumerable<HistoryViewDTO>> GetAll(int boardId)
         {
-            var allHistories= await _historyRepository.GetAll(userId);
+            var allHistories= await _historyRepository.GetAll(boardId);
             var mapperResult = _mapper.Map<IEnumerable<History>,IEnumerable<HistoryViewDTO>>(allHistories);
             return mapperResult;
         }
@@ -36,7 +36,8 @@ namespace TMAS.BLL.Services
                 CreatedDate = DateTime.Now,
                 ActionObject = history.ActionObject,
                 SourceAction= history.SourceAction,
-                DestinationAction=history.DestinationAction
+                DestinationAction=history.DestinationAction,
+                BoardId=history.BoardId
 
             };
             return  await _historyRepository.Create(newHistory);

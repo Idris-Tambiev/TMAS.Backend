@@ -11,7 +11,7 @@ namespace TMAS.DAL.Interfaces
 {
     public interface IHistoryRepository:IBaseRepository
     {
-        Task<IEnumerable<History>> GetAll(Guid userId);
+        Task<IEnumerable<History>> GetAll(int boardId);
         Task<History> GetOne(int id);
         Task<History> Create(History history);
     }

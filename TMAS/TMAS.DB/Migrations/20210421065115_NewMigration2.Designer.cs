@@ -10,8 +10,8 @@ using TMAS.DB.Context;
 namespace TMAS.DB.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210420095807_CreateDB")]
-    partial class CreateDB
+    [Migration("20210421065115_NewMigration2")]
+    partial class NewMigration2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -295,6 +295,9 @@ namespace TMAS.DB.Migrations
                     b.Property<Guid>("AuthorId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("BoardId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -310,6 +313,8 @@ namespace TMAS.DB.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("BoardId");
 
                     b.ToTable("Histories");
                 });
@@ -486,13 +491,13 @@ namespace TMAS.DB.Migrations
                     b.HasOne("TMAS.DB.Models.Board", "Board")
                         .WithMany("BoardsAccesses")
                         .HasForeignKey("BoardId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("TMAS.DB.Models.User", "User")
                         .WithMany("BoardsAccesses")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Board");
@@ -541,6 +546,14 @@ namespace TMAS.DB.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TMAS.DB.Models.Board", "Board")
+                        .WithMany("Histories")
+                        .HasForeignKey("BoardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Board");
+
                     b.Navigation("User");
                 });
 
@@ -549,6 +562,8 @@ namespace TMAS.DB.Migrations
                     b.Navigation("BoardsAccesses");
 
                     b.Navigation("Columns");
+
+                    b.Navigation("Histories");
                 });
 
             modelBuilder.Entity("TMAS.DB.Models.Card", b =>

@@ -60,7 +60,8 @@ namespace TMAS.BLL.Mapper
                     .ForMember(dest => dest.ActionType, act => act.MapFrom(src => src.ActionType))
                     .ForMember(dest => dest.DestinationAction, act => act.MapFrom(src => src.DestinationAction))
                     .ForMember(dest => dest.SourceAction, act => act.MapFrom(src => src.SourceAction))
-                    .ForMember(dest => dest.CreatedDate, act => act.MapFrom(src => src.CreatedDate));
+                    .ForMember(dest => dest.CreatedDate, act => act.MapFrom(src => src.CreatedDate))
+                    .ForMember(dest => dest.AuthorId, act => act.MapFrom(src => src.AuthorId));
         }
     }
 }

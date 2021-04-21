@@ -22,7 +22,7 @@ namespace TMAS.DB.Context
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
-           //Database.EnsureDeleted();
+          // Database.EnsureDeleted();
            //Database.EnsureCreated();
            //Database.Migrate();
         }
@@ -39,7 +39,8 @@ namespace TMAS.DB.Context
             modelBuilder.Entity<Board>()
                .HasOne(p => p.User)
                .WithMany(b => b.Boards)
-               .HasForeignKey(b => b.BoardUserId);
+               .HasForeignKey(b => b.BoardUserId)
+               ;
 
             modelBuilder.Entity<Board>()
                 .Property(b => b.CreatedDate)
@@ -140,12 +141,16 @@ namespace TMAS.DB.Context
                 .Property(e => e.UpdatedDate)
                 .IsRequired();
 
+            modelBuilder.Entity<History>()
+               .HasOne(p => p.Board)
+               .WithMany(b => b.Histories)
+               .HasForeignKey(b => b.BoardId);
+
             //user
             modelBuilder.Entity<User>()
                .Property(u => u.Name)
                .HasColumnType("varchar(30)")
                .IsRequired();
-
 
             modelBuilder.Entity<User>()
                .Property(u => u.Lastname)
@@ -182,13 +187,14 @@ namespace TMAS.DB.Context
             modelBuilder.Entity<BoardsAccess>()
                 .HasOne(p => p.User)
                 .WithMany(b => b.BoardsAccesses)
-                .HasForeignKey(b => b.UserId);
+                .HasForeignKey(b => b.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<BoardsAccess>()
                  .HasOne(p => p.Board)
                  .WithMany(b => b.BoardsAccesses)
                  .HasForeignKey(b => b.BoardId)
-                 ;
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

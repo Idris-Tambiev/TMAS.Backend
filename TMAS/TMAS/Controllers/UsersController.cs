@@ -41,10 +41,19 @@ namespace TMAS.Controllers
             return await _userService.GetOneById(id);
         }
 
+        [HttpGet("getfull")]
+        [Authorize]
+        public async Task<ActionResult<UserDTO>> GetFullUSer(string id)
+        {
+            Guid idUser = Guid.Parse(id);
+            return await _userService.GetOneById(idUser);
+        }
+
         [HttpGet("get/users")]
         [Authorize]
         public async Task<IEnumerable<UserDTO>> GetUsers(string name)
         {
+
             return await _userService.GetUsers(name);
         }
 

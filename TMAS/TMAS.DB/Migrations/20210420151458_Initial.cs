@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TMAS.DB.Migrations
 {
-    public partial class CreateDB : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -179,31 +179,6 @@ namespace TMAS.DB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Histories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ActionType = table.Column<byte>(type: "tinyint", nullable: false),
-                    ActionObject = table.Column<string>(type: "varchar(100)", nullable: false),
-                    SourceAction = table.Column<int>(type: "int", nullable: true),
-                    DestinationAction = table.Column<int>(type: "int", nullable: true),
-                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Histories", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Histories_AspNetUsers_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "BoardsAccesses",
                 columns: table => new
                 {
@@ -219,8 +194,7 @@ namespace TMAS.DB.Migrations
                         name: "FK_BoardsAccesses_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_BoardsAccesses_Boards_BoardId",
                         column: x => x.BoardId,
@@ -250,6 +224,38 @@ namespace TMAS.DB.Migrations
                         principalTable: "Boards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Histories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ActionType = table.Column<byte>(type: "tinyint", nullable: false),
+                    ActionObject = table.Column<string>(type: "varchar(100)", nullable: false),
+                    SourceAction = table.Column<int>(type: "int", nullable: true),
+                    DestinationAction = table.Column<int>(type: "int", nullable: true),
+                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BoardId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Histories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Histories_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Histories_Boards_BoardId",
+                        column: x => x.BoardId,
+                        principalTable: "Boards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -374,6 +380,11 @@ namespace TMAS.DB.Migrations
                 name: "IX_Histories_AuthorId",
                 table: "Histories",
                 column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Histories_BoardId",
+                table: "Histories",
+                column: "BoardId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

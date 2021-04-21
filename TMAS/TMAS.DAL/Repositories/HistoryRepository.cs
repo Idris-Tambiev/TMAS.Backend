@@ -18,10 +18,11 @@ namespace TMAS.DAL.Repositories
         {
             db = context;
         }
-        public async Task<IEnumerable<History>> GetAll(Guid userId)
+        public async Task<IEnumerable<History>> GetAll(int boardId)
         {
-            return await db.Histories.Where(x=>x.AuthorId==userId).ToListAsync();
+            return await db.Histories.Where(x => x.BoardId == boardId).ToListAsync();
         }
+
         public async Task<History> GetOne(int id)
         {
             return await db.Histories.FirstOrDefaultAsync(i => i.Id == id);

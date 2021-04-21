@@ -20,5 +20,7 @@ namespace TMAS.DB.Models
         public int? DestinationAction { get; set; }
         public Guid AuthorId { get; set; }
         public User User { get; set; }
+        public int BoardId { get; set; }
+        public Board Board { get; set; }
     }
 }
