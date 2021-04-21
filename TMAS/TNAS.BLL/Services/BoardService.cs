@@ -28,9 +28,9 @@ namespace TMAS.BLL.Services
             var mapperResult = _mapper.Map<IEnumerable<Board>,IEnumerable<BoardViewDTO>>(boards);
             return mapperResult;
         }
-        public async Task<Board> GetOne(int boardId)
+        public async Task<Board> GetOne(Guid id,int boardId)
         {
-             return await _boardRepository.GetOne(boardId);
+             return await _boardRepository.GetOne(id,boardId);
         }
 
         public async Task<IEnumerable<Board>> FindBoard(Guid userId,string search)

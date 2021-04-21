@@ -30,5 +30,16 @@ namespace TMAS.BLL.Services
             var mapperResult = _mapper.Map<IEnumerable<Board>, IEnumerable<BoardViewDTO>>(allBoards);
             return mapperResult;
         }
+
+        public async Task<IEnumerable<UserDTO>> GetUsers(int id,string text)
+        {
+            var allusers = await _boardsAccessRepository.GetUser(id, text);
+            var mapperResult = _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(allusers);
+            return mapperResult;
+        }
+        public  Task<Action> Delete(BoardsAccess access)
+        {
+            return _boardsAccessRepository.Delete(access);
+        }
     }
 }

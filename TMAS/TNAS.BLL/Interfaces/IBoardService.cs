@@ -12,7 +12,7 @@ namespace TMAS.BLL.Interfaces
     public interface IBoardService:IBaseService
     {
         Task<IEnumerable<BoardViewDTO>> GetAll(Guid userId);
-        Task<Board> GetOne(int id);
+        Task<Board> GetOne(Guid id,int boardId);
         Task<Board> Create(string title, Guid id);
         Task<Board> Update(Board board);
         Task<IEnumerable<Board>> FindBoard(Guid userId, string search);

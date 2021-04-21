@@ -36,5 +36,20 @@ namespace TMAS.Controllers
             var userId = GetUserId();
             return Ok(await _boardsAccesService.Get(userId));
         }
+
+        [HttpGet("get/users")]
+        [Authorize]
+        public async Task<ActionResult<UserDTO>> GetUsers(int id,string text)
+        {
+            return Ok(await _boardsAccesService.GetUsers(id,text));
+        }
+
+        [HttpPost("delete")]
+        [Authorize]
+        public async Task<ActionResult> GetUsers(BoardsAccess access)
+        {
+            return Ok(await _boardsAccesService.Delete(access));
+        }
+
     }
 }

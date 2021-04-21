@@ -25,9 +25,9 @@ namespace TMAS.DAL.Repositories
                 .Where(x=>x.IsActive==true)
                 .ToListAsync();
         }
-        public async Task<Board> GetOne(int boardId)
+        public async Task<Board> GetOne(Guid userId,int boardId)
         {
-            return await db.Boards.FirstOrDefaultAsync(i=>i.Id== boardId);
+            return await db.Boards.Where(x => x.Id == boardId).FirstOrDefaultAsync(x => x.BoardUserId == userId);
         }
 
         public async Task<IEnumerable<Board>> FindBoard(Guid id,string search)

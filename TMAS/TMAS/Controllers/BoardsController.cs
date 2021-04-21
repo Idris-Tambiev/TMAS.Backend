@@ -32,9 +32,10 @@ namespace TMAS.Controllers
 
         [HttpGet("get/one")]
         [Authorize]
-        public async Task<IActionResult> GetOneBoard(int boardId)
+        public async Task<IActionResult> GetOneBoard(int id)
         {
-            return Ok(await _boardService.GetOne(boardId));
+            var userId = GetUserId();
+            return Ok(await _boardService.GetOne(userId,id));
         }
 
         [HttpGet("search")]

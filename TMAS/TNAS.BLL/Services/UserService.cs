@@ -40,9 +40,12 @@ namespace TMAS.BLL.Services
             return findedUser;
         }
 
-        public async Task<IEnumerable<UserDTO>> GetUsers(string searchText)
+        public async Task<IEnumerable<UserDTO>> GetUsers(string searchText,Guid id)
         {
-            var findedUsers = await _userManager.Users.Where(x=>x.UserName.Contains(searchText)).ToListAsync();
+            var findedUsers = await _userManager.Users
+                .Where(x=>x.UserName.Contains(searchText))
+                .Where(x=>x.Id!=id)
+                .ToListAsync();
             var mapperResult = _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(findedUsers);
             return mapperResult;
         }

@@ -53,8 +53,8 @@ namespace TMAS.Controllers
         [Authorize]
         public async Task<IEnumerable<UserDTO>> GetUsers(string name)
         {
-
-            return await _userService.GetUsers(name);
+            var id = GetUserId();
+            return await _userService.GetUsers(name,id);
         }
 
         // api/users/confirmemail
