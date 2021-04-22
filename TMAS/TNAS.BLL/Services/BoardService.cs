@@ -33,6 +33,11 @@ namespace TMAS.BLL.Services
              return await _boardRepository.GetOne(id,boardId);
         }
 
+        public async Task<Board> GetOneById(int boardId)
+        {
+            return await _boardRepository.GetOneById(boardId);
+        }
+
         public async Task<IEnumerable<Board>> FindBoard(Guid userId,string search)
         {
             return await _boardRepository.FindBoard(userId,search);

@@ -36,15 +36,15 @@ namespace TMAS.BLL.Services
         public async Task<User> GetOneByEmail(User user)
         {
            var findedUser= await _userManager.FindByEmailAsync(user.Email);
-           
-            return findedUser;
+           return findedUser;
         }
 
-        public async Task<IEnumerable<UserDTO>> GetUsers(string searchText,Guid id)
+        public async Task<IEnumerable<UserDTO>> GetUsers(string searchText,Guid currentUserId,Guid creatorUserId)
         {
             var findedUsers = await _userManager.Users
                 .Where(x=>x.UserName.Contains(searchText))
-                .Where(x=>x.Id!=id)
+                .Where(x=>x.Id!= currentUserId)
+                .Where(x => x.Id != creatorUserId)
                 .ToListAsync();
             var mapperResult = _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(findedUsers);
             return mapperResult;
@@ -105,6 +105,38 @@ namespace TMAS.BLL.Services
                 {
                     IsSuccess = false,
                     Message = "Email did not confirmed"
+                };
+            }
+        }
+
+        public async Task<UserManagerResponse> ResetUserPassword(string userId, string token,string newPassword)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return new UserManagerResponse
+            {
+                IsSuccess = false,
+                Message = "User not found"
+            }; ;
+
+            var decodedToken = WebEncoders.Base64UrlDecode(token);
+            string normalToken = Encoding.UTF8.GetString(decodedToken);
+
+            var result = await _userManager.ResetPasswordAsync(user, normalToken,newPassword);
+
+            if (result.Succeeded)
+            {
+                return new UserManagerResponse
+                {
+                    IsSuccess = true,
+                    Message = "Password reseted successfully"
+                };
+            }
+            else
+            {
+                return new UserManagerResponse
+                {
+                    IsSuccess = false,
+                    Message = "Password did not reseted"
                 };
             }
         }

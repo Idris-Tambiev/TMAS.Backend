@@ -37,11 +37,21 @@ namespace TMAS.Controllers
             return Ok(await _boardsAccesService.Get(userId));
         }
 
-        [HttpGet("get/users")]
+        [HttpGet("get/all/users")]
         [Authorize]
         public async Task<ActionResult<UserDTO>> GetUsers(int id,string text)
         {
-            return Ok(await _boardsAccesService.GetUsers(id,text));
+            var userId = GetUserId();
+            return Ok(await _boardsAccesService.GetAllUsers(id, text, userId));
+        }
+
+
+        [HttpGet("get/assigned/users")]
+        [Authorize]
+        public async Task<ActionResult<UserDTO>> GetAssignedUsers(int id,string text)
+        {
+            var userId = GetUserId();
+            return Ok(await _boardsAccesService.GetAssignedUsers(id,text,userId));
         }
 
         [HttpPost("delete")]

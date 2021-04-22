@@ -22,7 +22,7 @@ namespace TMAS.Controllers
     public class UsersController : BaseController
     {
         private readonly UserService _userService;
-        public UsersController(UserService service)
+        public UsersController(UserService service )
         {
             _userService = service;
         }
@@ -47,31 +47,6 @@ namespace TMAS.Controllers
         {
             Guid idUser = Guid.Parse(id);
             return await _userService.GetOneById(idUser);
-        }
-
-        [HttpGet("get/users")]
-        [Authorize]
-        public async Task<IEnumerable<UserDTO>> GetUsers(string name)
-        {
-            var id = GetUserId();
-            return await _userService.GetUsers(name,id);
-        }
-
-        // api/users/confirmemail
-        [HttpGet("confirmemail")]
-        public async Task<ActionResult> ConfirmEmail(string userId,string token)
-        {
-            if(string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
-            {
-                return NotFound();
-            }
-
-            var result = await _userService.ConfirmEmailAsync(userId, token);
-            if (result.IsSuccess)
-            {
-                return Ok(result);
-            }
-            return BadRequest();
         }
 
         [HttpPost("upload/photo")]

@@ -25,6 +25,7 @@ namespace TMAS.DAL.Repositories
                 .Where(x => x.UserId == access.UserId)
                 .ToListAsync();
 
+
             if (searchResult.Count==0)
             {
                 await db.BoardsAccesses.AddAsync(access);
@@ -48,14 +49,26 @@ namespace TMAS.DAL.Repositories
             return accesses;     
         }
 
-        public async Task<IEnumerable<User>> GetUser(int id,string text)
+        public async Task<IEnumerable<User>> GetAssignedUsers(int id,string text, Guid userId)
         {
-            var accesses = await db.Users
-                .Where(x=>x.UserName.Contains(text))
+            var board = await db.Boards
+                .Where(x => x.BoardUserId == userId)
+                .Where(b => b.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (board!=null)
+            {
+                var accesses = await db.Users
+                .Where(x => x.UserName.Contains(text))
                 .Include(x => x.BoardsAccesses)
                 .Where(a => a.BoardsAccesses.Any(y => y.BoardId == id))
                 .ToListAsync();
-            return accesses;
+                return accesses;
+            }else
+            {
+                return default;
+            }
+            
         }
 
         public async Task<Action> Delete(BoardsAccess access)

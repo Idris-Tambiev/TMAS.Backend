@@ -30,6 +30,11 @@ namespace TMAS.DAL.Repositories
             return await db.Boards.Where(x => x.Id == boardId).FirstOrDefaultAsync(x => x.BoardUserId == userId);
         }
 
+        public async Task<Board> GetOneById(int boardId)
+        {
+            return await db.Boards.Where(x => x.Id == boardId).FirstOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<Board>> FindBoard(Guid id,string search)
         {
             return await db.Boards
