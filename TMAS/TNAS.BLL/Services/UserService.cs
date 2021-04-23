@@ -23,7 +23,6 @@ namespace TMAS.BLL.Services
         private readonly IMapper _mapper;
         private readonly AbstractValidator<RegistrateUserDto> _userValidator;
         private readonly EmailService _emailService;
-        //private readonly IMailService _mailService;
         public UserService(UserRepository repository, UserManager<User> userManager,IMapper mapper,AbstractValidator<RegistrateUserDto> validator,EmailService emailService)
 
         {
@@ -79,10 +78,10 @@ namespace TMAS.BLL.Services
         }
 
 
-        public async Task<UserManagerResponse> ConfirmEmailAsync(string id,string token)
+        public async Task<Response> ConfirmEmailAsync(string id,string token)
         {
             var user = await _userManager.FindByIdAsync(id);
-            if (user == null)  return new UserManagerResponse
+            if (user == null)  return new Response
             {
                 IsSuccess = false,
                 Message = "User not found"
@@ -94,14 +93,14 @@ namespace TMAS.BLL.Services
 
             if (result.Succeeded)
             {
-                return new UserManagerResponse { 
+                return new Response { 
                     IsSuccess=true,
                     Message="Email confirmed successfully"
                 };
             }
             else
             {
-                return new UserManagerResponse
+                return new Response
                 {
                     IsSuccess = false,
                     Message = "Email did not confirmed"
@@ -109,23 +108,32 @@ namespace TMAS.BLL.Services
             }
         }
 
-        public async Task<UserManagerResponse> ResetUserPassword(string userId, string token,string newPassword)
+        public async Task<Response> ResetUserPassword(string userId, string token,string newPassword)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) return new UserManagerResponse
+            if (user == null) return new Response
             {
                 IsSuccess = false,
                 Message = "User not found"
-            }; ;
+            };
+
+            var checkPassword = await _userManager.CheckPasswordAsync(user, newPassword);
+            if (checkPassword)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "You entered old password"
+                };
+            }
 
             var decodedToken = WebEncoders.Base64UrlDecode(token);
             string normalToken = Encoding.UTF8.GetString(decodedToken);
-
-            var result = await _userManager.ResetPasswordAsync(user, normalToken,newPassword);
+            var result = await _userManager.ResetPasswordAsync(user, normalToken, newPassword);
 
             if (result.Succeeded)
             {
-                return new UserManagerResponse
+                return new Response
                 {
                     IsSuccess = true,
                     Message = "Password reseted successfully"
@@ -133,7 +141,7 @@ namespace TMAS.BLL.Services
             }
             else
             {
-                return new UserManagerResponse
+                return new Response
                 {
                     IsSuccess = false,
                     Message = "Password did not reseted"

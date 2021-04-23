@@ -59,7 +59,7 @@ namespace TMAS.Controllers
             {
                 return Ok(result);
             }
-            return BadRequest();
+            return BadRequest(result);
         }
 
     }

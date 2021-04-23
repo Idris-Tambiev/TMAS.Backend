@@ -43,17 +43,15 @@ namespace TMAS.BLL.Services
             return default;
         }
 
-        public async Task<UserManagerResponse> CreateResetEmail(User user)
+        public async Task<DB.Models.Response> CreateResetEmail(User user)
         {
-            //User user = await _userManager.FindByEmailAsync(email);
             var confirmEmailToken = await _userManager.GeneratePasswordResetTokenAsync(user);
             var encodedEmailToken = Encoding.UTF8.GetBytes(confirmEmailToken);
             var validEmailToken = WebEncoders.Base64UrlEncode(encodedEmailToken);
 
-            string url = $"{_configuration["AppUrl"]}/new/pass?userid={user.Id}&token={validEmailToken}";
+            string url = $"{_configuration["AppUrl"]}/new/pass?userid={user.Id}&token={validEmailToken}&email={user.Email}";
             string content = $"<h1>Welcome to TMAS </h1><p>Click on link for reset your password  <a href='{url}'>Clicking here</a></p>";
             await SendEmailAsync(user.Email, "Reset password", content);
-
             return default;
             
         }
