@@ -22,5 +22,7 @@ namespace TMAS.DB.Models.Enums
         AddedDescription = 11,
         EditedDescription = 12,
         ChangeExecutionPeriod = 13,
+        AssignUser=14,
+        UnassignUser=15
     }
 }
