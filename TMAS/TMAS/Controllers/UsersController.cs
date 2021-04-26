@@ -33,6 +33,13 @@ namespace TMAS.Controllers
             return Ok(await _userService.Create(model));
         }
 
+        [HttpGet("find")]
+        public async Task<ActionResult<Response>> Search(string email)
+        {
+            return Ok(await _userService.Find(email));
+        }
+
+
         [HttpGet("get")]
         [Authorize]
         public async Task<ActionResult<UserDTO>> GetUserName()

@@ -13,6 +13,7 @@ using FluentValidation;
 using TMAS.BLL.Validator;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TMAS.BLL.Services
 {
@@ -49,7 +50,7 @@ namespace TMAS.BLL.Services
             return mapperResult;
         }
 
-        public async Task<IdentityResult> Create(RegistrateUserDto createdUser)
+        public async Task<ActionResult> Create(RegistrateUserDto createdUser)
         {
             var validationResult = _userValidator.Validate(createdUser);
 
@@ -65,11 +66,30 @@ namespace TMAS.BLL.Services
                     var newUser = _mapper.Map<RegistrateUserDto, User>(createdUser);
                     var result = await _userManager.CreateAsync(newUser, createdUser.Password);
                     var a = _emailService.CreateEmailAsync(newUser);
-                    return result;
+                    return default;
                 }
                 else return default;
             }
         }
+
+        public async Task<Response> Find(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user==null) {
+                return new Response
+                {
+                    IsSuccess = true,
+                    Message = "This email not used"
+                };
+            } else
+            {
+                return new Response {
+                    IsSuccess = false,
+                    Message = "This email already in use"
+                };
+            }
+        }
+
         public async Task<UserDTO> GetOneById(Guid id)
         {
             User findedUser = await _userManager.FindByIdAsync(id.ToString());
