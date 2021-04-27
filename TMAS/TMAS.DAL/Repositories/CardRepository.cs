@@ -21,24 +21,38 @@ namespace TMAS.DAL.Repositories
         }
         public async Task<IEnumerable<Card>> GetAll(int columnId)
         {
-            return await db.Cards
+            var result = await db.Cards
                 .Where(x => x.ColumnId == columnId)
                 .Where(x => x.IsActive == true)
-                .OrderBy(d=>d.SortBy)
+                .OrderBy(d => d.SortBy)
                 .ToListAsync();
+            return result;
+        }
+
+        public async Task<List<Card>> GetAllWithSkip(int columnId,int position)
+        {
+            var result= await db.Cards
+                .Where(x => x.ColumnId == columnId)
+                .Where(x => x.IsActive == true)
+                .OrderBy(d => d.SortBy)
+                .Skip(position)
+                .ToListAsync();
+            return result;
         }
 
         public async Task<Card> GetOne(int cardId)
         {
-            return await db.Cards.FirstOrDefaultAsync(i => i.Id == cardId);
+            var card= await db.Cards.FirstOrDefaultAsync(i => i.Id == cardId);
+            return card;
         }
-        public async Task<Card> CheckCard(int cardId,Boolean status)
+
+        public async Task<Card> CheckCard(int cardId,bool status)
         {
           var result=  await db.Cards.FirstOrDefaultAsync(i => i.Id == cardId);
             result.IsDone = status;
             result.UpdatedDate = DateTime.Now;
-            db.SaveChanges();
-              return result;
+            await db.SaveChangesAsync();
+            return result;
         }
         public async Task<IEnumerable<Card>> FindCards(int columnId, string search)
         {
@@ -48,7 +62,8 @@ namespace TMAS.DAL.Repositories
                     b => b.Cards
                     .Where(x =>x.Title
                       .Contains(search)))
-                .OrderBy(x=>x.SortBy).ToListAsync();
+                .OrderBy(x=>x.SortBy)
+                .ToListAsync();
             return findedCards;
         }
 
@@ -62,28 +77,38 @@ namespace TMAS.DAL.Repositories
 
         public async Task<Card> Update(Card card)
         {
-            Card updatedCard = db.Cards.FirstOrDefault(x => x.Id == card.Id);
-            updatedCard.Title = card.Title;
-            updatedCard.UpdatedDate = DateTime.Now;
-            db.SaveChanges();
-            return updatedCard;
+            //Card updatedCard =await db.Cards.FirstOrDefaultAsync(x => x.Id == card.Id);
+            //updatedCard.Title = card.Title;
+            //updatedCard.UpdatedDate = DateTime.Now;
+            db.Cards.Update(card);
+            await db.SaveChangesAsync();
+            return card;
         }
 
-        public async Task<Card> UpdateChanges(Card card)
-        {
-            Card updatedCard = db.Cards.FirstOrDefault(x => x.Id == card.Id);
-            updatedCard.ExecutionPeriod = card.ExecutionPeriod;
-            updatedCard.Text = card.Text;
-            updatedCard.UpdatedDate = DateTime.Now;
-            db.SaveChanges();
-            return updatedCard;
-        }
+        //public async Task<Card> UpdateChanges(Card card)
+        //{
+        //    Card updatedCard =await db.Cards.FirstOrDefaultAsync(x => x.Id == card.Id);
+        //    updatedCard.ExecutionPeriod = card.ExecutionPeriod;
+        //    updatedCard.Text = card.Text;
+        //    updatedCard.UpdatedDate = DateTime.Now;
+        //    await db.SaveChangesAsync();
+        //    return updatedCard;
+        //}
         public async Task<Card> Delete(int id)
         {
-            Card deletedCard = db.Cards.FirstOrDefault(x => x.Id == id);
+            Card deletedCard = await db.Cards.FirstOrDefaultAsync(x => x.Id == id);
             deletedCard.IsActive = false;
             deletedCard.UpdatedDate = DateTime.Now;
-            db.SaveChanges();
+            await db.SaveChangesAsync();
+            return deletedCard;
+        }
+
+        public async Task<Card> Move(int id)
+        {
+            Card deletedCard =await db.Cards.FirstOrDefaultAsync(x => x.Id == id);
+            deletedCard.IsActive = false;
+            deletedCard.UpdatedDate = DateTime.Now;
+            await db.SaveChangesAsync();
             return deletedCard;
         }
 

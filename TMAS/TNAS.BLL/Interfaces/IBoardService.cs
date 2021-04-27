@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TMAS.BLL.Interfaces.BaseInterfaces;
-using TMAS.DB.DTO;
+using TMAS.DAL.DTO;
 using TMAS.DB.Models;
 
 namespace TMAS.BLL.Interfaces
@@ -12,10 +12,11 @@ namespace TMAS.BLL.Interfaces
     public interface IBoardService:IBaseService
     {
         Task<IEnumerable<BoardViewDTO>> GetAll(Guid userId);
-        Task<Board> GetOne(Guid id,int boardId);
-        Task<Board> Create(string title, Guid id);
-        Task<Board> Update(Board board);
-        Task<IEnumerable<Board>> FindBoard(Guid userId, string search);
-        Task<Board> Delete(int id);
+        Task<BoardViewDTO> GetOne(int boardId);
+        Task<Board> GetOneById(int boardId);
+        Task<IEnumerable<BoardViewDTO>> FindBoard(Guid userId, string search);
+        Task<BoardViewDTO> Create(string title, Guid id);
+        Task<BoardViewDTO> Update(Board board);
+        Task<BoardViewDTO> Delete(int id);
     }
 }

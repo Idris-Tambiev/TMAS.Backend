@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using TMAS.DB.Models;
 using TMAS.DB.Models.Enums;
 
@@ -29,16 +30,17 @@ namespace TMAS.Providers
                 .FirstOrDefault(x => x.Name.ToLower() == ProviderType.Google.ToString().ToLower());
 
 
-            public JObject GetUserInfo(string accessToken)
+            public async Task<JObject> GetUserInfo(string accessToken)
             {
                 var request = new Dictionary<string, string>();
 
                 request.Add("token", accessToken);
                 var http = _clientFactory.CreateClient();
-                var result = http.GetAsync(Provider.UserInfoEndPoint + QueryBuilder.GetQuery(request, ProviderType.Google)).Result;
+                var result = await http.GetAsync(Provider.UserInfoEndPoint + QueryBuilder.GetQuery(request, ProviderType.Google));
+
                 if (result.IsSuccessStatusCode)
                 {
-                    var infoObject = JObject.Parse(result.Content.ReadAsStringAsync().Result);
+                    var infoObject = JObject.Parse(await result.Content.ReadAsStringAsync());
                     return infoObject;
                 }
                 return null;

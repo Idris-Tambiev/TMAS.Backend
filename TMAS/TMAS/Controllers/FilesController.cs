@@ -7,7 +7,9 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using TMAS.BLL.Interfaces;
 using TMAS.BLL.Services;
+using TMAS.DAL.DTO;
 using TMAS.DB.Models;
 
 namespace TMAS.Controllers
@@ -16,15 +18,15 @@ namespace TMAS.Controllers
     [ApiController]
     public class FilesController : ControllerBase
     {
-        private readonly FileService _fileService;
-        public FilesController(FileService fileService)
+        private readonly IFileService _fileService;
+        public FilesController(IFileService fileService)
         {
             _fileService = fileService;
         }
 
         [HttpPost("upload")]
         [Authorize]
-        public async Task<ActionResult> Upload(int id)
+        public async Task<ActionResult> Upload([FromQuery]int id)
         {
             try
             {
@@ -60,9 +62,10 @@ namespace TMAS.Controllers
 
         [HttpGet("get")]
         [Authorize]
-        public async Task<ActionResult> GetCards(int id)
+        public async Task<ActionResult<FileViewDTO>> GetFiles([FromQuery]int id)
         {
-            return Ok(await _fileService.GetFiles(id));
+            var result = await _fileService.GetFiles(id);
+            return Ok(result);
         }
 
     }

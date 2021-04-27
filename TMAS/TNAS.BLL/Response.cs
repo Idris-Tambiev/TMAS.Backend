@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TMAS.DB.DTO
+namespace TMAS.BLL
 {
-    public class BoardViewDTO
+    public class Response
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
+        public string Message { get; set; }
+        public bool IsSuccess { get; set; }
     }
 }

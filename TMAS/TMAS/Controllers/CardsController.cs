@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 using TMAS.BLL.Services;
 using TMAS.DB.Models;
 using TMAS.Controllers.Base;
-using TMAS.DB.DTO;
+using TMAS.DAL.DTO;
+using TMAS.BLL.Interfaces;
 
 namespace TMAS.Controllers
 {
@@ -16,79 +17,100 @@ namespace TMAS.Controllers
     [ApiController]
     public class CardsController : BaseController
     {
-        private readonly CardService _cardsService;
-        public CardsController(CardService service)
+        private readonly ICardService _cardsService;
+        public CardsController(ICardService service)
         {
             _cardsService = service;
         }
 
         [HttpGet("search")]
         [Authorize]
-        public async Task<IActionResult> FindBoards(int columnId,string text)
+        public async Task<ActionResult<IEnumerable<CardViewDTO>>> FindBoards([FromQuery] int columnId,string text)
         {
-            return Ok(await _cardsService.FindCard(columnId, text));
+            var cards = await _cardsService.FindCard(columnId, text);
+            return Ok(cards);
         }
 
         [HttpGet("get")]
         [Authorize]
-        public async Task<ActionResult<Card>> GetCards(int id)
+        public async Task<ActionResult<CardViewDTO>> GetCards([FromQuery] int id)
         {
-            return Ok(await _cardsService.GetAll(id));
+            var cards = await _cardsService.GetAll(id);
+            return Ok(cards);
         }
+
         [HttpGet("update/check")]
         [Authorize]
-        public async Task<ActionResult<Card>> UpdatecardCheck(int id,string isDone)
+        public async Task<ActionResult<CardViewDTO>> UpdatecardCheck([FromQuery] int id,string isDone)
         {
-            return Ok(await _cardsService.CheckCard(id,Convert.ToBoolean(isDone)));
+            Guid userId = GetUserId();
+            var result = await _cardsService.CheckCard(id, Convert.ToBoolean(isDone),userId);
+            return Ok();
         }
+
         [HttpGet("get/one")]
         [Authorize]
-        public async Task<ActionResult<Card>> GetOneCard(int id)
+        public async Task<ActionResult<CardViewDTO>> GetOneCard([FromQuery] int id)
         {
-            return Ok(await _cardsService.GetOne(id));
+            var card = await _cardsService.GetOne(id);
+            return Ok(card);
         }
 
 
         [HttpPost("create")]
         [Authorize]
-        public async Task<ActionResult<Card>> CreateNewCard([FromBody]Card card)
+        public async Task<ActionResult<CardViewDTO>> CreateNewCard([FromBody]Card card)
         {
-            return Ok(await _cardsService.Create(card));
+            Guid userId = GetUserId();
+            var createResult = await _cardsService.Create(card,userId);
+            return Ok(createResult);
         }
 
 
         [HttpPut("update")]
         [Authorize]
-        public async Task<ActionResult<Card>> UpdateCard(Card card)
+        public async Task<ActionResult<CardViewDTO>> UpdateCard([FromBody]Card card)
         {
-            return Ok(await _cardsService.Update(card));
+            Guid userId = GetUserId();
+            var updateResult = await _cardsService.Update(card,userId);
+            return Ok(updateResult);
         }
 
         [HttpPut("update/changes")]
         [Authorize]
-        public async Task<ActionResult<Card>> UpdateChanges(Card card)
+        public async Task<ActionResult<CardViewDTO>> UpdateChanges([FromBody]Card card)
         {
-            return Ok(await _cardsService.UpdateChanges(card));
+            Guid userId = GetUserId();
+            var updateResult = await _cardsService.UpdateChanges(card,userId);
+            return Ok(updateResult);
         }
 
         [HttpPut("move")]
         [Authorize]
-        public async Task<ActionResult<Card>> MoveCard(Card card)
+        public async Task<ActionResult<CardViewDTO>> MoveCard([FromBody]Card card)
         {
-            return Ok(await _cardsService.Move(card));
+            Guid userId = GetUserId();
+            var result = await _cardsService.Move(card,userId);
+            return Ok(result);
         }
 
         [HttpPut("moveoncolumn")]
         [Authorize]
-        public async Task<ActionResult<Card>> MoveOnColumnCard(Card card)
+        public async Task<ActionResult<CardViewDTO>> MoveOnColumnCard([FromBody]Card card)
         {
-            return Ok(await _cardsService.MoveOnColumns(card));
+            Guid userId = GetUserId();
+            var result = await _cardsService.MoveOnColumns(card,userId);
+            return Ok(result);
         }
+
+
         [HttpDelete("delete")]
         [Authorize]
-        public async Task<ActionResult<Card>> DeleteCard(int id)
+        public async Task<ActionResult<CardViewDTO>> DeleteCard([FromQuery] int id)
         {
-            return Ok(await _cardsService.Delete(id));
+            Guid userId = GetUserId();
+            var result = await _cardsService.Delete(id,userId);
+            return Ok(result);
         }
     }
 }

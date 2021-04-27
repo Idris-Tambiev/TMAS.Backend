@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TMAS.DB.DTO;
+using TMAS.DAL.DTO;
 
 namespace TMAS.BLL.Validator
 {
@@ -17,7 +17,7 @@ namespace TMAS.BLL.Validator
             RuleFor(x => x.UserName).NotEmpty().WithMessage("Empty Username");
             RuleFor(x => x.Email).NotEmpty().EmailAddress().WithMessage("bad email");
             RuleFor(x => x.Password).NotEmpty()
-            .MinimumLength(6).WithMessage("Incorrect Password"); ;
+            .MinimumLength(6).WithMessage("Incorrect Password"); 
         }
     }
 }

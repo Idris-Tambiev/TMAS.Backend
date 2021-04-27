@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 using TMAS.BLL.Services;
 using TMAS.DB.Models;
 using TMAS.Controllers.Base;
-using TMAS.DB.DTO;
+using TMAS.DAL.DTO;
+using TMAS.BLL.Interfaces;
 
 namespace TMAS.Controllers
 {
@@ -16,8 +17,8 @@ namespace TMAS.Controllers
     [ApiController]
     public class HistoryController : BaseController
     {
-        HistoryService _historyService;
-        public HistoryController (HistoryService service)
+        private readonly IHistoryService _historyService;
+        public HistoryController (IHistoryService service)
         {
             _historyService = service;
         }
@@ -26,16 +27,16 @@ namespace TMAS.Controllers
         [Authorize]
         public async Task<ActionResult<HistoryViewDTO>> GetHistory(int id)
         {
-            //var id = GetUserId();
-            return Ok( await _historyService.GetAll(id));
+            var histories = await _historyService.GetAll(id);
+            return Ok(histories);
         }
 
-        [HttpPost("create")]
-        [Authorize]
-        public async Task<ActionResult<History>> CreateNewHistory(History history)
-        {
-            var id = GetUserId();
-            return Ok(await _historyService.Create(history,id));
-        }
+        //[HttpPost("create")]
+        //[Authorize]
+        //public async Task<ActionResult<History>> CreateNewHistory(History history)
+        //{
+        //    var id = GetUserId();
+        //    return Ok(await _historyService.Create(history,id));
+        //}
     }
 }

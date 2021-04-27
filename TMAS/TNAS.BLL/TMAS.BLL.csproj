@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TMAS.DAL\TMAS.DAL.csproj" />
+    <ProjectReference Include="..\TMAS.DB\TMAS.DB.csproj" />
   </ItemGroup>
 
 </Project>

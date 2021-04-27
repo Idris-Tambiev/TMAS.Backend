@@ -7,7 +7,7 @@ using TMAS.DAL.Repositories;
 using TMAS.BLL.Interfaces;
 using TMAS.DB.Models;
 using Microsoft.AspNetCore.Identity;
-using TMAS.DB.DTO;
+using TMAS.DAL.DTO;
 using AutoMapper;
 using FluentValidation;
 using TMAS.BLL.Validator;
@@ -17,17 +17,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TMAS.BLL.Services
 {
-   public class UserService
+   public class UserService:IUserService
     {
-        private readonly UserRepository _userRepository;
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
         private readonly AbstractValidator<RegistrateUserDto> _userValidator;
-        private readonly EmailService _emailService;
-        public UserService(UserRepository repository, UserManager<User> userManager,IMapper mapper,AbstractValidator<RegistrateUserDto> validator,EmailService emailService)
+        private readonly IEmailService _emailService;
+        public UserService(UserManager<User> userManager,IMapper mapper,AbstractValidator<RegistrateUserDto> validator,IEmailService emailService)
 
         {
-            _userRepository = repository;
             _userManager = userManager;
             _mapper = mapper;
             _userValidator = validator;
@@ -50,7 +48,7 @@ namespace TMAS.BLL.Services
             return mapperResult;
         }
 
-        public async Task<ActionResult> Create(RegistrateUserDto createdUser)
+        public async Task<object> Create(RegistrateUserDto createdUser)
         {
             var validationResult = _userValidator.Validate(createdUser);
 
@@ -66,9 +64,9 @@ namespace TMAS.BLL.Services
                     var newUser = _mapper.Map<RegistrateUserDto, User>(createdUser);
                     var result = await _userManager.CreateAsync(newUser, createdUser.Password);
                     var a = _emailService.CreateEmailAsync(newUser);
-                    return default;
+                    return null;
                 }
-                else return default;
+                else return null;
             }
         }
 
@@ -128,6 +126,12 @@ namespace TMAS.BLL.Services
             }
         }
 
+        public async Task<IActionResult> ResetEmail(string email)
+        {
+            User user = await _userManager.FindByEmailAsync(email);
+            var result = _emailService.CreateResetEmail(user);
+            return null;
+        }
         public async Task<Response> ResetUserPassword(string userId, string token,string newPassword)
         {
             var user = await _userManager.FindByIdAsync(userId);

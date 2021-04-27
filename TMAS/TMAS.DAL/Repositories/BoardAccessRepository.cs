@@ -4,16 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMAS.DAL.Interfaces;
 using TMAS.DB.Context;
 using TMAS.DB.Models;
 
 namespace TMAS.DAL.Repositories
 {
-    public class BoardsAccessRepository
+    public class BoardAccessRepository:IBoardAccessRepository
     {
         private readonly AppDbContext db;
  
-        public BoardsAccessRepository(AppDbContext context)
+        public BoardAccessRepository(AppDbContext context)
         {
             db = context;
         }
@@ -28,7 +29,7 @@ namespace TMAS.DAL.Repositories
 
             if (searchResult.Count==0)
             {
-                await db.BoardsAccesses.AddAsync(access);
+                db.BoardsAccesses.Add(access);
                 await db.SaveChangesAsync();
                 return access;
             }
@@ -66,21 +67,21 @@ namespace TMAS.DAL.Repositories
                 return accesses;
             }else
             {
-                return default;
+                return null;
             }
             
         }
 
-        public async Task<Action> Delete(BoardsAccess access)
+        public async Task<BoardsAccess> Delete(int boardId, Guid userId)
         {
-            var accesses = db.BoardsAccesses
-                .Where(x => x.BoardId == access.BoardId)
-                .Where(x => x.UserId == access.UserId)
-                .FirstOrDefault();
+            var accesses =await db.BoardsAccesses
+                .Where(x => x.BoardId == boardId)
+                .Where(x => x.UserId == userId)
+                .FirstOrDefaultAsync();
 
             db.BoardsAccesses.Remove(accesses);
             await db.SaveChangesAsync();
-            return default;
+            return null;
         }
     }
 }

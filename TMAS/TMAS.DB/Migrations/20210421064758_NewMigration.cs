@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace TMAS.DB.Migrations
+namespace TMAS.BLL.Migrations
 {
     public partial class NewMigration : Migration
     {

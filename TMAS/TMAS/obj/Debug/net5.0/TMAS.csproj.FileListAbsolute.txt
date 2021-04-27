@@ -87,3 +87,5 @@ D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\MailKit.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\MimeKit.dll
 D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\BouncyCastle.Crypto.dll
 D:\TMAS\backend\TMAS\TMAS\obj\Debug\net5.0\TMAS.MvcApplicationPartsAssemblyInfo.cs
+D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\SendGrid.dll
+D:\TMAS\backend\TMAS\TMAS\bin\Debug\net5.0\StarkbankEcdsa.dll

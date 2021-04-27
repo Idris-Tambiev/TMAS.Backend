@@ -8,6 +8,6 @@ namespace TMAS.Providers
 {
     public interface IExternalAuthProvider
     {
-        JObject GetUserInfo(string accessToken);
+        Task<JObject> GetUserInfo(string accessToken);
     }
 }

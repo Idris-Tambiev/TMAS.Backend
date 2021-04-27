@@ -51,7 +51,7 @@ namespace TMAS.Providers
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest, "invalid provider");
                 return;
             }
-            var userInfo = _providers[providerType].GetUserInfo(token);
+            var userInfo = await _providers[providerType].GetUserInfo(token);
             if (userInfo == null)
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest, "couldn't retrieve user info from specified provider, please make sure that access token is not expired.");

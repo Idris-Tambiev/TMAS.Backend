@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace TMAS.DB.Migrations
+namespace TMAS.BLL.Migrations
 {
     public partial class Initial : Migration
     {

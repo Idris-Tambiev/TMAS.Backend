@@ -1909,7 +1909,8 @@
           "FluentValidation.AspNetCore": "9.5.3",
           "MailKit": "2.11.1",
           "SendGrid": "9.22.0",
-          "TMAS.DAL": "1.0.0"
+          "TMAS.DAL": "1.0.0",
+          "TMAS.DB": "1.0.0"
         },
         "compile": {
           "bin/placeholder/TMAS.BLL.dll": {}

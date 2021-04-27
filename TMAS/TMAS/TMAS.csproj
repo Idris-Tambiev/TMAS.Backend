@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-
     <ProjectReference Include="..\TMAS.DB\TMAS.DB.csproj" />
     <ProjectReference Include="..\TNAS.BLL\TMAS.BLL.csproj" />
   </ItemGroup>

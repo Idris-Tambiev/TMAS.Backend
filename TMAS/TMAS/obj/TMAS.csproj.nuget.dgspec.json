@@ -276,6 +276,9 @@
             "projectReferences": {
               "D:\\TMAS\\backend\\TMAS\\TMAS.DAL\\TMAS.DAL.csproj": {
                 "projectPath": "D:\\TMAS\\backend\\TMAS\\TMAS.DAL\\TMAS.DAL.csproj"
+              },
+              "D:\\TMAS\\backend\\TMAS\\TMAS.DB\\TMAS.DB.csproj": {
+                "projectPath": "D:\\TMAS\\backend\\TMAS\\TMAS.DB\\TMAS.DB.csproj"
               }
             }
           }

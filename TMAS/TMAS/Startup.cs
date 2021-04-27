@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using TMAS.DB.Context;
-using TMAS.DB.DTO;
+using TMAS.DAL.DTO;
 using TMAS.Configuration;
 using TMAS.BLL.Mapper;
 using TMAS.BLL.Services;
@@ -24,6 +24,10 @@ using Microsoft.Extensions.Logging;
 using TMAS.Providers;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
+using TMAS.BLL;
+using TMAS.BLL.Interfaces;
+using TMAS.DAL.Interfaces;
+using TMAS.DAL;
 
 namespace TMAS
 {
@@ -63,8 +67,7 @@ namespace TMAS
                         .AllowAnyHeader()
                  );
             });
-
-            services.AddCors();
+            
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
                 .AddInMemoryClients(Clients.Get())
@@ -100,33 +103,21 @@ namespace TMAS
                 });
             });
 
-
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
             });
 
             IMapper mapper = mappingConfig.CreateMapper();
+
             services.AddSingleton(mapper);
-            services.AddScoped<UserService>();
-            services.AddScoped<BoardService>();
-            services.AddScoped<CardService>();
-            services.AddScoped<ColumnService>();
-            services.AddScoped<ColumnsSortService>();
-            services.AddScoped<HistoryService>();
-            services.AddScoped<CardsSortService>();
-            services.AddScoped<EmailService>();
-            services.AddScoped<FileService>();
-            services.AddScoped<BoardsAccessService>();
-            services.AddScoped<UserRepository>();
-            services.AddScoped<BoardRepository>();
-            services.AddScoped<CardRepository>();
-            services.AddScoped<ColumnRepository>();
-            services.AddScoped<HistoryRepository>();
-            services.AddScoped<FileRepository>();
-            services.AddScoped<BoardsAccessRepository>();
+
+
+            BLL.ContainerConfiguration.Configure(services);
+            
+
             services.AddSingleton<AbstractValidator<RegistrateUserDto>, UserValidator>();
-            services.AddScoped<Controllers.Base.BaseController>();
+           // services.AddScoped<Controllers.Base.BaseController>();
 
             services.AddTransient<IGoogleAuthProvider, GoogleAuthProvider<IdentityUser>>();
 

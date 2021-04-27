@@ -7,15 +7,17 @@ using TMAS.DAL.Repositories;
 using TMAS.BLL.Interfaces;
 using TMAS.DB.Models;
 using AutoMapper;
-using TMAS.DB.DTO;
+using TMAS.DAL.DTO;
+using TMAS.DAL.Interfaces;
+using TMAS.DB.Models.Enums;
 
 namespace TMAS.BLL.Services
 {
     public class HistoryService:IHistoryService
     {
-        private readonly HistoryRepository _historyRepository;
+        private readonly IHistoryRepository _historyRepository;
         private readonly IMapper _mapper;
-        public HistoryService(HistoryRepository repository,IMapper mapper)
+        public HistoryService(IHistoryRepository repository,IMapper mapper)
         {
             _historyRepository = repository;
             _mapper = mapper;
@@ -26,21 +28,28 @@ namespace TMAS.BLL.Services
             var mapperResult = _mapper.Map<IEnumerable<History>,IEnumerable<HistoryViewDTO>>(allHistories);
             return mapperResult;
         }
-
-        public async Task<History> Create(History history,Guid userId)
+        public async Task<HistoryViewDTO> CreateHistoryObject(UserActions actionType, Guid userId,string actionObject, int? sourceAction,int? destinationAction,int boardId)
         {
             History newHistory = new History
             {
-                ActionType = history.ActionType,
+                ActionType = (DB.Models.Enums.UserActions)actionType,
                 AuthorId = userId,
                 CreatedDate = DateTime.Now,
-                ActionObject = history.ActionObject,
-                SourceAction= history.SourceAction,
-                DestinationAction=history.DestinationAction,
-                BoardId=history.BoardId
-
+                ActionObject = actionObject,
+                SourceAction = sourceAction,
+                DestinationAction = destinationAction,
+                BoardId = boardId
             };
-            return  await _historyRepository.Create(newHistory);
+
+            var history=await Create(newHistory);
+            return history;
+        }
+
+        public async Task<HistoryViewDTO> Create(History history)
+        {
+            var createResult= await _historyRepository.Create(history);
+            var mapperResult = _mapper.Map<History, HistoryViewDTO>(createResult);
+            return mapperResult;
         }
 
     }

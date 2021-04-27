@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TMAS.DB.DTO;
+using TMAS.DAL.DTO;
 using TMAS.DB.Models;
 using AutoMapper;
 
@@ -62,6 +62,14 @@ namespace TMAS.BLL.Mapper
                     .ForMember(dest => dest.SourceAction, act => act.MapFrom(src => src.SourceAction))
                     .ForMember(dest => dest.CreatedDate, act => act.MapFrom(src => src.CreatedDate))
                     .ForMember(dest => dest.AuthorId, act => act.MapFrom(src => src.AuthorId));
+
+            CreateMap<File, FileViewDTO>()
+                    .ForMember(dest => dest.Id, act => act.MapFrom(src => src.Id))
+                    .ForMember(dest => dest.CardId, act => act.MapFrom(src => src.CardId))
+                    .ForMember(dest => dest.FileType, act => act.MapFrom(src => src.FileType))
+                    .ForMember(dest => dest.Name, act => act.MapFrom(src => src.Name))
+                    .ForMember(dest => dest.Path, act => act.MapFrom(src => src.Path));
+
         }
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TMAS.DB.Context;
 
-namespace TMAS.DB.Migrations
+namespace TMAS.BLL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20210421064758_NewMigration")]

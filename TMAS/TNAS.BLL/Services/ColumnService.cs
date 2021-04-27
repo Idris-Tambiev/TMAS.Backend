@@ -8,65 +8,117 @@ using TMAS.BLL.Interfaces;
 using TMAS.DB.Models;
 using TMAS.BLL.Interfaces.BaseInterfaces;
 using AutoMapper;
-using TMAS.DB.DTO;
+using TMAS.DAL.DTO;
 using TMAS.DB.Context;
 using Microsoft.EntityFrameworkCore;
+using TMAS.DAL.Interfaces;
+using TMAS.DB.Models.Enums;
 
 namespace TMAS.BLL.Services
 {
     public class ColumnService: IColumnService
     {
-        private readonly ColumnRepository _columnRepository;
+        private readonly IColumnRepository _columnRepository;
         private readonly IMapper _mapper;
         private readonly AppDbContext db;
-        private readonly ColumnsSortService _columnsSortService;
-        public ColumnService(ColumnRepository repository,IMapper mapper,AppDbContext context,ColumnsSortService columnsSortService)
+        private readonly IColumnsSortService _columnsSortService;
+        private readonly IHistoryService _historyService;
+        public ColumnService(IColumnRepository repository,IMapper mapper,AppDbContext context,IColumnsSortService columnsSortService,IHistoryService historyService)
         {
             _columnRepository = repository;
             _mapper = mapper;
             db = context;
             _columnsSortService = columnsSortService;
+            _historyService = historyService;
         }
 
         public async Task<IEnumerable<ColumnViewDTO>> GetAll(int boardId)
         {
-            var columns= _columnRepository.GetAll(boardId);
+            var columns= await _columnRepository.GetAll(boardId);
             var mapperResult = _mapper.Map<IEnumerable<Column>,IEnumerable<ColumnViewDTO>>(columns);
             return mapperResult;
         }
-        public async Task<Column> GetOne(int columnId)
+
+        public async Task<ColumnViewDTO> GetOne(int columnId)
         {
-            return await _columnRepository.GetOne(columnId);
+            var column= await _columnRepository.GetOne(columnId);
+            var mapperResult = _mapper.Map<Column, ColumnViewDTO>(column);
+            return mapperResult;
         }
 
-        public async Task<Column> Create(ColumnViewDTO column)
+        public async Task<ColumnViewDTO> Create(ColumnViewDTO column,Guid userId)
         {
             var newColumn = _mapper.Map<ColumnViewDTO,Column>(column);
-            return await _columnRepository.Create(newColumn);
+            var createResult = await _columnRepository.Create(newColumn);
+
+            var history = await _historyService.CreateHistoryObject(
+                UserActions.CreateColumn,
+                userId,
+                column.Title,
+                null,
+                null,
+                column.BoardId
+                );
+            var mapperResult = _mapper.Map<Column, ColumnViewDTO>(createResult);
+            return mapperResult;
         }
 
-        public async Task<Column> Update(Column updatedColumn)
+        public async Task<ColumnViewDTO> Update(Column updatedColumn,Guid userId)
         {
-            return _columnRepository.Update(updatedColumn);
+            Column oldColumn = await _columnRepository.GetOne(updatedColumn.Id);
+            oldColumn.Title = updatedColumn.Title;
+            updatedColumn.UpdatedDate = DateTime.Now;
+            var updateResult= await _columnRepository.Update(oldColumn);
+
+            var history = await _historyService.CreateHistoryObject(
+                UserActions.UpdateCard,
+                userId,
+                updatedColumn.Title,
+                null,
+                null,
+                oldColumn.BoardId
+                );
+            var mapperResult = _mapper.Map<Column, ColumnViewDTO>(updateResult);
+            return mapperResult;
         }
 
 
-        public async Task<Column> Delete(int id)
+        public async Task<ColumnViewDTO> Delete(int id,Guid userId)
         {
             var a =await _columnsSortService.ReduceAfterDeleteAsync(id);
-            return _columnRepository.Delete(id);
+            var column= await _columnRepository.Delete(id);
+
+            var history = await _historyService.CreateHistoryObject(
+                UserActions.DeleteColumn,
+                userId,
+                column.Title,
+                null,
+                null,
+                column.BoardId
+                );
+            var mapperResult = _mapper.Map<Column, ColumnViewDTO>(column);
+            return mapperResult;
+
         }
 
-        public async Task<Column> Move(Column movedColumn)
+        public async Task<ColumnViewDTO> Move(Column movedColumn,Guid userId)
         {
-            Column updatedColumn = await db.Columns.FirstOrDefaultAsync(x => x.Id == movedColumn.Id);
-            _columnsSortService.SwitchColumns(updatedColumn.SortBy, movedColumn);
+            Column updatedColumn = await _columnRepository.GetOne(movedColumn.Id);
+            await _columnsSortService.SwitchColumns(updatedColumn.SortBy, movedColumn);
             updatedColumn.SortBy = movedColumn.SortBy;
             updatedColumn.UpdatedDate = DateTime.Now;
-            db.SaveChanges();
-            return movedColumn;
-        }
+            var updateResult = await _columnRepository.Update(updatedColumn);
 
-        
+            var history = await _historyService.CreateHistoryObject(
+                UserActions.MoveColumn,
+                userId,
+                movedColumn.Title,
+                null,
+                null,
+                movedColumn.BoardId
+                );
+            var mapperResult = _mapper.Map<Column, ColumnViewDTO>(updateResult);
+            return mapperResult;
+        }
     }
 }

@@ -25,14 +25,10 @@ namespace TMAS.DAL.Repositories
                 .Where(x=>x.IsActive==true)
                 .ToListAsync();
         }
-        public async Task<Board> GetOne(Guid userId,int boardId)
+        public async Task<Board> GetOne(int boardId)
         {
-            return await db.Boards.Where(x => x.Id == boardId).FirstOrDefaultAsync(x => x.BoardUserId == userId);
-        }
-
-        public async Task<Board> GetOneById(int boardId)
-        {
-            return await db.Boards.Where(x => x.Id == boardId).FirstOrDefaultAsync();
+            return await db.Boards
+                .FirstOrDefaultAsync(x => x.Id == boardId);
         }
 
         public async Task<IEnumerable<Board>> FindBoard(Guid id,string search)
@@ -52,19 +48,19 @@ namespace TMAS.DAL.Repositories
 
         public async Task<Board> Update(Board board)
         {
-            Board updatedBoard = db.Boards.FirstOrDefault(x => x.Id == board.Id);
+            Board updatedBoard =await db.Boards.FirstOrDefaultAsync(x => x.Id == board.Id);
             updatedBoard.Title = board.Title;
             updatedBoard.UpdatedDate = DateTime.Now;
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return updatedBoard;
         }
 
         public async Task<Board> Delete(int id)
         {
-            Board deletedBoard = db.Boards.FirstOrDefault(x => x.Id == id);
+            Board deletedBoard =await db.Boards.FirstOrDefaultAsync(x => x.Id == id);
             deletedBoard.IsActive = false;
             deletedBoard.UpdatedDate = DateTime.Now;
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return deletedBoard;
         }
 

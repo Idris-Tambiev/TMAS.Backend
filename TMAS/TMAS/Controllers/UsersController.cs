@@ -6,14 +6,16 @@ using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using TMAS.BLL.Services;
-using TMAS.DB.Models;
-using TMAS.DB.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using TMAS.Controllers.Base;
 using System.Security.Claims;
 using System.IO;
 using System.Net.Http.Headers;
+using TMAS.BLL.Interfaces;
+using TMAS.DB.Models;
+using TMAS.DAL.DTO;
+using TMAS.BLL;
 
 namespace TMAS.Controllers
 {
@@ -21,22 +23,24 @@ namespace TMAS.Controllers
     [ApiController]
     public class UsersController : BaseController
     {
-        private readonly UserService _userService;
-        public UsersController(UserService service )
+        private readonly IUserService _userService;
+        public UsersController(IUserService service )
         {
             _userService = service;
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<User>> Registrate(RegistrateUserDto model)
+        public async Task<ActionResult<User>> Registrate([FromBody]RegistrateUserDto model)
         {
-            return Ok(await _userService.Create(model));
+            var createResult = await _userService.Create(model);
+            return Ok(createResult);
         }
 
         [HttpGet("find")]
-        public async Task<ActionResult<Response>> Search(string email)
+        public async Task<ActionResult<Response>> Search([FromQuery]string email)
         {
-            return Ok(await _userService.Find(email));
+            var result = await _userService.Find(email);
+            return Ok(result);
         }
 
 
@@ -45,7 +49,8 @@ namespace TMAS.Controllers
         public async Task<ActionResult<UserDTO>> GetUserName()
         {
             var id = GetUserId();
-            return await _userService.GetOneById(id);
+            var user = await _userService.GetOneById(id);
+            return Ok(user);
         }
 
         [HttpGet("getfull")]
@@ -53,7 +58,43 @@ namespace TMAS.Controllers
         public async Task<ActionResult<UserDTO>> GetFullUSer(string id)
         {
             Guid idUser = Guid.Parse(id);
-            return await _userService.GetOneById(idUser);
+            var user = await _userService.GetOneById(idUser);
+            return Ok(user);
+        }
+
+        [HttpGet("confirm/email")]
+        public async Task<ActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
+            {
+                return NotFound();
+            }
+
+            var result = await _userService.ConfirmEmailAsync(userId, token);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest();
+        }
+
+
+        [HttpGet("reset")]
+        public async Task<ActionResult> ResetPassword(string email) {
+        
+            var result = await _userService.ResetEmail(email);
+            return Ok(result);
+        }
+
+        [HttpGet("confirm/new/password")]
+        public async Task<ActionResult> ConfirmResetPassword(string userId, string token, string password)
+        {
+            var result = await _userService.ResetUserPassword(userId, token, password);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpPost("upload/photo")]

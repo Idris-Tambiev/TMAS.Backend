@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TMAS.DB.DTO;
+using TMAS.DAL.DTO;
 using TMAS.DB.Models;
 using MimeKit;
 using Microsoft.AspNetCore.Authorization;
@@ -17,10 +17,11 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Net.Mail;
 using System.Net;
+using TMAS.BLL.Interfaces;
 
 namespace TMAS.BLL.Services
 {
-    public class EmailService
+    public class EmailService:IEmailService
     {
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
@@ -40,10 +41,10 @@ namespace TMAS.BLL.Services
             string url = $"{_configuration["AppUrl"]}/confirmemail?userid={createdUser.Id}&token={validEmailToken}";
             string content = $"<h1>Welcome to TMAS </h1><p>Please confirm your email by  <a href='{url}'>Clicking here</a></p>";
             await SendEmailAsync(createdUser.Email, "Confirm your email", content );
-            return default;
+            return null;
         }
 
-        public async Task<DB.Models.Response> CreateResetEmail(User user)
+        public async Task<object> CreateResetEmail(User user)
         {
             var confirmEmailToken = await _userManager.GeneratePasswordResetTokenAsync(user);
             var encodedEmailToken = Encoding.UTF8.GetBytes(confirmEmailToken);
@@ -52,8 +53,7 @@ namespace TMAS.BLL.Services
             string url = $"{_configuration["AppUrl"]}/new/pass?userid={user.Id}&token={validEmailToken}&email={user.Email}";
             string content = $"<h1>Welcome to TMAS </h1><p>Click on link for reset your password  <a href='{url}'>Clicking here</a></p>";
             await SendEmailAsync(user.Email, "Reset password", content);
-            return default;
-            
+            return null;
         }
 
         public async Task SendEmailAsync(string toEmail, string newSubject, string content)

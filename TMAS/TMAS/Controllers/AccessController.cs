@@ -5,9 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TMAS.BLL.Interfaces;
 using TMAS.BLL.Services;
 using TMAS.Controllers.Base;
-using TMAS.DB.DTO;
+using TMAS.DAL.DTO;
 using TMAS.DB.Models;
 
 namespace TMAS.Controllers
@@ -16,8 +17,8 @@ namespace TMAS.Controllers
     [ApiController]
     public class AccessController : BaseController
     {
-        private readonly BoardsAccessService _boardsAccesService;
-        public AccessController(BoardsAccessService boardsAccesService)
+        private readonly IBoardAccessService _boardsAccesService;
+        public AccessController(IBoardAccessService boardsAccesService)
         {
             _boardsAccesService = boardsAccesService;
         }
@@ -26,20 +27,23 @@ namespace TMAS.Controllers
         [Authorize]
         public async Task<ActionResult<BoardsAccess>> CreateBoardsAccess([FromBody]BoardsAccess access) 
         {
-            return Ok(await _boardsAccesService.Create(access));
+            var data = await _boardsAccesService.Create(access);
+
+            return Ok(data);
         }
 
         [HttpGet("get")]
         [Authorize]
-        public async Task<ActionResult<BoardViewDTO>> get()
+        public async Task<ActionResult<BoardViewDTO>> Get()
         {
             var userId = GetUserId();
-            return Ok(await _boardsAccesService.Get(userId));
+            var board = await _boardsAccesService.Get(userId);
+            return Ok(board);
         }
 
         [HttpGet("get/all/users")]
         [Authorize]
-        public async Task<ActionResult<UserDTO>> GetUsers(int id,string text)
+        public async Task<ActionResult<UserDTO>> GetUsers([FromQuery]int id,string text)
         {
             var userId = GetUserId();
             return Ok(await _boardsAccesService.GetAllUsers(id, text, userId));
@@ -48,17 +52,17 @@ namespace TMAS.Controllers
 
         [HttpGet("get/assigned/users")]
         [Authorize]
-        public async Task<ActionResult<UserDTO>> GetAssignedUsers(int id,string text)
+        public async Task<ActionResult<UserDTO>> GetAssignedUsers([FromQuery]int id,string text)
         {
             var userId = GetUserId();
             return Ok(await _boardsAccesService.GetAssignedUsers(id,text,userId));
         }
 
-        [HttpPost("delete")]
+        [HttpDelete("delete")]
         [Authorize]
-        public async Task<ActionResult> GetUsers(BoardsAccess access)
+        public async Task<ActionResult> GetUsers([FromQuery]int boardId,Guid userId)
         {
-            return Ok(await _boardsAccesService.Delete(access));
+            return Ok(await _boardsAccesService.Delete(boardId,userId));
         }
 
     }
