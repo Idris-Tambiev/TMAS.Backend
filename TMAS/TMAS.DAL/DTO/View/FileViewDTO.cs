@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TMAS.DAL.DTO
+namespace TMAS.DAL.DTO.View
 {
     public class FileViewDTO
     {
@@ -13,5 +13,6 @@ namespace TMAS.DAL.DTO
         public string FileType { get; set; }
         public string Path { get; set; }
         public int CardId { get; set; }
+        public string FileUrl { get; set; }
     }
 }

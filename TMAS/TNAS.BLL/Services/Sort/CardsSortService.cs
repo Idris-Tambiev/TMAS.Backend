@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TMAS.BLL.Interfaces;
+using TMAS.DAL.DTO.View;
 using TMAS.DAL.Interfaces;
 using TMAS.DB.Context;
 using TMAS.DB.Models;
@@ -20,7 +21,7 @@ namespace TMAS.BLL.Services
             db = context;
             _cardRepository = cardRepository;
         }
-        public async Task MoveOnNewColumn(Card card)
+        public async Task MoveOnNewColumn(CardViewDTO card)
         {
             int currentPosition = card.SortBy;
             var result = await _cardRepository.GetAllWithSkip(card.ColumnId, currentPosition);
@@ -42,11 +43,9 @@ namespace TMAS.BLL.Services
                 previousCards[i].SortBy--;
                 await _cardRepository.Update(previousCards[i]);
             }
-            
         }
 
-
-        public async Task SwitchCards(int prevPosition, Card card)
+        public async Task SwitchCards(int prevPosition, CardViewDTO card)
         {
             int currentPosition = card.SortBy;
             if (currentPosition < prevPosition)

@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TMAS.DAL.DTO
+namespace TMAS.DAL.DTO.Created
 {
-    public class BoardViewDTO
+    public class CardCreatedDTO
     {
-        public int Id { get; set; }
+        public int ColumnId { get; set; }
         public string Title { get; set; }
+        public int SortBy { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TMAS.BLL.Interfaces;
 using TMAS.DAL.DTO;
+using TMAS.DAL.DTO.View;
 using TMAS.DAL.Interfaces;
 using TMAS.DAL.Repositories;
 using TMAS.DB.Models;

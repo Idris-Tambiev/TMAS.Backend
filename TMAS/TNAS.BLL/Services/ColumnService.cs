@@ -13,6 +13,7 @@ using TMAS.DB.Context;
 using Microsoft.EntityFrameworkCore;
 using TMAS.DAL.Interfaces;
 using TMAS.DB.Models.Enums;
+using TMAS.DAL.DTO.View;
 
 namespace TMAS.BLL.Services
 {
@@ -63,17 +64,17 @@ namespace TMAS.BLL.Services
             return mapperResult;
         }
 
-        public async Task<ColumnViewDTO> Update(Column updatedColumn,Guid userId)
+        public async Task<ColumnViewDTO> UpdateTitle(int columnId,string newTitle,Guid userId)
         {
-            Column oldColumn = await _columnRepository.GetOne(updatedColumn.Id);
-            oldColumn.Title = updatedColumn.Title;
-            updatedColumn.UpdatedDate = DateTime.Now;
+            Column oldColumn = await _columnRepository.GetOne(columnId);
+            oldColumn.Title = newTitle;
+            oldColumn.UpdatedDate = DateTime.Now;
             var updateResult= await _columnRepository.Update(oldColumn);
 
             var history = await _historyService.CreateHistoryObject(
                 UserActions.UpdateCard,
                 userId,
-                updatedColumn.Title,
+                newTitle,
                 null,
                 null,
                 oldColumn.BoardId
@@ -101,7 +102,7 @@ namespace TMAS.BLL.Services
 
         }
 
-        public async Task<ColumnViewDTO> Move(Column movedColumn,Guid userId)
+        public async Task<ColumnViewDTO> Move(ColumnViewDTO movedColumn,Guid userId)
         {
             Column updatedColumn = await _columnRepository.GetOne(movedColumn.Id);
             await _columnsSortService.SwitchColumns(updatedColumn.SortBy, movedColumn);

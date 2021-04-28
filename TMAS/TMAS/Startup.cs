@@ -28,6 +28,7 @@ using TMAS.BLL;
 using TMAS.BLL.Interfaces;
 using TMAS.DAL.Interfaces;
 using TMAS.DAL;
+using TMAS.DAL.DTO.Created;
 
 namespace TMAS
 {
@@ -105,7 +106,7 @@ namespace TMAS
 
             var mappingConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new MappingProfile());
+                mc.AddProfile(new MappingProfile(Configuration));
             });
 
             IMapper mapper = mappingConfig.CreateMapper();
@@ -116,8 +117,7 @@ namespace TMAS
             BLL.ContainerConfiguration.Configure(services);
             
 
-            services.AddSingleton<AbstractValidator<RegistrateUserDto>, UserValidator>();
-           // services.AddScoped<Controllers.Base.BaseController>();
+            
 
             services.AddTransient<IGoogleAuthProvider, GoogleAuthProvider<IdentityUser>>();
 

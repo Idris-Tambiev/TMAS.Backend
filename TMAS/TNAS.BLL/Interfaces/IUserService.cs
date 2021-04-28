@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TMAS.BLL.Interfaces.BaseInterfaces;
 using TMAS.DAL.DTO;
+using TMAS.DAL.DTO.Created;
+using TMAS.DAL.DTO.View;
 using TMAS.DB.Models;
 
 namespace TMAS.BLL.Interfaces
@@ -14,7 +16,7 @@ namespace TMAS.BLL.Interfaces
     {
         Task<User> GetOneByEmail(User user);
         Task<IEnumerable<UserDTO>> GetUsers(string searchText, Guid currentUserId, Guid creatorUserId);
-        Task<object> Create(RegistrateUserDto createdUser);
+        Task<UserCreatedDto> Create(UserCreatedDto createdUser);
         Task<Response> Find(string email);
         Task<UserDTO> GetOneById(Guid id);
         Task<Response> ConfirmEmailAsync(string id, string token);

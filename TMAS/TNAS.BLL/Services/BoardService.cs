@@ -10,6 +10,7 @@ using TMAS.DAL.DTO;
 using AutoMapper;
 using TMAS.BLL.Interfaces.BaseInterfaces;
 using TMAS.DAL.Interfaces;
+using TMAS.DAL.DTO.View;
 
 namespace TMAS.BLL.Services
 {

@@ -10,6 +10,7 @@ using TMAS.DAL.DTO;
 using Microsoft.AspNetCore.Authorization;
 using TMAS.Controllers.Base;
 using TMAS.BLL.Interfaces;
+using TMAS.DAL.DTO.View;
 
 namespace TMAS.Controllers
 {
@@ -37,7 +38,6 @@ namespace TMAS.Controllers
         [Authorize]
         public async Task<ActionResult<BoardViewDTO>> GetOneBoard([FromQuery] int id)
         {
-            //var userId = GetUserId();
             var board = await _boardService.GetOne(id);
             return Ok(board);
         }
@@ -58,22 +58,6 @@ namespace TMAS.Controllers
             var id = GetUserId();
             var createResult = await _boardService.Create(title, id);
             return Ok(createResult);
-        }
-
-        [HttpPut("update")]
-        [Authorize]
-        public async Task<ActionResult<BoardViewDTO>> UpdateBoard([FromBody]Board board)
-        {
-            var result = await _boardService.Update(board);
-            return Ok(result);
-        }
-
-        [HttpDelete("delete")]
-        [Authorize]
-        public async Task<ActionResult<BoardViewDTO>> DeleteBoard([FromQuery] int boardId)
-        {
-            var result = await _boardService.Delete(boardId);
-            return Ok(result);
         }
     }
 }

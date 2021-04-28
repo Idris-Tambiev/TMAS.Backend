@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TMAS.BLL.Interfaces.BaseInterfaces;
-using TMAS.DAL.DTO;
+using TMAS.DAL.DTO.View;
 using TMAS.DB.Models;
 
 namespace TMAS.BLL.Interfaces

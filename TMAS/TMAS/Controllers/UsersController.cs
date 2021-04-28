@@ -16,6 +16,8 @@ using TMAS.BLL.Interfaces;
 using TMAS.DB.Models;
 using TMAS.DAL.DTO;
 using TMAS.BLL;
+using TMAS.DAL.DTO.View;
+using TMAS.DAL.DTO.Created;
 
 namespace TMAS.Controllers
 {
@@ -30,7 +32,7 @@ namespace TMAS.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<User>> Registrate([FromBody]RegistrateUserDto model)
+        public async Task<ActionResult<UserCreatedDto>> Registrate([FromBody]UserCreatedDto model)
         {
             var createResult = await _userService.Create(model);
             return Ok(createResult);

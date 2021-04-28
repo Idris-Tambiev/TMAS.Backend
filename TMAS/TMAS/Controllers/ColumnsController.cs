@@ -10,6 +10,7 @@ using TMAS.DB.Models;
 using TMAS.Controllers.Base;
 using TMAS.DAL.DTO;
 using TMAS.BLL.Interfaces;
+using TMAS.DAL.DTO.View;
 
 namespace TMAS.Controllers
 {
@@ -49,12 +50,12 @@ namespace TMAS.Controllers
             return Ok(createResult);
         }
 
-        [HttpPut("update")]
+        [HttpGet("update")]
         [Authorize]
-        public async Task<ActionResult<ColumnViewDTO>> UpdateColumn([FromBody]Column column)
+        public async Task<ActionResult<ColumnViewDTO>> UpdateColumn([FromQuery] int id,string title)
         {
             Guid userId = GetUserId();
-            var updateResult = await _columnService.Update(column,userId);
+            var updateResult = await _columnService.UpdateTitle(id,title,userId);
             return Ok(updateResult);
         }
 
@@ -69,7 +70,7 @@ namespace TMAS.Controllers
 
         [HttpPut("move")]
         [Authorize]
-        public async Task<ActionResult<ColumnViewDTO>> MoveColumn([FromBody]Column column)
+        public async Task<ActionResult<ColumnViewDTO>> MoveColumn([FromBody] ColumnViewDTO column)
         {
             Guid userId = GetUserId();
             var moveResult = await _columnService.Move(column,userId);

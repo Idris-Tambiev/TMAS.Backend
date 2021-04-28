@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using TMAS.BLL.Interfaces;
 using TMAS.BLL.Services;
 using TMAS.DAL.DTO;
+using TMAS.DAL.DTO.View;
 using TMAS.DB.Models;
 
 namespace TMAS.Controllers

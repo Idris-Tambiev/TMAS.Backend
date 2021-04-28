@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TMAS.BLL.Interfaces;
+using TMAS.DAL.DTO.View;
 using TMAS.DAL.Interfaces;
 using TMAS.DB.Context;
 using TMAS.DB.Models;
@@ -34,7 +35,7 @@ namespace TMAS.BLL.Services
             return column;
         }
 
-        public async Task SwitchColumns(int prevPosition, Column column)
+        public async Task SwitchColumns(int prevPosition, ColumnViewDTO column)
         {
             int currentPosition = column.SortBy;
             if (currentPosition < prevPosition)

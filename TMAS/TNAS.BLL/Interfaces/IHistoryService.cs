@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TMAS.BLL.Interfaces.BaseInterfaces;
 using TMAS.DAL.DTO;
+using TMAS.DAL.DTO.View;
 using TMAS.DB.Models;
 using TMAS.DB.Models.Enums;
 

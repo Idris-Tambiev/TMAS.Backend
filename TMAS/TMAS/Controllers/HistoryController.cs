@@ -10,6 +10,7 @@ using TMAS.DB.Models;
 using TMAS.Controllers.Base;
 using TMAS.DAL.DTO;
 using TMAS.BLL.Interfaces;
+using TMAS.DAL.DTO.View;
 
 namespace TMAS.Controllers
 {
@@ -30,13 +31,5 @@ namespace TMAS.Controllers
             var histories = await _historyService.GetAll(id);
             return Ok(histories);
         }
-
-        //[HttpPost("create")]
-        //[Authorize]
-        //public async Task<ActionResult<History>> CreateNewHistory(History history)
-        //{
-        //    var id = GetUserId();
-        //    return Ok(await _historyService.Create(history,id));
-        //}
     }
 }

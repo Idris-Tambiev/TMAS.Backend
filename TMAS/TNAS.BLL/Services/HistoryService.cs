@@ -10,6 +10,7 @@ using AutoMapper;
 using TMAS.DAL.DTO;
 using TMAS.DAL.Interfaces;
 using TMAS.DB.Models.Enums;
+using TMAS.DAL.DTO.View;
 
 namespace TMAS.BLL.Services
 {
@@ -40,7 +41,6 @@ namespace TMAS.BLL.Services
                 DestinationAction = destinationAction,
                 BoardId = boardId
             };
-
             var history=await Create(newHistory);
             return history;
         }

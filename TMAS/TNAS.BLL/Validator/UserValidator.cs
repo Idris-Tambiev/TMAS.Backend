@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TMAS.DAL.DTO;
+using TMAS.DAL.DTO.Created;
 
 namespace TMAS.BLL.Validator
 {
-    public class UserValidator:AbstractValidator<RegistrateUserDto>
+    public class UserValidator:AbstractValidator<UserCreatedDto>
     {
         public UserValidator()
         {

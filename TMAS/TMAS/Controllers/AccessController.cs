@@ -9,6 +9,8 @@ using TMAS.BLL.Interfaces;
 using TMAS.BLL.Services;
 using TMAS.Controllers.Base;
 using TMAS.DAL.DTO;
+using TMAS.DAL.DTO.Created;
+using TMAS.DAL.DTO.View;
 using TMAS.DB.Models;
 
 namespace TMAS.Controllers
@@ -25,7 +27,7 @@ namespace TMAS.Controllers
 
         [HttpPost("create")]
         [Authorize]
-        public async Task<ActionResult<BoardsAccess>> CreateBoardsAccess([FromBody]BoardsAccess access) 
+        public async Task<ActionResult<BoardsAccess>> CreateBoardsAccess([FromBody]AccessCreatedDTO access) 
         {
             var data = await _boardsAccesService.Create(access);
 
@@ -64,6 +66,5 @@ namespace TMAS.Controllers
         {
             return Ok(await _boardsAccesService.Delete(boardId,userId));
         }
-
     }
 }

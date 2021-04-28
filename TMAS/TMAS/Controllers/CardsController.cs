@@ -10,6 +10,8 @@ using TMAS.DB.Models;
 using TMAS.Controllers.Base;
 using TMAS.DAL.DTO;
 using TMAS.BLL.Interfaces;
+using TMAS.DAL.DTO.View;
+using TMAS.DAL.DTO.Created;
 
 namespace TMAS.Controllers
 {
@@ -50,16 +52,15 @@ namespace TMAS.Controllers
 
         [HttpGet("get/one")]
         [Authorize]
-        public async Task<ActionResult<CardViewDTO>> GetOneCard([FromQuery] int id)
+        public async Task<ActionResult<CardFullDTO>> GetOneCard([FromQuery] int id)
         {
             var card = await _cardsService.GetOne(id);
             return Ok(card);
         }
 
-
         [HttpPost("create")]
         [Authorize]
-        public async Task<ActionResult<CardViewDTO>> CreateNewCard([FromBody]Card card)
+        public async Task<ActionResult<CardViewDTO>> CreateNewCard([FromBody]CardCreatedDTO card)
         {
             Guid userId = GetUserId();
             var createResult = await _cardsService.Create(card,userId);
@@ -67,27 +68,27 @@ namespace TMAS.Controllers
         }
 
 
-        [HttpPut("update")]
+        [HttpGet("update")]
         [Authorize]
-        public async Task<ActionResult<CardViewDTO>> UpdateCard([FromBody]Card card)
+        public async Task<ActionResult<CardViewDTO>> UpdateCardTitle([FromQuery]int id,string title)
         {
             Guid userId = GetUserId();
-            var updateResult = await _cardsService.Update(card,userId);
-            return Ok(updateResult);
+            var updateResult = await _cardsService.UpdateTitle(id,title,userId);
+            return Ok();
         }
 
-        [HttpPut("update/changes")]
+        [HttpPut("update/content")]
         [Authorize]
-        public async Task<ActionResult<CardViewDTO>> UpdateChanges([FromBody]Card card)
+        public async Task<ActionResult<CardViewDTO>> UpdateContent([FromBody]CardContentDTO card)
         {
             Guid userId = GetUserId();
-            var updateResult = await _cardsService.UpdateChanges(card,userId);
+            var updateResult = await _cardsService.UpdateContent(card,userId);
             return Ok(updateResult);
         }
 
         [HttpPut("move")]
         [Authorize]
-        public async Task<ActionResult<CardViewDTO>> MoveCard([FromBody]Card card)
+        public async Task<ActionResult<CardViewDTO>> MoveCard([FromBody]CardViewDTO card)
         {
             Guid userId = GetUserId();
             var result = await _cardsService.Move(card,userId);
@@ -96,7 +97,7 @@ namespace TMAS.Controllers
 
         [HttpPut("moveoncolumn")]
         [Authorize]
-        public async Task<ActionResult<CardViewDTO>> MoveOnColumnCard([FromBody]Card card)
+        public async Task<ActionResult<CardViewDTO>> MoveOnColumnCard([FromBody]CardViewDTO card)
         {
             Guid userId = GetUserId();
             var result = await _cardsService.MoveOnColumns(card,userId);

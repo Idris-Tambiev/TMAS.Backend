@@ -16,6 +16,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using TMAS.BLL.Models;
 using Microsoft.Extensions.Configuration;
+using TMAS.DAL.DTO.View;
+using TMAS.DAL.DTO.Created;
 
 namespace TMAS.BLL.Services
 {
@@ -23,12 +25,12 @@ namespace TMAS.BLL.Services
     {
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
-        private readonly AbstractValidator<RegistrateUserDto> _userValidator;
+        private readonly AbstractValidator<UserCreatedDto> _userValidator;
         private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
         private readonly ITokenService _tokenService;
 
-        public UserService(UserManager<User> userManager,IMapper mapper,AbstractValidator<RegistrateUserDto> validator,IEmailService emailService,IConfiguration configuration,ITokenService tokenService)
+        public UserService(UserManager<User> userManager,IMapper mapper,AbstractValidator<UserCreatedDto> validator,IEmailService emailService,IConfiguration configuration,ITokenService tokenService)
 
         {
             _userManager = userManager;
@@ -55,7 +57,7 @@ namespace TMAS.BLL.Services
             return mapperResult;
         }
 
-        public async Task<object> Create(RegistrateUserDto createdUser)
+        public async Task<UserCreatedDto> Create(UserCreatedDto createdUser)
         {
             var validationResult = _userValidator.Validate(createdUser);
 
@@ -68,7 +70,7 @@ namespace TMAS.BLL.Services
                 var findedUser = await _userManager.FindByEmailAsync(createdUser.Email);
                 if (findedUser == null)
                 {
-                    var newUser = _mapper.Map<RegistrateUserDto, User>(createdUser);
+                    var newUser = _mapper.Map<UserCreatedDto, User>(createdUser);
                     var result = await _userManager.CreateAsync(newUser, createdUser.Password);
 
                     var confirmEmailToken = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
@@ -85,7 +87,7 @@ namespace TMAS.BLL.Services
 
                     await _emailService.SendEmailAsync(email);
 
-                    return null;
+                    return createdUser;
                 }
                 else return null;
             }
@@ -113,6 +115,7 @@ namespace TMAS.BLL.Services
         {
             User findedUser = await _userManager.FindByIdAsync(id.ToString());
             var result = _mapper.Map<User,UserDTO>(findedUser);
+            result.Photo = _configuration["FileUrl"] + result.Photo;
             return result;
         }
 
@@ -211,7 +214,6 @@ namespace TMAS.BLL.Services
             var findedUser = await _userManager.FindByIdAsync(userId.ToString());
             findedUser.Photo = photo;
             await _userManager.UpdateAsync(findedUser);
-
             return findedUser;
         }
 

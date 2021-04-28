@@ -10,6 +10,9 @@ using TMAS.DAL.Repositories;
 using TMAS.DAL.DTO;
 using TMAS.DB.Models;
 using TMAS.DB.Models.Enums;
+using TMAS.DAL.DTO.View;
+using TMAS.DAL.DTO.Created;
+using FluentValidation;
 
 namespace TMAS.BLL.Services
 {
@@ -20,30 +23,43 @@ namespace TMAS.BLL.Services
         private readonly IBoardService _boardService;
         private readonly IUserService _userService;
         private readonly IHistoryService _historyService;
-        public BoardsAccessService(IBoardAccessRepository boardsAccessRepository, IMapper mapper, IBoardService boardService,IUserService userService,IHistoryService historyService)
+        private readonly AbstractValidator<AccessCreatedDTO> _accessValidator;
+        public BoardsAccessService(IBoardAccessRepository boardsAccessRepository, IMapper mapper, IBoardService boardService,
+            IUserService userService,IHistoryService historyService
+            , AbstractValidator<AccessCreatedDTO> accessValidator)
         {
             _boardsAccessRepository = boardsAccessRepository;
             _mapper = mapper;
             _boardService = boardService;
             _userService = userService;
             _historyService = historyService;
+            _accessValidator = accessValidator;
         }
 
-        public async Task<BoardsAccess> Create(BoardsAccess access)
+        public async Task<BoardsAccess> Create(AccessCreatedDTO access)
         {
-            var result = await _boardsAccessRepository.Create(access);
-            var user = await _userService.GetOneById(access.UserId);
+            var validationResult = _accessValidator.Validate(access);
+            if (!validationResult.IsValid)
+            {
+                throw new Exception(validationResult.ToString());
+            }
+            else
+            {
+                var mapperResult = _mapper.Map<AccessCreatedDTO, BoardsAccess>(access);
+                var result = await _boardsAccessRepository.Create(mapperResult);
+                var user = await _userService.GetOneById(access.UserId);
 
-            var history = await _historyService.CreateHistoryObject(
-                UserActions.AssignUser,
-                access.UserId,
-                user.Name+' '+user.LastName,
-                null,
-                null,
-                access.BoardId
-                );
+                var history = await _historyService.CreateHistoryObject(
+                    UserActions.AssignUser,
+                    access.UserId,
+                    user.Name + ' ' + user.LastName,
+                    null,
+                    null,
+                    access.BoardId
+                    );
 
-            return result;
+                return result;
+            }
         }
         public async Task<IEnumerable<BoardViewDTO>> Get(Guid id)
         {
@@ -82,7 +98,6 @@ namespace TMAS.BLL.Services
                 null,
                 boardId
                 );
-
             return result;
         }
     }

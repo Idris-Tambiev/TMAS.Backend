@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TMAS.DB.Models.Enums;
 
-namespace TMAS.DAL.DTO
+namespace TMAS.DAL.DTO.View
 {
     public class HistoryViewDTO
     {
