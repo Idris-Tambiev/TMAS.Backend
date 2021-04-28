@@ -14,6 +14,8 @@ using TMAS.BLL.Validator;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using TMAS.BLL.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace TMAS.BLL.Services
 {
@@ -23,13 +25,18 @@ namespace TMAS.BLL.Services
         private readonly IMapper _mapper;
         private readonly AbstractValidator<RegistrateUserDto> _userValidator;
         private readonly IEmailService _emailService;
-        public UserService(UserManager<User> userManager,IMapper mapper,AbstractValidator<RegistrateUserDto> validator,IEmailService emailService)
+        private readonly IConfiguration _configuration;
+        private readonly ITokenService _tokenService;
+
+        public UserService(UserManager<User> userManager,IMapper mapper,AbstractValidator<RegistrateUserDto> validator,IEmailService emailService,IConfiguration configuration,ITokenService tokenService)
 
         {
             _userManager = userManager;
             _mapper = mapper;
             _userValidator = validator;
             _emailService = emailService;
+            _configuration = configuration;
+            _tokenService = tokenService;
         }
         public async Task<User> GetOneByEmail(User user)
         {
@@ -63,7 +70,21 @@ namespace TMAS.BLL.Services
                 {
                     var newUser = _mapper.Map<RegistrateUserDto, User>(createdUser);
                     var result = await _userManager.CreateAsync(newUser, createdUser.Password);
-                    var a = _emailService.CreateEmailAsync(newUser);
+
+                    var confirmEmailToken = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                    string validToken = await _tokenService.CreateValidToken(confirmEmailToken);
+
+                    string url = $"{_configuration["AppUrl"]}/confirmemail?userid={newUser.Id}&token={validToken}";
+                    string content = $"<h1>Welcome to TMAS </h1><p>Please confirm your email by  <a href='{url}'>Clicking here</a></p>";
+
+                    EmailOptions email = new EmailOptions {
+                        Email = newUser.Email,
+                        Content =content,
+                        Subject = "Confirm your email",
+                    };
+
+                    await _emailService.SendEmailAsync(email);
+
                     return null;
                 }
                 else return null;
@@ -105,8 +126,7 @@ namespace TMAS.BLL.Services
                 Message = "User not found"
             }; ;
 
-            var decodedToken = WebEncoders.Base64UrlDecode(token);
-            string normalToken = Encoding.UTF8.GetString(decodedToken);
+            var normalToken = await _tokenService.DecodingToken(token);
             var result = await _userManager.ConfirmEmailAsync(user,normalToken);
 
             if (result.Succeeded)
@@ -129,9 +149,24 @@ namespace TMAS.BLL.Services
         public async Task<IActionResult> ResetEmail(string email)
         {
             User user = await _userManager.FindByEmailAsync(email);
-            var result = _emailService.CreateResetEmail(user);
+            var confirmEmailToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            string validToken = await _tokenService.CreateValidToken(confirmEmailToken);
+
+            string url = $"{_configuration["AppUrl"]}/new/pass?userid={user.Id}&token={validToken}&email={user.Email}";
+            string content = $"<h1>Welcome to TMAS </h1><p>Click on link for reset your password  <a href='{url}'>Clicking here</a></p>";
+
+            EmailOptions emailOptions = new EmailOptions
+            {
+                Email = user.Email,
+                Content = content,
+                Subject = "Reset password",
+            };
+
+            await _emailService.SendEmailAsync(emailOptions);
+
             return null;
         }
+
         public async Task<Response> ResetUserPassword(string userId, string token,string newPassword)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -150,9 +185,7 @@ namespace TMAS.BLL.Services
                     Message = "You entered old password"
                 };
             }
-
-            var decodedToken = WebEncoders.Base64UrlDecode(token);
-            string normalToken = Encoding.UTF8.GetString(decodedToken);
+            var normalToken = await _tokenService.DecodingToken(token);
             var result = await _userManager.ResetPasswordAsync(user, normalToken, newPassword);
 
             if (result.Succeeded)
@@ -181,5 +214,7 @@ namespace TMAS.BLL.Services
 
             return findedUser;
         }
+
+       
     }
 }

@@ -24,6 +24,7 @@ namespace TMAS.BLL
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IBoardAccessService, BoardsAccessService>();
+            services.AddScoped<ITokenService,TokenService>();
             return services;
         }
     }

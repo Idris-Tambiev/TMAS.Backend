@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TMAS.BLL.Interfaces.BaseInterfaces;
-using TMAS.BLL.Models;
-using TMAS.DB.Models;
 
 namespace TMAS.BLL.Interfaces
 {
-    public interface IEmailService: IBaseService
+    public interface ITokenService:IBaseService
     {
-        Task SendEmailAsync(EmailOptions emailOptions);
+        Task<string> CreateValidToken(string token);
+        Task<string> DecodingToken(string token);
+
     }
 }

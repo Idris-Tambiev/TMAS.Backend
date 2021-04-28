@@ -22,7 +22,6 @@ namespace TMAS.DAL.Repositories
         public async Task<BoardsAccess> Create(BoardsAccess access)
         {
             var searchResult = await db.BoardsAccesses
-                .AsNoTracking()
                 .Where(x => x.BoardId == access.BoardId)
                 .Where(x => x.UserId == access.UserId)
                 .ToListAsync();

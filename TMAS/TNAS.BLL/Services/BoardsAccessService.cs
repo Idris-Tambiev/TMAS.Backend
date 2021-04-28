@@ -33,6 +33,7 @@ namespace TMAS.BLL.Services
         {
             var result = await _boardsAccessRepository.Create(access);
             var user = await _userService.GetOneById(access.UserId);
+
             var history = await _historyService.CreateHistoryObject(
                 UserActions.AssignUser,
                 access.UserId,
