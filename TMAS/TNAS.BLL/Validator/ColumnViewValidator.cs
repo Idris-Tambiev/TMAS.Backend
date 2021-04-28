@@ -6,25 +6,30 @@ using System.Text;
 using System.Threading.Tasks;
 using TMAS.DAL.DTO;
 using TMAS.DAL.DTO.Created;
+using TMAS.DAL.DTO.View;
 
 namespace TMAS.BLL.Validator
 {
-    public class CardsValidator:AbstractValidator<CardCreatedDTO>
+    public class ColumnViewValidator:AbstractValidator<ColumnViewDTO>
     {
-        public CardsValidator()
+        public ColumnViewValidator()
         {
-            RuleFor(x => x.ColumnId)
+            RuleFor(x => x.Id)
                 .NotNull()
                 .WithMessage("Incorrect ColumnId");
 
-            RuleFor(x => x.SortBy)
+            RuleFor(x => x.BoardId)
                 .NotNull()
-                .WithMessage("Incorrect SortBy");
+                .WithMessage("Incorrect board id");
 
             RuleFor(x => x.Title)
                 .NotEmpty()
                 .NotNull()
                 .WithMessage("Incorrect Title");
+
+            RuleFor(x => x.SortBy)
+                .NotNull()
+                .WithMessage("Incorrect sortby");
 
         }
     }

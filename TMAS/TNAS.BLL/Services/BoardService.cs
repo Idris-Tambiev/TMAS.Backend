@@ -33,37 +33,63 @@ namespace TMAS.BLL.Services
         //get boards for Front
         public async Task<BoardViewDTO> GetOne(int boardId)
         {
-            var board = await _boardRepository.GetOne(boardId);
-            var mapperResult = _mapper.Map<BoardViewDTO>(board);
-            return mapperResult;
+            if (boardId != null)
+            {
+                var board = await _boardRepository.GetOne(boardId);
+                var mapperResult = _mapper.Map<BoardViewDTO>(board);
+                return mapperResult;
+            }
+            else
+            {
+                throw new Exception("Empty board id");
+            }
         }
 
         //get boards for boardsAccess
         public async Task<Board> GetOneById(int boardId)
         {
-            var board = await _boardRepository.GetOne(boardId);
-            return board;
+            if (boardId!=null)
+            {
+                var board = await _boardRepository.GetOne(boardId);
+                return board;
+            }
+            else
+            {
+                throw new Exception("Empty boardId");
+            }
         }
 
         public async Task<IEnumerable<BoardViewDTO>> FindBoard(Guid userId,string search)
         {
-            var boards = await _boardRepository.FindBoard(userId, search);
-            var mapperResult = _mapper.Map<IEnumerable<BoardViewDTO>>(boards);
-            return mapperResult;
+            if (search!=null) {
+                var boards = await _boardRepository.FindBoard(userId, search);
+                var mapperResult = _mapper.Map<IEnumerable<BoardViewDTO>>(boards);
+                return mapperResult;
+            }
+            else
+            {
+                throw new Exception("Empty search text");
+            }
         }
 
         public async Task<BoardViewDTO> Create(string title , Guid id)
         {
-            Board createdBoard = new Board
+            if (title!=null) {
+                Board createdBoard = new Board
+                {
+                    Title = title,
+                    BoardUserId = id,
+                    CreatedDate = DateTime.Now,
+                    IsActive = true
+                };
+                var result = await _boardRepository.Create(createdBoard);
+                var mapperResult = _mapper.Map<BoardViewDTO>(result);
+                return mapperResult;
+            }
+            else
             {
-                Title = title,
-                BoardUserId = id,
-                CreatedDate = DateTime.Now,
-                IsActive=true
-            };
-            var result = await _boardRepository.Create(createdBoard);
-            var mapperResult = _mapper.Map<BoardViewDTO>(result);
-            return mapperResult;
+                throw new Exception("Empty title");
+            }
         }
 
         public async Task<BoardViewDTO> Update(Board board)
@@ -75,9 +101,16 @@ namespace TMAS.BLL.Services
 
         public async Task<BoardViewDTO> Delete(int id)
         {
-            var result = await _boardRepository.Delete(id);
-            var mapperResult = _mapper.Map<BoardViewDTO>(result);
-            return mapperResult;
+            if (id!=null) 
+            {
+                var result = await _boardRepository.Delete(id);
+                var mapperResult = _mapper.Map<BoardViewDTO>(result);
+                return mapperResult;
+            }
+            else
+            {
+                throw new Exception("Empty id or title");
+            }
         }
     }
 }

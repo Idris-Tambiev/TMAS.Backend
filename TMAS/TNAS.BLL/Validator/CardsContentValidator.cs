@@ -18,6 +18,7 @@ namespace TMAS.BLL.Validator
                 .WithMessage("Incorrect Id");
 
             RuleFor(x => x.ExecutionPeriod)
+                .NotEmpty()
                 .NotNull()
                 .WithMessage("Incorrect Execution Period");
         }

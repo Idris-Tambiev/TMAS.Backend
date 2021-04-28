@@ -48,13 +48,19 @@ namespace TMAS.BLL.Services
 
         public async Task<IEnumerable<UserDTO>> GetUsers(string searchText,Guid currentUserId,Guid creatorUserId)
         {
-            var findedUsers = await _userManager.Users
-                .Where(x=>x.UserName.Contains(searchText))
-                .Where(x=>x.Id!= currentUserId)
-                .Where(x => x.Id != creatorUserId)
-                .ToListAsync();
-            var mapperResult = _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(findedUsers);
-            return mapperResult;
+            if (searchText!=null) {
+                var findedUsers = await _userManager.Users
+                    .Where(x => x.UserName.Contains(searchText))
+                    .Where(x => x.Id != currentUserId)
+                    .Where(x => x.Id != creatorUserId)
+                    .ToListAsync();
+                var mapperResult = _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(findedUsers);
+                return mapperResult;
+            }
+            else
+            {
+                throw new Exception("Empty search text");
+            }
         }
 
         public async Task<UserCreatedDto> Create(UserCreatedDto createdUser)
@@ -95,20 +101,31 @@ namespace TMAS.BLL.Services
 
         public async Task<Response> Find(string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user==null) {
-                return new Response
-                {
-                    IsSuccess = true,
-                    Message = "This email not used"
-                };
-            } else
+            if (email!=null)
             {
-                return new Response {
-                    IsSuccess = false,
-                    Message = "This email already in use"
-                };
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user == null)
+                {
+                    return new Response
+                    {
+                        IsSuccess = true,
+                        Message = "This email not used"
+                    };
+                }
+                else
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "This email already in use"
+                    };
+                }
             }
+            else
+            {
+                throw new Exception("Empty email");
+            }
+            
         }
 
         public async Task<UserDTO> GetOneById(Guid id)

@@ -6,12 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using TMAS.DAL.DTO;
 using TMAS.DAL.DTO.Created;
+using TMAS.DAL.DTO.View;
 
 namespace TMAS.BLL.Validator
 {
-    public class CardsValidator:AbstractValidator<CardCreatedDTO>
+    public class CardsViewValidator:AbstractValidator<CardViewDTO>
     {
-        public CardsValidator()
+        public CardsViewValidator()
         {
             RuleFor(x => x.ColumnId)
                 .NotNull()
@@ -22,10 +23,14 @@ namespace TMAS.BLL.Validator
                 .WithMessage("Incorrect SortBy");
 
             RuleFor(x => x.Title)
-                .NotEmpty()
                 .NotNull()
+                .NotEmpty()
                 .WithMessage("Incorrect Title");
 
+
+            RuleFor(x => x.Id)
+               .NotNull()
+               .WithMessage("Incorrect card id");
         }
     }
 }

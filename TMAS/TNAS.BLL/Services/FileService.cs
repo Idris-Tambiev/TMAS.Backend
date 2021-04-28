@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -18,11 +19,13 @@ namespace TMAS.BLL.Services
     {
         private readonly IFileRepository _fileRepository;
         private readonly IMapper _mapper;
+        private readonly AbstractValidator<File> _fileValidator;
 
-        public FileService(IFileRepository fileRepository,IMapper mapper)
+        public FileService(IFileRepository fileRepository,IMapper mapper, AbstractValidator<File> fileValidator)
         {
             _fileRepository = fileRepository;
             _mapper = mapper;
+            _fileValidator = fileValidator;
         }
         public async Task<File> Create(int cardId,string path,string type,string name)
         {
@@ -33,15 +36,31 @@ namespace TMAS.BLL.Services
                 CardId=cardId,
                 FileType=type
             };
-            var createResult= await _fileRepository.Create(newFile);
-            return createResult;
+            var validationResult = _fileValidator.Validate(newFile);
+
+            if (!validationResult.IsValid)
+            {
+                throw new Exception(validationResult.ToString());
+            }
+            else
+            {
+                var createResult = await _fileRepository.Create(newFile);
+                return createResult;
+            }
         }
 
         public async Task<IEnumerable<FileViewDTO>> GetFiles(int cardId)
         {
-            var result= await _fileRepository.GetFiles(cardId);
-            var mapperResult =_mapper.Map<IEnumerable<File>,IEnumerable<FileViewDTO>>(result);
-            return mapperResult;
+            if (cardId != null)
+            {
+                var result = await _fileRepository.GetFiles(cardId);
+                var mapperResult = _mapper.Map<IEnumerable<File>, IEnumerable<FileViewDTO>>(result);
+                return mapperResult;
+            }
+            else
+            {
+                throw new Exception("Empty card id");
+            }
         }
     }
 }

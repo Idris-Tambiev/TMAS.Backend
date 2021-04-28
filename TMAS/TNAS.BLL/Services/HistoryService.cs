@@ -11,6 +11,7 @@ using TMAS.DAL.DTO;
 using TMAS.DAL.Interfaces;
 using TMAS.DB.Models.Enums;
 using TMAS.DAL.DTO.View;
+using FluentValidation;
 
 namespace TMAS.BLL.Services
 {
@@ -18,10 +19,12 @@ namespace TMAS.BLL.Services
     {
         private readonly IHistoryRepository _historyRepository;
         private readonly IMapper _mapper;
-        public HistoryService(IHistoryRepository repository,IMapper mapper)
+        private readonly AbstractValidator<History> _historyValidator;
+        public HistoryService(IHistoryRepository repository,IMapper mapper,AbstractValidator<History> historyValidator)
         {
             _historyRepository = repository;
             _mapper = mapper;
+            _historyValidator = historyValidator;
         }
         public async Task<IEnumerable<HistoryViewDTO>> GetAll(int boardId)
         {
@@ -33,7 +36,7 @@ namespace TMAS.BLL.Services
         {
             History newHistory = new History
             {
-                ActionType = (DB.Models.Enums.UserActions)actionType,
+                ActionType =actionType,
                 AuthorId = userId,
                 CreatedDate = DateTime.Now,
                 ActionObject = actionObject,
@@ -41,15 +44,34 @@ namespace TMAS.BLL.Services
                 DestinationAction = destinationAction,
                 BoardId = boardId
             };
-            var history=await Create(newHistory);
-            return history;
+
+            var validationResult = _historyValidator.Validate(newHistory);
+
+            if (!validationResult.IsValid)
+            {
+                throw new Exception(validationResult.ToString());
+            }
+            else
+            {
+                var history = await Create(newHistory);
+                return history;
+            }
         }
 
         public async Task<HistoryViewDTO> Create(History history)
         {
-            var createResult= await _historyRepository.Create(history);
-            var mapperResult = _mapper.Map<History, HistoryViewDTO>(createResult);
-            return mapperResult;
+            var validationResult = _historyValidator.Validate(history);
+
+            if (!validationResult.IsValid)
+            {
+                throw new Exception(validationResult.ToString());
+            }
+            else
+            {
+                var createResult = await _historyRepository.Create(history);
+                var mapperResult = _mapper.Map<History, HistoryViewDTO>(createResult);
+                return mapperResult;
+            }
         }
 
     }

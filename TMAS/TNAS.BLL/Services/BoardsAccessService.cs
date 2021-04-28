@@ -63,7 +63,6 @@ namespace TMAS.BLL.Services
         }
         public async Task<IEnumerable<BoardViewDTO>> Get(Guid id)
         {
-
             var allBoards = await _boardsAccessRepository.Get(id);
             var mapperResult = _mapper.Map<IEnumerable<BoardViewDTO>>(allBoards);
             return mapperResult;
@@ -71,34 +70,51 @@ namespace TMAS.BLL.Services
 
         public async Task<IEnumerable<UserDTO>> GetAllUsers(int boardId, string text, Guid userId)
         {
-            var boards = await _boardService.GetOneById(boardId);
-            Guid creatorId = boards.BoardUserId;
-            IEnumerable<UserDTO> users = await _userService.GetUsers(text, userId, creatorId);
-            return users;
+            if (text!=null)
+            {
+                var boards = await _boardService.GetOneById(boardId);
+                Guid creatorId = boards.BoardUserId;
+                IEnumerable<UserDTO> users = await _userService.GetUsers(text, userId, creatorId);
+                return users;
+            }
+            else
+            {
+                throw new Exception("Empty id or title");
+            }
         }
 
         public async Task<IEnumerable<UserDTO>> GetAssignedUsers(int boardId,string text,Guid userId)
        {
-            var allusers = await _boardsAccessRepository.GetAssignedUsers(boardId, text,userId);
-            var mapperResult = _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(allusers);
-            return mapperResult;
+            if ( text != null)
+            {
+                var allusers = await _boardsAccessRepository.GetAssignedUsers(boardId, text, userId);
+                var mapperResult = _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(allusers);
+                return mapperResult;
+            }
+            else
+            {
+                throw new Exception("Empty text");
+            }
+
         }
 
         public async Task<BoardsAccess> Delete(int boardId,Guid userId)
         {
-            var user = await _userService.GetOneById(userId);
-            
-            var result = await _boardsAccessRepository.Delete( boardId,  userId);
 
-            var history = await _historyService.CreateHistoryObject(
-                UserActions.AssignUser,
-                userId,
-                user.Name + ' ' + user.LastName,
-                null,
-                null,
-                boardId
-                );
-            return result;
+                var user = await _userService.GetOneById(userId);
+
+                var result = await _boardsAccessRepository.Delete(boardId, userId);
+
+                var history = await _historyService.CreateHistoryObject(
+                    UserActions.AssignUser,
+                    userId,
+                    user.Name + ' ' + user.LastName,
+                    null,
+                    null,
+                    boardId
+                    );
+                return result;
+
         }
     }
 }

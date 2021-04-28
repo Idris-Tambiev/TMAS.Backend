@@ -13,24 +13,34 @@ namespace TMAS.BLL.Validator
     {
         public UserValidator()
         {
-            RuleFor(x => x.Name).NotEmpty()
+            RuleFor(x => x.Name)
+                .NotEmpty()
+                .NotNull()
                 .MinimumLength(3)
                 .MaximumLength(30)
                 .WithMessage("Incorrect Name");
 
-            RuleFor(x => x.LastName).NotEmpty()
+            RuleFor(x => x.LastName)
+                .NotEmpty()
+                .NotNull()
                 .MinimumLength(3)
                 .MaximumLength(30)
                 .WithMessage("Incorrect LastNameName");
 
-            RuleFor(x => x.UserName).NotEmpty()
+            RuleFor(x => x.UserName)
+                .NotEmpty()
+                .NotNull()
                 .WithMessage("Empty Username");
 
-            RuleFor(x => x.Email).NotEmpty()
+            RuleFor(x => x.Email)
+                .NotEmpty()
+                .NotNull()
                 .EmailAddress()
                 .WithMessage("Bad email");
 
-            RuleFor(x => x.Password).NotEmpty()
+            RuleFor(x => x.Password)
+                .NotEmpty()
+                .NotNull()
                 .MinimumLength(6)
                 .WithMessage("Passwords must be at least 6 characters");
 

@@ -28,7 +28,6 @@ namespace TMAS.BLL.Services
         {
         }
 
-
         public async Task SendEmailAsync(EmailOptions emailOptions)
         {
             var fromAddress = new MailAddress("davearmstrong653@gmail.com", "Dave Armstrong");

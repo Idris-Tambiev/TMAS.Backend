@@ -27,14 +27,15 @@ namespace TMAS.BLL.Services
         private readonly ICardsSortService _sortService;
         private readonly AbstractValidator<CardContentDTO> _cardContentValidator;
         private readonly AbstractValidator<CardCreatedDTO> _cardValidator;
-
+        private readonly AbstractValidator<CardViewDTO> _cardViewValidator;
         public CardService(ICardRepository repository,
             IMapper mapper,AppDbContext context,
             ICardsSortService cardsMoveService, 
             IHistoryService historyService, 
             IColumnRepository columnRepository,
             AbstractValidator<CardContentDTO> cardContentValidator,
-            AbstractValidator<CardCreatedDTO> cardValidator
+            AbstractValidator<CardCreatedDTO> cardValidator,
+            AbstractValidator<CardViewDTO> cardViewValidator
             )
         {
             _cardRepository = repository;
@@ -44,43 +45,62 @@ namespace TMAS.BLL.Services
             _columnRepository = columnRepository;
             _cardContentValidator = cardContentValidator;
             _cardValidator = cardValidator;
+            _cardViewValidator = cardViewValidator;
         }
         public async Task<IEnumerable<CardViewDTO>> GetAll(int columnId)
         {
-            var allCards = await _cardRepository.GetAll(columnId);
-            var mapperResult = _mapper.Map<IEnumerable<Card>,IEnumerable<CardViewDTO>>(allCards);
-            return mapperResult;
+            if (columnId!=null) {
+                var allCards = await _cardRepository.GetAll(columnId);
+                var mapperResult = _mapper.Map<IEnumerable<Card>, IEnumerable<CardViewDTO>>(allCards);
+                return mapperResult;
+            }
+            else
+            {
+                throw new Exception("Empty column id");
+            }
         }
         public async Task<CardViewDTO> CheckCard(int cardId, bool status, Guid userId)
         {
+            if (cardId!=null && status!=null) {
+                Card card = await _cardRepository.GetOne(cardId);
+                Column column = await _columnRepository.GetOne(card.ColumnId);
+                var result = await _cardRepository.CheckCard(cardId, status);
+                UserActions action;
 
-            Card card =await _cardRepository.GetOne(cardId);
-            Column column = await _columnRepository.GetOne(card.ColumnId);
-            var result = await _cardRepository.CheckCard(cardId, status);
-            UserActions action;
+                if (status) action = UserActions.CheckedCard;
+                else action = UserActions.UncheckedCard;
 
-            if (status) action = UserActions.CheckedCard;
-            else action = UserActions.UncheckedCard;
+                var history = await _historyService.CreateHistoryObject(
+                    action,
+                    userId,
+                    card.Title,
+                    null,
+                    null,
+                    column.BoardId
+                    );
 
-            var history = await _historyService.CreateHistoryObject(
-                action,
-                userId,
-                card.Title,
-                null,
-                null,
-                column.BoardId
-                );
+                var mapperResult = _mapper.Map<Card, CardViewDTO>(result);
+                return mapperResult;
+            }
+            else
+            {
+                throw new Exception("Empty card id or card checked status");
+            }
 
-            var mapperResult = _mapper.Map<Card, CardViewDTO>(result);
-            return mapperResult;
-          
         }
 
         public async Task<CardFullDTO> GetOne(int cardId)
         {
-            var card = await _cardRepository.GetOne(cardId);
-            var mapperResult = _mapper.Map<Card, CardFullDTO>(card);
-            return mapperResult;
+            if (cardId != null)
+            {
+                var card = await _cardRepository.GetOne(cardId);
+                var mapperResult = _mapper.Map<Card, CardFullDTO>(card);
+                return mapperResult;
+            }
+            else
+            {
+                throw new Exception("Empty card id");
+            }
         }
 
         public async Task<CardViewDTO> Create(CardCreatedDTO card, Guid userId)
@@ -113,9 +133,15 @@ namespace TMAS.BLL.Services
 
         public async Task<IEnumerable<CardViewDTO>> FindCard(int columnId, string search)
         {
-            var result= await _cardRepository.FindCards(columnId, search);
-            var mapperResult = _mapper.Map<IEnumerable<Card>, IEnumerable<CardViewDTO>>(result);
-            return mapperResult;
+            if (columnId!=null && search!=null) {
+                var result = await _cardRepository.FindCards(columnId, search);
+                var mapperResult = _mapper.Map<IEnumerable<Card>, IEnumerable<CardViewDTO>>(result);
+                return mapperResult;
+            }
+            else
+            {
+                throw new Exception("Empty column id or search text");
+            }
         }
 
         public async Task<CardViewDTO> UpdateTitle(int id, string title, Guid userId)
@@ -207,74 +233,96 @@ namespace TMAS.BLL.Services
 
         public async Task<CardViewDTO> Move(CardViewDTO movedCard, Guid userId)
         {
+            var validationResult = _cardViewValidator.Validate(movedCard);
 
-            Card updatedCard = await _cardRepository.GetOne(movedCard.Id);
-            Column column = await _columnRepository.GetOne(updatedCard.ColumnId);
+            if (!validationResult.IsValid)
+            {
+                throw new Exception(validationResult.ToString());
+            }
+            else
+            {
+                Card updatedCard = await _cardRepository.GetOne(movedCard.Id);
+                Column column = await _columnRepository.GetOne(updatedCard.ColumnId);
 
-            await _sortService.SwitchCards(updatedCard.SortBy,movedCard);
-            updatedCard.SortBy = movedCard.SortBy;
-            updatedCard.UpdatedDate = DateTime.Now;
+                await _sortService.SwitchCards(updatedCard.SortBy, movedCard);
+                updatedCard.SortBy = movedCard.SortBy;
+                updatedCard.UpdatedDate = DateTime.Now;
 
-            var updateResult=await _cardRepository.Update(updatedCard);
+                var updateResult = await _cardRepository.Update(updatedCard);
 
-            var historyObject =await _historyService.CreateHistoryObject(
-                UserActions.MoveCard,
-                userId,
-                updatedCard.Title,
-                null,
-                movedCard.ColumnId,
-                column.BoardId
-                );
+                var historyObject = await _historyService.CreateHistoryObject(
+                    UserActions.MoveCard,
+                    userId,
+                    updatedCard.Title,
+                    null,
+                    movedCard.ColumnId,
+                    column.BoardId
+                    );
 
-            var mapperResult = _mapper.Map<Card, CardViewDTO>(updateResult);
-            return mapperResult;
+                var mapperResult = _mapper.Map<Card, CardViewDTO>(updateResult);
+                return mapperResult;
+            }
 
         }
 
         public async Task<CardViewDTO> MoveOnColumns(CardViewDTO movedCard, Guid userId)
         {
+            var validationResult = _cardViewValidator.Validate(movedCard);
 
-            Card updateCard = await _cardRepository.GetOne(movedCard.Id);
-            await _sortService.MoveOnNewColumn(movedCard);
-            await _sortService.MoveOnOldColumn(updateCard);
+            if (!validationResult.IsValid)
+            {
+                throw new Exception(validationResult.ToString());
+            }
+            else
+            {
+                Card updateCard = await _cardRepository.GetOne(movedCard.Id);
+                await _sortService.MoveOnNewColumn(movedCard);
+                await _sortService.MoveOnOldColumn(updateCard);
 
-            int oldColumn = updateCard.ColumnId;
-            Column column = await _columnRepository.GetOne(updateCard.ColumnId);
-            updateCard.ColumnId = movedCard.ColumnId;
-            updateCard.SortBy = movedCard.SortBy;
-            updateCard.UpdatedDate = DateTime.Now;
+                int oldColumn = updateCard.ColumnId;
+                Column column = await _columnRepository.GetOne(updateCard.ColumnId);
+                updateCard.ColumnId = movedCard.ColumnId;
+                updateCard.SortBy = movedCard.SortBy;
+                updateCard.UpdatedDate = DateTime.Now;
 
-            var updateResult=await _cardRepository.Update(updateCard);
+                var updateResult = await _cardRepository.Update(updateCard);
 
 
-            var historyObject =await _historyService.CreateHistoryObject(
-                UserActions.MoveCardOnOtherColumn,
-                userId,
-                updateCard.Title,
-                oldColumn,
-                movedCard.ColumnId,
-                column.BoardId
-                );
+                var historyObject = await _historyService.CreateHistoryObject(
+                    UserActions.MoveCardOnOtherColumn,
+                    userId,
+                    updateCard.Title,
+                    oldColumn,
+                    movedCard.ColumnId,
+                    column.BoardId
+                    );
 
-            var mapperResult = _mapper.Map<Card, CardViewDTO>(updateResult);
-            return mapperResult;
+                var mapperResult = _mapper.Map<Card, CardViewDTO>(updateResult);
+                return mapperResult;
+            }
         }
         public async Task<CardViewDTO> Delete(int id, Guid userId)
         {
-            Card card = await _cardRepository.GetOne(id);
-            Column column = await _columnRepository.GetOne(card.ColumnId);
-            var reduceResult =await _sortService.ReduceAfterDeleteAsync(id);
-            var result = await _cardRepository.Delete(id);
-            var history = await _historyService.CreateHistoryObject(
-                UserActions.DeleteCard,
-                userId,
-                card.Title,
-                null,
-                null,
-                column.BoardId
-                );
-            var mapperResult = _mapper.Map<Card, CardViewDTO>(result);
-            return mapperResult;
+            if (id!=null) {
+                Card card = await _cardRepository.GetOne(id);
+                Column column = await _columnRepository.GetOne(card.ColumnId);
+                var reduceResult = await _sortService.ReduceAfterDeleteAsync(id);
+                var result = await _cardRepository.Delete(id);
+                var history = await _historyService.CreateHistoryObject(
+                    UserActions.DeleteCard,
+                    userId,
+                    card.Title,
+                    null,
+                    null,
+                    column.BoardId
+                    );
+                var mapperResult = _mapper.Map<Card, CardViewDTO>(result);
+                return mapperResult;
+            }
+            else
+            {
+                throw new Exception("Empty card id");
+            }
         }
 
     }
