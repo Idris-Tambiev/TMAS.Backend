@@ -9,3 +9,4 @@ D:\TMAS\backend\TMAS\TMAS.DB\obj\Debug\net5.0\TMAS.DB.csproj.CoreCompileInputs.c
 D:\TMAS\backend\TMAS\TMAS.DB\obj\Debug\net5.0\TMAS.DB.dll
 D:\TMAS\backend\TMAS\TMAS.DB\obj\Debug\net5.0\ref\TMAS.DB.dll
 D:\TMAS\backend\TMAS\TMAS.DB\obj\Debug\net5.0\TMAS.DB.pdb
+D:\TMAS\backend\TMAS\TMAS.DB\obj\Debug\net5.0\TMAS.DB.csprojAssemblyReference.cache

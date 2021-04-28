@@ -26,6 +26,7 @@ namespace TMAS.DAL.Repositories
         public async Task<IEnumerable<File>> GetFiles(int id)
         {
             var files= await db.Files
+                .AsNoTracking()
                 .Where(x => x.CardId == id)
                 .ToListAsync();
 

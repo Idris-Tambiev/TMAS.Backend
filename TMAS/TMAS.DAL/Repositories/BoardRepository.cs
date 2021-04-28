@@ -21,6 +21,7 @@ namespace TMAS.DAL.Repositories
         public async Task<IEnumerable<Board>> GetAll(Guid userId)
         {
             return await db.Boards
+                .AsNoTracking()
                 .Where(x=>x.BoardUserId==userId)
                 .Where(x=>x.IsActive==true)
                 .ToListAsync();

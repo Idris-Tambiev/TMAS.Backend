@@ -20,7 +20,10 @@ namespace TMAS.DAL.Repositories
         }
         public async Task<IEnumerable<History>> GetAll(int boardId)
         {
-            var histories= await db.Histories.Where(x => x.BoardId == boardId).ToListAsync();
+            var histories= await db.Histories
+                .AsNoTracking()
+                .Where(x => x.BoardId == boardId)
+                .ToListAsync();
             return histories;
         }
 

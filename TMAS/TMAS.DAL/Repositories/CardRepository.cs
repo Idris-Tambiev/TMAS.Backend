@@ -22,6 +22,7 @@ namespace TMAS.DAL.Repositories
         public async Task<IEnumerable<Card>> GetAll(int columnId)
         {
             var result = await db.Cards
+                .AsNoTracking()
                 .Where(x => x.ColumnId == columnId)
                 .Where(x => x.IsActive == true)
                 .OrderBy(d => d.SortBy)
@@ -42,13 +43,15 @@ namespace TMAS.DAL.Repositories
 
         public async Task<Card> GetOne(int cardId)
         {
-            var card= await db.Cards.FirstOrDefaultAsync(i => i.Id == cardId);
+            var card = await db.Cards
+                .FirstOrDefaultAsync(i => i.Id == cardId);
             return card;
         }
 
         public async Task<Card> CheckCard(int cardId,bool status)
         {
-          var result=  await db.Cards.FirstOrDefaultAsync(i => i.Id == cardId);
+          var result=  await db.Cards
+                .FirstOrDefaultAsync(i => i.Id == cardId);
             result.IsDone = status;
             result.UpdatedDate = DateTime.Now;
             await db.SaveChangesAsync();
@@ -77,23 +80,10 @@ namespace TMAS.DAL.Repositories
 
         public async Task<Card> Update(Card card)
         {
-            //Card updatedCard =await db.Cards.FirstOrDefaultAsync(x => x.Id == card.Id);
-            //updatedCard.Title = card.Title;
-            //updatedCard.UpdatedDate = DateTime.Now;
             db.Cards.Update(card);
             await db.SaveChangesAsync();
             return card;
         }
-
-        //public async Task<Card> UpdateChanges(Card card)
-        //{
-        //    Card updatedCard =await db.Cards.FirstOrDefaultAsync(x => x.Id == card.Id);
-        //    updatedCard.ExecutionPeriod = card.ExecutionPeriod;
-        //    updatedCard.Text = card.Text;
-        //    updatedCard.UpdatedDate = DateTime.Now;
-        //    await db.SaveChangesAsync();
-        //    return updatedCard;
-        //}
         public async Task<Card> Delete(int id)
         {
             Card deletedCard = await db.Cards.FirstOrDefaultAsync(x => x.Id == id);
