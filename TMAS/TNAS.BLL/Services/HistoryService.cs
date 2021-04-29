@@ -26,9 +26,9 @@ namespace TMAS.BLL.Services
             _mapper = mapper;
             _historyValidator = historyValidator;
         }
-        public async Task<IEnumerable<HistoryViewDTO>> GetAll(int boardId)
+        public async Task<IEnumerable<HistoryViewDTO>> GetAll(int boardId,int skipCount)
         {
-            var allHistories= await _historyRepository.GetAll(boardId);
+            var allHistories= await _historyRepository.GetAll(boardId,skipCount);
             var mapperResult = _mapper.Map<IEnumerable<History>,IEnumerable<HistoryViewDTO>>(allHistories);
             return mapperResult;
         }

@@ -13,7 +13,7 @@ namespace TMAS.BLL.Interfaces
 {
     public interface IHistoryService:IBaseService
     {
-        Task<IEnumerable<HistoryViewDTO>> GetAll(int boardId);
+        Task<IEnumerable<HistoryViewDTO>> GetAll(int boardId,int skipCount);
         Task<HistoryViewDTO> Create(History history);
         Task<HistoryViewDTO> CreateHistoryObject(UserActions actionType, Guid userId, string actionObject, int? sourceAction, int? destinationAction, int boardId);
     }

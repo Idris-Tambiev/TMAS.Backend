@@ -29,14 +29,13 @@ namespace TMAS.DB.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            AccessContext.OnModelCreating(modelBuilder);
-            BoardsContext.OnModelCreating(modelBuilder);
-            CardsContext.OnModelCreating(modelBuilder);
-            ColumnsContext.OnModelCreating(modelBuilder);
-            FilesContext.OnModelCreating(modelBuilder);
-            HistoriesContext.OnModelCreating(modelBuilder);
-            UsersContext.OnModelCreating(modelBuilder);
-
+            AccessConfig.OnModelCreating(modelBuilder);
+            BoardsConfig.OnModelCreating(modelBuilder);
+            CardsConfig.OnModelCreating(modelBuilder);
+            ColumnsConfig.OnModelCreating(modelBuilder);
+            FilesConfig.OnModelCreating(modelBuilder);
+            HistoriesConfig.OnModelCreating(modelBuilder);
+            UsersConfig.OnModelCreating(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
     }

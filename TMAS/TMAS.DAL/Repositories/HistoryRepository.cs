@@ -18,11 +18,14 @@ namespace TMAS.DAL.Repositories
         {
             db = context;
         }
-        public async Task<IEnumerable<History>> GetAll(int boardId)
+        public async Task<IEnumerable<History>> GetAll(int boardId,int skipCount)
         {
             var histories= await db.Histories
                 .AsNoTracking()
                 .Where(x => x.BoardId == boardId)
+                .OrderByDescending(x=>x.CreatedDate)
+                .Skip(skipCount*20)
+                .Take(20)
                 .ToListAsync();
             return histories;
         }

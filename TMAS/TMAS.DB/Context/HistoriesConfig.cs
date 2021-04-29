@@ -8,7 +8,7 @@ using TMAS.DB.Models;
 
 namespace TMAS.DB.Context
 {
-    public class HistoriesContext
+    public class HistoriesConfig
     {
         public DbSet<History> Histories { get; set; }
         public static void OnModelCreating(ModelBuilder modelBuilder)

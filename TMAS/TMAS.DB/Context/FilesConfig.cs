@@ -8,7 +8,7 @@ using TMAS.DB.Models;
 
 namespace TMAS.DB.Context
 {
-    public class FilesContext
+    public class FilesConfig
     {
         public static void OnModelCreating(ModelBuilder modelBuilder)
         {

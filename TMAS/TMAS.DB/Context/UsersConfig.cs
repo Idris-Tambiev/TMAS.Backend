@@ -8,7 +8,7 @@ using TMAS.DB.Models;
 
 namespace TMAS.DB.Context
 {
-    public class UsersContext
+    public class UsersConfig
     {
         public static void OnModelCreating(ModelBuilder modelBuilder)
         {

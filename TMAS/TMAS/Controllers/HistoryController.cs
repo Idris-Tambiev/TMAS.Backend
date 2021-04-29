@@ -26,9 +26,9 @@ namespace TMAS.Controllers
 
         [HttpGet("get")]
         [Authorize]
-        public async Task<ActionResult<HistoryViewDTO>> GetHistory(int id)
+        public async Task<ActionResult<IEnumerable<HistoryViewDTO>>> GetHistory(int id,int skip)
         {
-            var histories = await _historyService.GetAll(id);
+            var histories = await _historyService.GetAll(id,skip);
             return Ok(histories);
         }
     }

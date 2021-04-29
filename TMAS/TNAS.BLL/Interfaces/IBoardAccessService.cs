@@ -13,7 +13,7 @@ namespace TMAS.BLL.Interfaces
 {
     public interface IBoardAccessService:IBaseService
     {
-        Task<BoardsAccess> Create(AccessCreatedDTO access);
+        Task<AccessCreatedDTO> Create(AccessCreatedDTO access);
         Task<IEnumerable<BoardViewDTO>> Get(Guid id);
         Task<IEnumerable<UserDTO>> GetAllUsers(int boardId, string text, Guid userId);
         Task<IEnumerable<UserDTO>> GetAssignedUsers(int boardId, string text, Guid userId);

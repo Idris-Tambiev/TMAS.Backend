@@ -36,7 +36,7 @@ namespace TMAS.BLL.Services
             _accessValidator = accessValidator;
         }
 
-        public async Task<BoardsAccess> Create(AccessCreatedDTO access)
+        public async Task<AccessCreatedDTO> Create(AccessCreatedDTO access)
         {
             var validationResult = _accessValidator.Validate(access);
             if (!validationResult.IsValid)
@@ -58,7 +58,7 @@ namespace TMAS.BLL.Services
                     access.BoardId
                     );
 
-                return result;
+                return access;
             }
         }
         public async Task<IEnumerable<BoardViewDTO>> Get(Guid id)

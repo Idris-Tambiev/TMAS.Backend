@@ -48,7 +48,7 @@ namespace TMAS.BLL.Services
         //get boards for boardsAccess
         public async Task<Board> GetOneById(int boardId)
         {
-            if (boardId!=null)
+            if (boardId != 0)
             {
                 var board = await _boardRepository.GetOne(boardId);
                 return board;

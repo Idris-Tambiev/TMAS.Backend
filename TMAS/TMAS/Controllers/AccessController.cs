@@ -27,7 +27,7 @@ namespace TMAS.Controllers
 
         [HttpPost("create")]
         [Authorize]
-        public async Task<ActionResult<BoardsAccess>> CreateBoardsAccess([FromBody]AccessCreatedDTO access) 
+        public async Task<ActionResult<AccessCreatedDTO>> CreateBoardsAccess([FromBody]AccessCreatedDTO access) 
         {
             var data = await _boardsAccesService.Create(access);
 
@@ -64,7 +64,8 @@ namespace TMAS.Controllers
         [Authorize]
         public async Task<ActionResult> GetUsers([FromQuery]int boardId,Guid userId)
         {
-            return Ok(await _boardsAccesService.Delete(boardId,userId));
+            _ = await _boardsAccesService.Delete(boardId, userId);
+            return Ok();
         }
     }
 }

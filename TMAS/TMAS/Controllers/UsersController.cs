@@ -121,8 +121,8 @@ namespace TMAS.Controllers
                     {
                         file.CopyTo(stream);
                     }
-                    var saveResult = await _userService.AddPhoto(id,finalName);
-                    return Ok(saveResult);
+                    _ = await _userService.AddPhoto(id,finalName);
+                    return Ok();
                 }
                 else
                 {

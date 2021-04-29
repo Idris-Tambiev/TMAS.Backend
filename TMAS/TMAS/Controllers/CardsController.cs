@@ -47,7 +47,7 @@ namespace TMAS.Controllers
         {
             Guid userId = GetUserId();
             var result = await _cardsService.CheckCard(id, Convert.ToBoolean(isDone),userId);
-            return Ok();
+            return Ok(result);
         }
 
         [HttpGet("get/one")]

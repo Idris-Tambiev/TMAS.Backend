@@ -10,7 +10,7 @@ using TMAS.DB.Models;
 
 namespace TMAS.DB.Context
 {
-    public class BoardsContext :DbContext
+    public class BoardsConfig
     {
         public static void OnModelCreating(ModelBuilder modelBuilder)
         {
