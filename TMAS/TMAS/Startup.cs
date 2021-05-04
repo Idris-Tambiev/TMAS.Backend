@@ -24,11 +24,6 @@ using Microsoft.Extensions.Logging;
 using TMAS.Providers;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
-using TMAS.BLL;
-using TMAS.BLL.Interfaces;
-using TMAS.DAL.Interfaces;
-using TMAS.DAL;
-using TMAS.DAL.DTO.Created;
 
 namespace TMAS
 {
@@ -95,15 +90,6 @@ namespace TMAS
                };
            });
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Test", policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                    policy.RequireClaim("email", "openid", "profile", "api.read");
-                });
-            });
-
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile(Configuration));
@@ -116,9 +102,6 @@ namespace TMAS
 
             BLL.ContainerConfiguration.Configure(services);
             
-
-            
-
             services.AddTransient<IGoogleAuthProvider, GoogleAuthProvider<IdentityUser>>();
 
             services.AddDbContext<AppDbContext>(options =>
