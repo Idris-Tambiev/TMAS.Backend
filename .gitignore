@@ -1,17 +1,17 @@
 /TMAS/.vs/
-/TMAS/TMAS/bin/
-/TMAS/TMAS/obj/
+/TMAS/TMAS/bin
+/TMAS/TMAS/obj
 
-/TMAS/TMAS.DB/bin/
-/TMAS/TMAS.DB/obj/
-
-
-/TMAS/TMAS.DAL/bin/
-/TMAS/TMAS.DAL/obj/
+/TMAS/TMAS.DB/bin
+/TMAS/TMAS.DB/obj
 
 
-/TMAS/TMAS.BLL/bin/
-/TMAS/TMAS.BLL/obj/
+/TMAS/TMAS.DAL/bin
+/TMAS/TMAS.DAL/obj
+
+
+/TMAS/TMAS.BLL/bin
+/TMAS/TMAS.BLL/obj
 
 
 
