@@ -74,7 +74,17 @@ namespace TMAS.BLL.Services
             {
                 var boards = await _boardService.GetOneById(boardId);
                 Guid creatorId = boards.BoardUserId;
-                IEnumerable<UserDTO> users = await _userService.GetUsers(text, userId, creatorId);
+                ICollection<UserDTO> users = (await _userService.GetUsers(text, userId, creatorId)).ToList();
+
+                foreach (var user in users.ToList())
+                {
+                    bool access = await _boardsAccessRepository.CheckAssigningStatus(user.Id, boardId);
+                    if (access)
+                    {
+                        users.Remove(user);
+                    }
+                }
+
                 return users;
             }
             else

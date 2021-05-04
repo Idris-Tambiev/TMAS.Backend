@@ -14,6 +14,7 @@ namespace TMAS.DAL.Interfaces
         Task<IEnumerable<Board>> Get(Guid id);
         Task<IEnumerable<User>> GetAssignedUsers(int id, string text, Guid userId);
         Task<BoardsAccess> Delete(int boardId, Guid userId);
+        Task<bool> CheckAssigningStatus(Guid id, int boardId);
 
     }
 }

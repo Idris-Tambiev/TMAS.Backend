@@ -41,14 +41,27 @@ namespace TMAS.DAL.Repositories
 
         public async Task<IEnumerable<Board>> Get(Guid id)
         {
-            var accesses = await db.Boards
+            var boards = await db.Boards
                 .AsNoTracking()
                 .Where(x => x.BoardUserId != id)
                 .Include(x => x.BoardsAccesses)
                 .Where(a => a.BoardsAccesses.Any(y => y.UserId == id))
                 .ToListAsync();
+            return boards;     
+        }
 
-            return accesses;     
+        public async Task<bool> CheckAssigningStatus(Guid id,int boardId)
+        {
+            var access = await db.BoardsAccesses
+                .FirstOrDefaultAsync(x=>x.BoardId==boardId & x.UserId==id);
+            if (access!=null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public async Task<IEnumerable<User>> GetAssignedUsers(int id,string text, Guid userId)
