@@ -20,7 +20,7 @@ namespace TMAS.Configuration
                 Name = "role",
                 UserClaims = new List<string> {"role"}
             }
-        };
+           };
         }
 
         public static IEnumerable<ApiResource> GetApiResources()

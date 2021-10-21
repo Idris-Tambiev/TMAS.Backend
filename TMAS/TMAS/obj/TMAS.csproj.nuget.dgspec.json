@@ -189,6 +189,26 @@
               "target": "Package",
               "version": "[4.1.2, )"
             },
+            "IdentityServer4.EntityFramework": {
+              "target": "Package",
+              "version": "[4.1.2, )"
+            },
+            "Microsoft.AspNetCore.Authentication.Google": {
+              "target": "Package",
+              "version": "[5.0.5, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[5.0.4, )"
+            },
+            "Microsoft.AspNetCore.Cors": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.4, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[5.0.4, )"
@@ -202,6 +222,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[5.6.3, )"
+            },
+            "Z.EntityFramework.Extensions.EFCore": {
+              "target": "Package",
+              "version": "[5.1.30, )"
             }
           },
           "imports": [
@@ -252,6 +276,9 @@
             "projectReferences": {
               "D:\\TMAS\\backend\\TMAS\\TMAS.DAL\\TMAS.DAL.csproj": {
                 "projectPath": "D:\\TMAS\\backend\\TMAS\\TMAS.DAL\\TMAS.DAL.csproj"
+              },
+              "D:\\TMAS\\backend\\TMAS\\TMAS.DB\\TMAS.DB.csproj": {
+                "projectPath": "D:\\TMAS\\backend\\TMAS\\TMAS.DB\\TMAS.DB.csproj"
               }
             }
           }
@@ -269,6 +296,18 @@
             "AutoMapper": {
               "target": "Package",
               "version": "[10.1.1, )"
+            },
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[9.5.3, )"
+            },
+            "MailKit": {
+              "target": "Package",
+              "version": "[2.11.1, )"
+            },
+            "SendGrid": {
+              "target": "Package",
+              "version": "[9.22.0, )"
             }
           },
           "imports": [

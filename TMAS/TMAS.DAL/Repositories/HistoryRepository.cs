@@ -18,30 +18,30 @@ namespace TMAS.DAL.Repositories
         {
             db = context;
         }
-        public IEnumerable<History> GetAll(int userId)
+        public async Task<IEnumerable<History>> GetAll(int boardId,int skipCount)
         {
-            return db.Histories;
-        }
-        public History GetOne(int id)
-        {
-            return db.Histories.Find(id);
+            var histories= await db.Histories
+                .AsNoTracking()
+                .Where(x => x.BoardId == boardId)
+                .OrderByDescending(x=>x.CreatedDate)
+                .Skip(skipCount*20)
+                .Take(20)
+                .ToListAsync();
+            return histories;
         }
 
-        public void Create(History history)
+        public async Task<History> GetOne(int id)
+        {
+            var history= await db.Histories.FirstOrDefaultAsync(i => i.Id == id);
+            return history;
+        }
+
+        public async Task<History> Create(History history)
         {
             db.Histories.Add(history);
+            await db.SaveChangesAsync();
+            return history;
         }
 
-        public void Update(History history)
-        {
-             db.Entry(history).State = EntityState.Modified;
-        }
-
-        public void Delete(int id)
-        {
-            History history = db.Histories.Find(id);
-            if (history != null)
-                db.Histories.Remove(history);
-        }
     }
 }

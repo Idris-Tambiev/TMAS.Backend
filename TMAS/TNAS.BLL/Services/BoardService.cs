@@ -6,44 +6,111 @@ using System.Threading.Tasks;
 using TMAS.DAL.Repositories;
 using TMAS.BLL.Interfaces;
 using TMAS.DB.Models;
+using TMAS.DAL.DTO;
+using AutoMapper;
+using TMAS.BLL.Interfaces.BaseInterfaces;
+using TMAS.DAL.Interfaces;
+using TMAS.DAL.DTO.View;
+
 namespace TMAS.BLL.Services
 {
-    public class BoardService:IBoardService
+    public class BoardService : IBoardService
     {
-        BoardRepository board;
-        public BoardService(BoardRepository repository)
+      private readonly  IBoardRepository _boardRepository;
+      private readonly IMapper _mapper;
+        public BoardService(IBoardRepository repository,IMapper mapper)
         {
-            board = repository;
+            _boardRepository = repository;
+            _mapper = mapper;
         }
 
-        public IEnumerable<Board> GetAll(int userId)
+        public async Task<IEnumerable<BoardViewDTO>> GetAll(Guid userId)
         {
-            return board.GetAll(userId);
+            var boards = await _boardRepository.GetAll(userId);
+            var mapperResult = _mapper.Map<IEnumerable<BoardViewDTO>>(boards);
+            return mapperResult;
         }
-        public Board GetOne(int id)
+        //get boards for Front
+        public async Task<BoardViewDTO> GetOne(int boardId)
         {
-            return board.GetOne(id);
-        }
-
-        public Board FindBoard(string name)
-        {
-            return board.FindBoard(name);
-        }
-
-        public void Create(Board board)
-        {
-           
-        }
-
-        public void Update(Board board)
-        {
-            
+            if (boardId != null)
+            {
+                var board = await _boardRepository.GetOne(boardId);
+                var mapperResult = _mapper.Map<BoardViewDTO>(board);
+                return mapperResult;
+            }
+            else
+            {
+                throw new Exception("Empty board id");
+            }
         }
 
-        public void Delete(int id)
+        //get boards for boardsAccess
+        public async Task<Board> GetOneById(int boardId)
         {
-            
+            if (boardId != 0)
+            {
+                var board = await _boardRepository.GetOne(boardId);
+                return board;
+            }
+            else
+            {
+                throw new Exception("Empty boardId");
+            }
         }
 
+        public async Task<IEnumerable<BoardViewDTO>> FindBoard(Guid userId,string search)
+        {
+            if (search!=null) {
+                var boards = await _boardRepository.FindBoard(userId, search);
+                var mapperResult = _mapper.Map<IEnumerable<BoardViewDTO>>(boards);
+                return mapperResult;
+            }
+            else
+            {
+                throw new Exception("Empty search text");
+            }
+        }
+
+        public async Task<BoardViewDTO> Create(string title , Guid id)
+        {
+            if (title!=null) {
+                Board createdBoard = new Board
+                {
+                    Title = title,
+                    BoardUserId = id,
+                    CreatedDate = DateTime.Now,
+                    IsActive = true
+                };
+                var result = await _boardRepository.Create(createdBoard);
+                var mapperResult = _mapper.Map<BoardViewDTO>(result);
+                return mapperResult;
+            }
+            else
+            {
+                throw new Exception("Empty title");
+            }
+        }
+
+        public async Task<BoardViewDTO> Update(Board board)
+        {
+            var result = await _boardRepository.Update(board);
+            var mapperResult = _mapper.Map<BoardViewDTO>(result);
+            return mapperResult;
+        }
+
+        public async Task<BoardViewDTO> Delete(int id)
+        {
+            if (id!=null) 
+            {
+                var result = await _boardRepository.Delete(id);
+                var mapperResult = _mapper.Map<BoardViewDTO>(result);
+                return mapperResult;
+            }
+            else
+            {
+                throw new Exception("Empty id or title");
+            }
+        }
     }
 }

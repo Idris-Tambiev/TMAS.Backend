@@ -1,4 +1,17 @@
+/TMAS/.vs/
+/TMAS/TMAS/bin
+/TMAS/TMAS/obj
 
-/backend/StackOwerflow/.vs
+/TMAS/TMAS.DB/bin
+/TMAS/TMAS.DB/obj
+
+
+/TMAS/TMAS.DAL/[Bb]in
+/TMAS/TMAS.DAL/[Oo]bj
+
+
+/TMAS/TMAS.BLL/bin
+/TMAS/TMAS.BLL/obj
+
 
 

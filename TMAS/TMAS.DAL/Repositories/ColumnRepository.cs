@@ -6,42 +6,78 @@ using System.Threading.Tasks;
 using TMAS.DB.Context;
 using TMAS.DB.Models;
 using TMAS.DAL.Interfaces;
+using TMAS.DAL.Interfaces.BaseInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace TMAS.DAL.Repositories
 {
     public class ColumnRepository:IColumnRepository
     {
         private AppDbContext db;
-
         public ColumnRepository(AppDbContext context)
         {
             db =context;
         }
-        public IEnumerable<Column> GetAll(int userId)
+
+        public async Task<IEnumerable<Column>> GetAll(int boardId)
         {
-            return db.Columns;
+            return await db.Columns
+                .AsNoTracking()
+                .Where(x => x.BoardId == boardId)
+                .Where(x => x.IsActive == true)
+                .OrderBy(x=>x.SortBy)
+                .ToListAsync();
         }
-        public Column GetOne(int id)
+
+        public async Task<List<Column>> GetAllWithSkip(int boardId, int position)
         {
-            return db.Columns.Find(id);
+           var columns=await db.Columns
+                .Where(x => x.BoardId == boardId)
+                .Where(x => x.IsActive == true)
+                .OrderBy(x => x.SortBy)
+                .Skip(position)
+                .ToListAsync();
+            return columns;
         }
 
 
-        public void Create(Column column)
+        public async Task<Column> GetOne(int columnId)
+        {
+            var column= await db.Columns.FirstOrDefaultAsync(i => i.Id == columnId);
+            return column;
+        }
+
+        public async Task<Column> Create(Column column)
         {
             db.Columns.Add(column);
+            await db.SaveChangesAsync();
+            return column;
         }
 
-        public void Update(Column column)
+        public async Task<Column> Update(Column column)
         {
-            // db.Entry(book).State = EntityState.Modified;
+            db.Columns.Update(column);
+            await db.SaveChangesAsync();
+            return column;
         }
 
-        public void Delete(int id)
+        public async Task<Column> Delete(int id)
         {
-            Column column = db.Columns.Find(id);
-            if (column != null)
-                db.Columns.Remove(column);
+            Column deletedColumn = await db.Columns.FirstOrDefaultAsync(x => x.Id == id);
+            if (deletedColumn != null)
+            {
+
+                deletedColumn.IsActive = false;
+                deletedColumn.UpdatedDate = DateTime.Now;
+                await db.SaveChangesAsync();
+                return deletedColumn;
+            }
+            else
+            {
+                return null;
+            }
+
         }
+
     }
 }

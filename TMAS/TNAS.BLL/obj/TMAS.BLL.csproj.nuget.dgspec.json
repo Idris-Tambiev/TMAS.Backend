@@ -160,6 +160,9 @@
             "projectReferences": {
               "D:\\TMAS\\backend\\TMAS\\TMAS.DAL\\TMAS.DAL.csproj": {
                 "projectPath": "D:\\TMAS\\backend\\TMAS\\TMAS.DAL\\TMAS.DAL.csproj"
+              },
+              "D:\\TMAS\\backend\\TMAS\\TMAS.DB\\TMAS.DB.csproj": {
+                "projectPath": "D:\\TMAS\\backend\\TMAS\\TMAS.DB\\TMAS.DB.csproj"
               }
             }
           }
@@ -177,6 +180,18 @@
             "AutoMapper": {
               "target": "Package",
               "version": "[10.1.1, )"
+            },
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[9.5.3, )"
+            },
+            "MailKit": {
+              "target": "Package",
+              "version": "[2.11.1, )"
+            },
+            "SendGrid": {
+              "target": "Package",
+              "version": "[9.22.0, )"
             }
           },
           "imports": [

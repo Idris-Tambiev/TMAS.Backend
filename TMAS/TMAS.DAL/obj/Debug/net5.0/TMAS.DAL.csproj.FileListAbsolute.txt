@@ -2,14 +2,14 @@ D:\TMAS\backend\TMAS\TMAS.DAL\bin\Debug\net5.0\TMAS.DAL.deps.json
 D:\TMAS\backend\TMAS\TMAS.DAL\bin\Debug\net5.0\TMAS.DAL.dll
 D:\TMAS\backend\TMAS\TMAS.DAL\bin\Debug\net5.0\ref\TMAS.DAL.dll
 D:\TMAS\backend\TMAS\TMAS.DAL\bin\Debug\net5.0\TMAS.DAL.pdb
+D:\TMAS\backend\TMAS\TMAS.DAL\bin\Debug\net5.0\TMAS.DB.dll
+D:\TMAS\backend\TMAS\TMAS.DAL\bin\Debug\net5.0\TMAS.DB.pdb
 D:\TMAS\backend\TMAS\TMAS.DAL\obj\Debug\net5.0\TMAS.DAL.csprojAssemblyReference.cache
 D:\TMAS\backend\TMAS\TMAS.DAL\obj\Debug\net5.0\TMAS.DAL.GeneratedMSBuildEditorConfig.editorconfig
 D:\TMAS\backend\TMAS\TMAS.DAL\obj\Debug\net5.0\TMAS.DAL.AssemblyInfoInputs.cache
 D:\TMAS\backend\TMAS\TMAS.DAL\obj\Debug\net5.0\TMAS.DAL.AssemblyInfo.cs
 D:\TMAS\backend\TMAS\TMAS.DAL\obj\Debug\net5.0\TMAS.DAL.csproj.CoreCompileInputs.cache
+D:\TMAS\backend\TMAS\TMAS.DAL\obj\Debug\net5.0\TMAS.DAL.csproj.CopyComplete
 D:\TMAS\backend\TMAS\TMAS.DAL\obj\Debug\net5.0\TMAS.DAL.dll
 D:\TMAS\backend\TMAS\TMAS.DAL\obj\Debug\net5.0\ref\TMAS.DAL.dll
 D:\TMAS\backend\TMAS\TMAS.DAL\obj\Debug\net5.0\TMAS.DAL.pdb
-D:\TMAS\backend\TMAS\TMAS.DAL\bin\Debug\net5.0\TMAS.DB.dll
-D:\TMAS\backend\TMAS\TMAS.DAL\bin\Debug\net5.0\TMAS.DB.pdb
-D:\TMAS\backend\TMAS\TMAS.DAL\obj\Debug\net5.0\TMAS.DAL.csproj.CopyComplete
